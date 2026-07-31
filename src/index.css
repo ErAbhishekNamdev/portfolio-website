@@ -1,0 +1,253 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.7;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark mode (default / html.dark) */
+html.dark body,
+html:not(.light) body {
+  background-color: #05050A;
+  color: #F8FAFC;
+}
+
+/* Light mode */
+html.light body {
+  background-color: #F4F6FB;
+  color: #0F172A;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+html.dark ::-webkit-scrollbar-track,
+html:not(.light) ::-webkit-scrollbar-track {
+  background: #05050A;
+}
+
+html.dark ::-webkit-scrollbar-thumb,
+html:not(.light) ::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.25);
+  border-radius: 4px;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover,
+html:not(.light) ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 255, 0.5);
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: #E2E8F0;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.3);
+  border-radius: 4px;
+}
+
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.6);
+}
+
+/* Gradient text utilities */
+.gradient-text {
+  background: linear-gradient(90deg, #00D4FF, #9B59FF, #FF6EC7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html.light .gradient-text {
+  background: linear-gradient(90deg, #0284C7, #7C3AED, #C026D3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-cyan-purple {
+  background: linear-gradient(90deg, #00D4FF, #9B59FF);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html.light .gradient-text-cyan-purple {
+  background: linear-gradient(90deg, #0284C7, #6D28D9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ===== PREMIUM SURFACES ===== */
+
+/* Noise texture overlay for dark mode depth */
+html.dark .noise-bg::before,
+html:not(.light) .noise-bg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 100;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Glass card styling */
+.glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.015) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+}
+
+html.light .glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.88) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 10px 30px -10px rgba(148, 163, 184, 0.2);
+}
+
+/* Glow line separator */
+.glow-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00D4FF, #9B59FF, transparent);
+  opacity: 0.5;
+}
+
+html.light .glow-line {
+  background: linear-gradient(90deg, transparent, #0284C7, #7C3AED, transparent);
+  opacity: 0.4;
+}
+
+/* Section spotlight background effect */
+.section-spotlight {
+  position: relative;
+}
+
+html.dark .section-spotlight::after,
+html:not(.light) .section-spotlight::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 400px;
+  background: radial-gradient(ellipse at top, rgba(0, 212, 255, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+html.light .section-spotlight::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 400px;
+  background: radial-gradient(ellipse at top, rgba(124, 58, 237, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Interactive Card Glow Hover */
+.card-glow {
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+html.dark .card-glow:hover,
+html:not(.light) .card-glow:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 212, 255, 0.3) !important;
+  box-shadow: 0 0 35px rgba(0, 212, 255, 0.12), 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+html.light .card-glow:hover {
+  transform: translateY(-4px);
+  border-color: rgba(2, 132, 199, 0.35) !important;
+  box-shadow: 0 0 35px rgba(2, 132, 199, 0.12), 0 12px 32px rgba(148, 163, 184, 0.2);
+}
+
+/* Clean background without grid lines */
+.grid-bg {
+  background-image: none;
+}
+
+/* Ambient glow orb animations */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(130px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(130px) rotate(-360deg); }
+}
+
+.animate-orbit {
+  animation: orbit 30s linear infinite;
+}
+
+@keyframes scroll-dot {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(12px); opacity: 0; }
+}
+
+.animate-scroll-dot {
+  animation: scroll-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Swiper custom buttons & pagination styling */
+.swiper-button-next, .swiper-button-prev {
+  color: #00D4FF !important;
+  transition: transform 0.2s ease;
+}
+
+html.light .swiper-button-next, html.light .swiper-button-prev {
+  color: #0284C7 !important;
+}
+
+.swiper-pagination-bullet {
+  background: rgba(148, 163, 184, 0.5) !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #00D4FF !important;
+  width: 24px !important;
+  border-radius: 6px !important;
+}
+
+html.light .swiper-pagination-bullet-active {
+  background: #0284C7 !important;
+}
