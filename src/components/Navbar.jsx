@@ -156,7 +156,8 @@ export default function Navbar() {
               }`}
             title={dark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             aria-label="Toggle Theme"
-          >
+          > 
+          {/* new changes */}
             <motion.div
               key={dark ? 'dark' : 'light'}
               initial={{ rotate: -90, scale: 0 }}
