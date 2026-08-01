@@ -109,12 +109,12 @@ export default function Navbar() {
 
           {/* Logo Text Block */}
           <div className="flex flex-col gap-0.5 text-left min-w-0 overflow-hidden">
-            <span className={`text-[18px] md:text-[18px] font-bold leading-tight transition-colors duration-300 truncate whitespace-nowrap ${dark
+            {/* <span className={`text-[18px] md:text-[18px] font-bold leading-tight transition-colors duration-300 truncate whitespace-nowrap ${dark
                 ? 'text-white group-hover:text-[#00D4FF]'
                 : 'text-slate-900 group-hover:text-[#0284C7]'
               }`}>
               Code Craft Journey
-            </span>
+            </span> */}
             <span className={`text-[12px] md:text-[12px] font-bold leading-tight transition-colors duration-300 truncate whitespace-nowrap ${dark
                 ? 'text-slate-400 group-hover:text-slate-200'
                 : 'text-slate-500 group-hover:text-slate-700'
