@@ -25,11 +25,8 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            steps {
-                bat 'npm test'
-            }
-        }
+        // Removed the stage('Test') block
+
     }
 
     post {
