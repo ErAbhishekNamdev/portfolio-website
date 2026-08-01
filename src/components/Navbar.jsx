@@ -115,12 +115,12 @@ export default function Navbar() {
               }`}>
               Code Craft Journey
             </span> */}
-            <span className={`text-[12px] md:text-[12px] font-bold leading-tight transition-colors duration-300 truncate whitespace-nowrap ${dark
+            {/* <span className={`text-[12px] md:text-[12px] font-bold leading-tight transition-colors duration-300 truncate whitespace-nowrap ${dark
                 ? 'text-slate-400 group-hover:text-slate-200'
                 : 'text-slate-500 group-hover:text-slate-700'
               }`}>
               From Concept to Creation
-            </span>
+            </span> */}
           </div>
         </a>
 
