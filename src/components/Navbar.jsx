@@ -7,7 +7,6 @@ import { useTheme } from '../ThemeContext';
 import logoicons from '../assets/whitelogo.png';
 
 const navLinks = ['About', 'Projects', 'Experience', 'Skills', 'Certificates', 'Contact'];
-const navMessages = ['From Concept to Creation', 'Design to Deployment', 'Turning Designs into Reality'];
 
 // Custom hook to dynamically crop empty transparent padding around PNG image
 function useCroppedLogo(imageSrc) {
@@ -67,9 +66,6 @@ function useCroppedLogo(imageSrc) {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [displayedMessage, setDisplayedMessage] = useState('');
-  const [messageIndex, setMessageIndex] = useState(0);
-  const [typingStage, setTypingStage] = useState('typing');
   const [showIntroPopup, setShowIntroPopup] = useState(false);
   const { dark, toggle } = useTheme();
 
@@ -85,40 +81,6 @@ export default function Navbar() {
   useEffect(() => {
     setShowIntroPopup(true);
   }, []);
-
-  useEffect(() => {
-    let timeoutId;
-    const currentMessage = navMessages[messageIndex];
-
-    if (typingStage === 'typing') {
-      const nextLength = displayedMessage.length + 1;
-      if (nextLength <= currentMessage.length) {
-        timeoutId = window.setTimeout(() => {
-          setDisplayedMessage(currentMessage.slice(0, nextLength));
-        }, 90);
-      } else {
-        timeoutId = window.setTimeout(() => setTypingStage('pausing'), 1200);
-      }
-    }
-
-    if (typingStage === 'deleting') {
-      const nextLength = displayedMessage.length - 1;
-      if (nextLength >= 0) {
-        timeoutId = window.setTimeout(() => {
-          setDisplayedMessage(currentMessage.slice(0, nextLength));
-        }, 60);
-      } else {
-        setMessageIndex((prev) => (prev + 1) % navMessages.length);
-        setTypingStage('typing');
-      }
-    }
-
-    if (typingStage === 'pausing') {
-      timeoutId = window.setTimeout(() => setTypingStage('deleting'), 800);
-    }
-
-    return () => window.clearTimeout(timeoutId);
-  }, [displayedMessage, messageIndex, typingStage]);
 
   return (
     <>
@@ -153,18 +115,18 @@ export default function Navbar() {
 
           {/* Logo Text Block */}
           <div className="flex flex-col gap-0.5 text-left min-w-0 overflow-hidden">
-            {/* <span className={`text-[18px] md:text-[18px] font-bold leading-tight transition-colors duration-300 truncate whitespace-nowrap ${dark
+            <span className={`text-[18px] md:text-[18px] font-bold leading-tight transition-colors duration-300 truncate whitespace-nowrap ${dark
                 ? 'text-white group-hover:text-[#00D4FF]'
                 : 'text-slate-900 group-hover:text-[#0284C7]'
               }`}>
               Code Craft Journey
-            </span> */}
-            {/* <span className={`text-[12px] md:text-[12px] font-bold leading-tight transition-colors duration-300 truncate whitespace-nowrap ${dark
+            </span>
+            <span className={`text-[12px] md:text-[12px] font-bold leading-tight transition-colors duration-300 truncate whitespace-nowrap ${dark
                 ? 'text-slate-400 group-hover:text-slate-200'
                 : 'text-slate-500 group-hover:text-slate-700'
               }`}>
               From Concept to Creation
-            </span> */}
+            </span>
           </div>
         </a>
 

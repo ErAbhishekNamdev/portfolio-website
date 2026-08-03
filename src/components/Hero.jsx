@@ -19,12 +19,6 @@ export default function Hero() {
   const { dark } = useTheme();
   const [contactOpen, setContactOpen] = useState(false);
   const [callbackOpen, setCallbackOpen] = useState(false);
-  const [callbackForm, setCallbackForm] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    message: "",
-  });
   const badgeMessages = [
     "Available for New Opportunities",
     "Available for Freelance Projects",
@@ -75,10 +69,6 @@ export default function Hero() {
   const businessWhatsapp = "917024073871";
   const businessEmail = "abhisheknamdev9171@gmail.com";
 
-  const handleCallbackField = (field, value) => {
-    setCallbackForm((prev) => ({ ...prev, [field]: value }));
-  };
-
   const heroRoleLines = [
     "Software Developer",
     "Web Developer",
@@ -121,20 +111,6 @@ export default function Hero() {
 
     return () => window.clearTimeout(timeoutId);
   }, [heroRoleIndex, heroRoleStage, heroRoleText, heroRoleLines.length]);
-
-  const handleCallbackSubmit = (event) => {
-    event.preventDefault();
-    const subject = `Callback request from ${callbackForm.name || "visitor"}`;
-    const body = `Name: ${callbackForm.name}%0D%0APhone: ${callbackForm.phone}%0D%0AEmail: ${callbackForm.email}%0D%0AMessage: ${callbackForm.message}`;
-    const mailtoLink = `mailto:${businessEmail}?subject=${encodeURIComponent(subject)}&body=${body}`;
-    const whatsappMessage = `Hello, I submitted a callback request.%0AName: ${callbackForm.name}%0APhone: ${callbackForm.phone}%0AEmail: ${callbackForm.email}%0AMessage: ${callbackForm.message}`;
-    const whatsappLink = `https://wa.me/${businessWhatsapp}?text=${encodeURIComponent(whatsappMessage)}`;
-
-    window.open(mailtoLink, "_blank");
-    window.open(whatsappLink, "_blank");
-    setCallbackOpen(false);
-    setCallbackForm({ name: "", phone: "", email: "", message: "" });
-  };
 
   return (
     <section
@@ -441,33 +417,36 @@ export default function Hero() {
                 </button>
               </div>
             </div>
-            <form onSubmit={handleCallbackSubmit} className="mt-3 space-y-2.5">
+            <form
+              action="https://formsubmit.co/abhisheknamdev9171@gmail.com"
+              method="POST"
+              className="mt-3 space-y-2.5"
+              onSubmit={() => setCallbackOpen(false)}
+            >
+              <input type="hidden" name="_subject" value="Callback Request from Portfolio" />
+              <input type="hidden" name="_captcha" value="false" />
               <input
-                value={callbackForm.name}
-                onChange={(e) => handleCallbackField("name", e.target.value)}
+                name="name"
                 className="w-full rounded-[8px] border border-slate-200 bg-white px-3.5 py-2 text-sm outline-none transition focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20 dark:border-white/10 dark:bg-slate-900 dark:text-white"
                 placeholder="Name"
                 required
               />
               <input
-                value={callbackForm.phone}
-                onChange={(e) => handleCallbackField("phone", e.target.value)}
+                name="phone"
                 className="w-full rounded-[8px] border border-slate-200 bg-white px-3.5 py-2 text-sm outline-none transition focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20 dark:border-white/10 dark:bg-slate-900 dark:text-white"
                 placeholder="Phone No"
                 type="tel"
                 required
               />
               <input
-                value={callbackForm.email}
-                onChange={(e) => handleCallbackField("email", e.target.value)}
+                name="email"
                 className="w-full rounded-[8px] border border-slate-200 bg-white px-3.5 py-2 text-sm outline-none transition focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20 dark:border-white/10 dark:bg-slate-900 dark:text-white"
                 placeholder="Email"
                 type="email"
                 required
               />
               <textarea
-                value={callbackForm.message}
-                onChange={(e) => handleCallbackField("message", e.target.value)}
+                name="message"
                 className="w-full rounded-[8px] border border-slate-200 bg-white px-3.5 py-2 text-sm outline-none transition focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20 dark:border-white/10 dark:bg-slate-900 dark:text-white"
                 rows={2}
                 placeholder="Your Message (optional)"
