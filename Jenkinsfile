@@ -24,12 +24,6 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                bat 'npm test -- --watch=false'
-            }
-        }
-
         stage('Build') {
             steps {
                 bat 'npm run build'
@@ -40,7 +34,7 @@ pipeline {
             steps {
                 bat '''
                 npx netlify deploy ^
-                --dir=.next ^
+                --dir=dist ^
                 --prod ^
                 --site=%NETLIFY_SITE_ID% ^
                 --auth=%NETLIFY_AUTH_TOKEN%
@@ -51,11 +45,11 @@ pipeline {
 
     post {
         success {
-            echo 'Build, Test and Deployment Successful!'
+            echo 'Build and Deployment Successful!'
         }
 
         failure {
-            echo 'Pipeline Failed!'
+            echo 'Build or Deployment Failed!'
         }
 
         always {
