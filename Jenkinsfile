@@ -5,6 +5,11 @@ pipeline {
         nodejs 'NodeJS'
     }
 
+    environment {
+        NETLIFY_AUTH_TOKEN = credentials('NETLIFY_AUTH_TOKEN')
+        NETLIFY_SITE_ID = credentials('PORTFOLIO_WEBSITE')
+    }
+
     stages {
 
         stage('Checkout') {
@@ -19,23 +24,42 @@ pipeline {
             }
         }
 
+        stage('Run Tests') {
+            steps {
+                bat 'npm test -- --watch=false'
+            }
+        }
+
         stage('Build') {
             steps {
                 bat 'npm run build'
             }
         }
 
-        // Removed the stage('Test') block
-
+        stage('Deploy to Netlify') {
+            steps {
+                bat '''
+                npx netlify deploy ^
+                --dir=.next ^
+                --prod ^
+                --site=%NETLIFY_SITE_ID% ^
+                --auth=%NETLIFY_AUTH_TOKEN%
+                '''
+            }
+        }
     }
 
     post {
         success {
-            echo 'Build Successful'
+            echo 'Build, Test and Deployment Successful!'
         }
 
         failure {
-            echo 'Build Failed'
+            echo 'Pipeline Failed!'
+        }
+
+        always {
+            cleanWs()
         }
     }
 }
