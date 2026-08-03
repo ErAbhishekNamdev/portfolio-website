@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
-import { FaSun, FaMoon } from 'react-icons/fa';
+import { FaSun, FaMoon, FaArrowRight } from 'react-icons/fa';
 import { useTheme } from '../ThemeContext';
 
 import logoicons from '../assets/whitelogo.png';
 
 const navLinks = ['About', 'Projects', 'Experience', 'Skills', 'Certificates', 'Contact'];
+const navMessages = ['From Concept to Creation', 'Design to Deployment', 'Turning Designs into Reality'];
 
 // Custom hook to dynamically crop empty transparent padding around PNG image
 function useCroppedLogo(imageSrc) {
@@ -66,6 +67,10 @@ function useCroppedLogo(imageSrc) {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [displayedMessage, setDisplayedMessage] = useState('');
+  const [messageIndex, setMessageIndex] = useState(0);
+  const [typingStage, setTypingStage] = useState('typing');
+  const [showIntroPopup, setShowIntroPopup] = useState(false);
   const { dark, toggle } = useTheme();
 
   // Get auto-cropped logo with 0 whitespace padding
@@ -77,12 +82,51 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    setShowIntroPopup(true);
+  }, []);
+
+  useEffect(() => {
+    let timeoutId;
+    const currentMessage = navMessages[messageIndex];
+
+    if (typingStage === 'typing') {
+      const nextLength = displayedMessage.length + 1;
+      if (nextLength <= currentMessage.length) {
+        timeoutId = window.setTimeout(() => {
+          setDisplayedMessage(currentMessage.slice(0, nextLength));
+        }, 90);
+      } else {
+        timeoutId = window.setTimeout(() => setTypingStage('pausing'), 1200);
+      }
+    }
+
+    if (typingStage === 'deleting') {
+      const nextLength = displayedMessage.length - 1;
+      if (nextLength >= 0) {
+        timeoutId = window.setTimeout(() => {
+          setDisplayedMessage(currentMessage.slice(0, nextLength));
+        }, 60);
+      } else {
+        setMessageIndex((prev) => (prev + 1) % navMessages.length);
+        setTypingStage('typing');
+      }
+    }
+
+    if (typingStage === 'pausing') {
+      timeoutId = window.setTimeout(() => setTypingStage('deleting'), 800);
+    }
+
+    return () => window.clearTimeout(timeoutId);
+  }, [displayedMessage, messageIndex, typingStage]);
+
   return (
-    <motion.nav
-      initial={{ y: -80 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled
+    <>
+      <motion.nav
+        initial={{ y: -80 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled
         ? dark
           ? 'bg-[#05050A]/90 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.4)]'
           : 'bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-[0_8px_30px_rgba(148,163,184,0.15)]'
@@ -157,7 +201,6 @@ export default function Navbar() {
             title={dark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             aria-label="Toggle Theme"
           > 
-          {/* new changes */}
             <motion.div
               key={dark ? 'dark' : 'light'}
               initial={{ rotate: -90, scale: 0 }}
@@ -235,5 +278,72 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </motion.nav>
+
+   {showIntroPopup && (
+  <div className="fixed inset-0 z-[60] flex items-center justify-center backdrop-blur-[5px] bg-black/50">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.94 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.96 }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      className={`relative w-full max-w-md overflow-hidden rounded-[32px] border p-8 transition-all duration-300 ${
+        dark
+          ? 'border-white/10 bg-[#0D1117] text-white'
+          : 'border-slate-200 bg-white text-slate-950'
+      }`}
+      style={{
+        boxShadow: dark
+          ? '0 25px 80px rgba(0,0,0,0.55)'
+          : '0 25px 80px rgba(15,23,42,0.15)',
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => setShowIntroPopup(false)}
+        aria-label="Close"
+        className={`absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full text-lg transition-colors ${
+          dark
+            ? 'text-slate-400 hover:text-white hover:bg-white/10'
+            : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
+        }`}
+      >
+        ✕
+      </button>
+
+      <div className="flex flex-col items-center gap-5 text-center">
+        <div className="relative">
+          <div className="absolute inset-0 rounded-full bg-orange-400/10" />
+          <div className={`relative z-10 flex h-20 w-20 items-center justify-center rounded-full border-2 p-3 ${dark ? 'border-[#F97316]/20 bg-[#11151F]' : 'border-[#F97316]/30 bg-[#FFF3E0]'}`}>
+            <img
+              src={autoCroppedLogo}
+              alt="Code Craft Journey"
+              className="w-full h-full object-contain"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <h2 className={`text-[24px] font-semibold tracking-tight ${dark ? 'text-white' : 'text-slate-950'}`}>
+            Welcome to Code Craft Journey
+          </h2>
+          <p className={`mx-auto max-w-[85%] text-sm leading-6 ${dark ? 'text-slate-400' : 'text-slate-600'}`}>
+            Grow your business with us. Let’s connect and build a strategy that turns your ideas into revenue.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-8 grid gap-3">
+        <a
+          href="#contact"
+          onClick={() => setShowIntroPopup(false)}
+          className="inline-flex w-full items-center justify-center rounded-full bg-[#F97316] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_45px_rgba(249,115,22,0.25)] transition hover:bg-[#fb8b3a]"
+        >
+          Book Appointment
+        </a>
+      </div>
+    </motion.div>
+  </div>
+)}
+    </>
   );
 }

@@ -10,7 +10,7 @@ const skills = [
   { name: 'React', color: '#61DAFB', textColor: '#000', icon: '⚛' },
   { name: 'Next.js', color: '#000000', textColor: '#fff', icon: 'N' },
   { name: 'Tailwind', color: '#38BDF8', textColor: '#fff', icon: 'TW' },
-  { name: 'Node.js', color: '#3C873A', textColor: '#fff', icon: 'NO' },
+  { name: 'jenkins', color: '#3C873A', textColor: '#fff', icon: 'jen' },
   { name: 'Express', color: '#404040', textColor: '#fff', icon: 'EX' },
   { name: 'MongoDB', color: '#4EA94B', textColor: '#fff', icon: 'M' },
   { name: 'PostgreSQL', color: '#336791', textColor: '#fff', icon: 'PG' },
@@ -126,40 +126,28 @@ function SkillTile({ skill, index, dark }) {
         }
       >
         <div
+          className="flex h-[80px] w-[80px] sm:h-[105px] sm:w-[105px] flex-col items-center justify-center gap-2 rounded-[16px] transition-all"
           style={{
-            width: 105,
-            height: 105,
             backgroundColor: skill.color,
-            borderRadius: 16,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 6,
             border: `1.5px solid ${borderColor}`,
             boxShadow: shadow,
             transition: 'border-color 0.2s, box-shadow 0.2s',
           }}
         >
           <div
+            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full"
             style={{
-              width: 38,
-              height: 38,
-              borderRadius: '50%',
               backgroundColor:
                 skill.textColor === '#000'
                   ? 'rgba(0,0,0,0.12)'
                   : 'rgba(255,255,255,0.2)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
             }}
           >
             <span
               style={{
                 color: skill.textColor,
                 fontWeight: 700,
-                fontSize: 14,
+                fontSize: 13,
                 fontFamily: 'Fira Code, monospace',
                 lineHeight: 1,
               }}
@@ -176,6 +164,7 @@ function SkillTile({ skill, index, dark }) {
               fontFamily: 'Inter, sans-serif',
               lineHeight: 1,
               letterSpacing: '0.2px',
+              textAlign: 'center',
             }}
           >
             {skill.name}
@@ -246,7 +235,7 @@ export default function Skills() {
           ))}
 
           <div
-            className="relative z-10 flex flex-wrap justify-center items-center gap-5 max-w-5xl mx-auto"
+            className="relative z-10 grid grid-cols-4  lg:grid-cols-9 justify-items-center gap-4 max-w-5xl mx-auto"
           >
             {skills.map((skill, i) => (
               <SkillTile key={skill.name} skill={skill} index={i} dark={dark} />
