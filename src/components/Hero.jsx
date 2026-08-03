@@ -14,335 +14,513 @@ import {
   FaBriefcase,
 } from "react-icons/fa";
 import { useTheme } from "../ThemeContext";
+import LaptopScreen from "./LaptopScreen";
+
+const BADGE_MESSAGES = [
+  "Available for Frontend Collaborations",
+  "Available for Freelance Projects",
+  "Ready for React & Next.js Work",
+  "Open to New Opportunities",
+];
+
+const ROLE_LINES = [
+  "Frontend Developer",
+  "React Specialist",
+  "UI/UX Engineer",
+  "Freelance Dev",
+];
+
+function useTyping(lines) {
+  const [text, setText] = useState("");
+  const [index, setIndex] = useState(0);
+  const [stage, setStage] = useState("typing");
+
+  useEffect(() => {
+    let id;
+    const current = lines[index];
+    if (stage === "typing") {
+      if (text.length < current.length)
+        id = setTimeout(() => setText(current.slice(0, text.length + 1)), 80);
+      else id = setTimeout(() => setStage("pause"), 1100);
+    } else if (stage === "pause") {
+      id = setTimeout(() => setStage("deleting"), 1000);
+    } else {
+      if (text.length > 0)
+        id = setTimeout(() => setText(current.slice(0, text.length - 1)), 45);
+      else {
+        setIndex((i) => (i + 1) % lines.length);
+        setStage("typing");
+      }
+    }
+    return () => clearTimeout(id);
+  }, [text, index, stage, lines]);
+
+  return text;
+}
+
+const SOCIALS = [
+  {
+    icon: <FaGithub />,
+    href: "https://github.com/ErAbhishekNamdev",
+    label: "GitHub",
+  },
+  {
+    icon: <FaLinkedin />,
+    href: "https://www.linkedin.com/in/abhishek-namdev-software-engineer/",
+    label: "LinkedIn",
+  },
+  {
+    icon: <FaTwitter />,
+    href: "https://x.com/Abhishekna78501",
+    label: "Twitter",
+  },
+  {
+    icon: <FaWhatsapp />,
+    href: "https://wa.me/917024073871",
+    label: "WhatsApp",
+  },
+  {
+    icon: <FaBriefcase />,
+    href: "https://www.naukri.com/mnjuser/profile",
+    label: "Naukri",
+  },
+];
+
+const AVATAR_COLORS = ["#6366f1", "#7c3aed", "#c026d3", "#ec4899"];
+const AVATAR_INITIALS = ["AN", "RS", "KP", "MV"];
+
+function StatusBadge({ dark, badgeText }) {
+  return (
+    <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[9999] flex justify-center pointer-events-none">
+      <motion.div
+        initial={{ opacity: 0, y: -12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55 }}
+        className={`pointer-events-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full text-[13px] font-semibold tracking-wide border backdrop-blur-md transition-all duration-150 ${
+          dark
+            ? "bg-[#111118]/90 border-emerald-500/35 text-emerald-400 shadow-[0_0_18px_rgba(16,185,129,0.18)]"
+            : "bg-white/95 border-emerald-500/45 text-emerald-700 shadow-sm"
+        }`}
+      >
+        <span className="relative flex h-2 w-2 shrink-0">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+        </span>
+        <span className="flex items-center gap-0.5 whitespace-nowrap">
+          {badgeText}
+          <span className="animate-pulse">|</span>
+        </span>
+      </motion.div>
+    </div>
+  );
+}
 
 export default function Hero() {
   const { dark } = useTheme();
+  const badgeText = useTyping(BADGE_MESSAGES);
+  const roleText = useTyping(ROLE_LINES);
   const [contactOpen, setContactOpen] = useState(false);
   const [callbackOpen, setCallbackOpen] = useState(false);
-  const badgeMessages = [
-    "Available for New Opportunities",
-    "Available for Freelance Projects",
-    "Available for Frontend Collaborations",
-    "Ready for React & UI work",
-  ];
-  const [badgeText, setBadgeText] = useState("");
-  const [badgeIndex, setBadgeIndex] = useState(0);
-  const [badgeStage, setBadgeStage] = useState("typing");
 
-  useEffect(() => {
-    let timeoutId;
-    const currentMessage = badgeMessages[badgeIndex];
-
-    if (badgeStage === "typing") {
-      const nextLength = badgeText.length + 1;
-      if (nextLength <= currentMessage.length) {
-        timeoutId = window.setTimeout(() => {
-          setBadgeText(currentMessage.slice(0, nextLength));
-        }, 80);
-      } else {
-        timeoutId = window.setTimeout(() => setBadgeStage("pause"), 1200);
-      }
-    }
-
-    if (badgeStage === "deleting") {
-      const nextLength = badgeText.length - 1;
-      if (nextLength >= 0) {
-        timeoutId = window.setTimeout(() => {
-          setBadgeText(currentMessage.slice(0, nextLength));
-        }, 45);
-      } else {
-        setBadgeIndex((prev) => (prev + 1) % badgeMessages.length);
-        setBadgeStage("typing");
-      }
-    }
-
-    if (badgeStage === "pause") {
-      timeoutId = window.setTimeout(() => setBadgeStage("deleting"), 1000);
-    }
-
-    return () => window.clearTimeout(timeoutId);
-  }, [badgeText, badgeIndex, badgeStage]);
-
-  const whatsappNumber = "917024073871";
-  const whatsappUrl = `https://wa.me/${whatsappNumber}`;
+  const whatsappUrl = "https://wa.me/917024073871";
   const callUrl = "tel:7024073871";
-  const businessWhatsapp = "917024073871";
-  const businessEmail = "abhisheknamdev9171@gmail.com";
-
-  const heroRoleLines = [
-    "Software Developer",
-    "Web Developer",
-    "Freelance Frontend Specialist",
-  ];
-  const [heroRoleIndex, setHeroRoleIndex] = useState(0);
-  const [heroRoleText, setHeroRoleText] = useState("");
-  const [heroRoleStage, setHeroRoleStage] = useState("typing");
-
-  useEffect(() => {
-    let timeoutId;
-    const currentRole = heroRoleLines[heroRoleIndex];
-
-    if (heroRoleStage === "typing") {
-      const nextLength = heroRoleText.length + 1;
-      if (nextLength <= currentRole.length) {
-        timeoutId = window.setTimeout(() => {
-          setHeroRoleText(currentRole.slice(0, nextLength));
-        }, 80);
-      } else {
-        timeoutId = window.setTimeout(() => setHeroRoleStage("pause"), 900);
-      }
-    }
-
-    if (heroRoleStage === "deleting") {
-      const nextLength = heroRoleText.length - 1;
-      if (nextLength >= 0) {
-        timeoutId = window.setTimeout(() => {
-          setHeroRoleText(currentRole.slice(0, nextLength));
-        }, 45);
-      } else {
-        setHeroRoleIndex((prev) => (prev + 1) % heroRoleLines.length);
-        setHeroRoleStage("typing");
-      }
-    }
-
-    if (heroRoleStage === "pause") {
-      timeoutId = window.setTimeout(() => setHeroRoleStage("deleting"), 850);
-    }
-
-    return () => window.clearTimeout(timeoutId);
-  }, [heroRoleIndex, heroRoleStage, heroRoleText, heroRoleLines.length]);
 
   return (
     <section
       id="hero"
-      className={`relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-16 transition-colors duration-300 ${
+      className={`relative min-h-screen flex flex-col overflow-hidden transition-colors duration-300 ${
         dark
-          ? "bg-gradient-to-br from-[#02040C] via-[#09122A] to-[#0C1730]"
+          ? "bg-[#02040C]"
           : "bg-[#F4F6FB]"
       }`}
     >
-      {/* Ambient background glows */}
-      {dark && (
-        <>
-          <div
-            className="absolute bottom-[-150px] left-[-100px] w-[600px] h-[600px] rounded-full pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(0,212,255,0.18) 0%, rgba(0,229,160,0.06) 40%, transparent 70%)",
-              filter: "blur(90px)",
-            }}
-          />
-          <div
-            className="absolute top-[-100px] right-[-100px] w-[550px] h-[550px] rounded-full pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(155,89,255,0.18) 0%, rgba(255,110,199,0.06) 40%, transparent 70%)",
-              filter: "blur(90px)",
-            }}
-          />
-        </>
-      )}
+      {/* Grid */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(rgba(99,102,241,0.06) 1px,transparent 1px),
+                          linear-gradient(90deg,rgba(99,102,241,0.06) 1px,transparent 1px)`,
+          backgroundSize: "44px 44px",
+        }}
+      />
 
-      {!dark && (
-        <>
-          <div
-            className="absolute top-[-120px] left-[-100px] w-[500px] h-[500px] rounded-full pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(2,132,199,0.12) 0%, rgba(124,58,237,0.05) 50%, transparent 70%)",
-              filter: "blur(80px)",
-            }}
-          />
-          <div
-            className="absolute bottom-[-100px] right-[-100px] w-[550px] h-[550px] rounded-full pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(124,58,237,0.1) 0%, rgba(192,38,211,0.05) 50%, transparent 70%)",
-              filter: "blur(80px)",
-            }}
-          />
-        </>
-      )}
-
-      {/* Main Hero Content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl mx-auto">
-        {/* Available Badge */}
+      {/* Ambient blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className={`fixed z-[10000] inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-xs font-semibold tracking-wide border mb-6 backdrop-blur-md ${
-            dark
-              ? "bg-[#111118]/90 border-emerald-500/40 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.2)]"
-              : "bg-white/95 border-emerald-500/50 text-emerald-700 shadow-md"
-          }`}
-        >
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
-          </span>
-          <span className="flex items-center gap-1">
-            <span>{badgeText}</span>
-            <span className="inline-block animate-pulse">|</span>
-          </span>
-        </motion.div>
-
-        {/* Hero Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className={`font-syne font-extrabold tracking-tight leading-none ${
-            dark ? "text-white" : "text-slate-900"
-          }`}
+          className="absolute rounded-full"
           style={{
-            fontSize: "clamp(46px, 7.5vw, 92px)",
-            textShadow: dark ? "0 0 60px rgba(0,212,255,0.2)" : "none",
+            width: 560,
+            height: 560,
+            top: -160,
+            left: -140,
+            filter: "blur(80px)",
+            background: dark
+              ? "radial-gradient(circle,rgba(99,102,241,0.25) 0%,rgba(124,58,237,0.1) 45%,transparent 70%)"
+              : "radial-gradient(circle,rgba(99,102,241,0.14) 0%,rgba(124,58,237,0.05) 45%,transparent 70%)",
           }}
-        >
-          Abhishek Namdev
-        </motion.h1>
-
-        {/* Subtitle / Role Tag */}
+          animate={{ scale: [1, 1.07, 1], x: [0, 18, 0] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        />
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-4 space-y-4"
-        >
-          <div className="flex items-center justify-center text-xl md:text-2xl font-bold font-syne">
-            <span className={`mr-2 ${dark ? "text-slate-300" : "text-slate-700"}`}>
-              I am
-            </span>
-            <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent">
-              {heroRoleText}
-            </span>
-            <span className="ml-1 inline-block h-[1.1em] w-1 rounded-full bg-current animate-pulse" />
-          </div>
-          <p
-            className={`text-base md:text-lg max-w-2xl mx-auto font-medium ${
-              dark ? "text-slate-300" : "text-slate-700"
-            }`}
-          >
-            Crafting high-performance web applications, interactive 3D
-            experiences, and modern scalable digital products.
-          </p>
-        </motion.div>
-
-        {/* CTA Action Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-9 flex flex-wrap items-center justify-center gap-4"
-        >
-          <a
-            href="#contact"
-            className={`inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold text-sm transition-all duration-300 ${
-              dark
-                ? "bg-gradient-to-r from-[#00D4FF] to-[#00B8E0] text-slate-950 font-bold shadow-[0_0_30px_rgba(0,212,255,0.4)] hover:shadow-[0_0_40px_rgba(0,212,255,0.6)] hover:scale-105"
-                : "bg-gradient-to-r from-[#0284C7] to-[#7C3AED] text-white shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/45 hover:scale-105"
-            }`}
-          >
-            Get In Touch <FaArrowRight className="text-xs" />
-          </a>
-          <a
-            href="#"
-            className={`inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold text-sm transition-all duration-300 border ${
-              dark
-                ? "border-white/30 text-white hover:border-white/60 hover:bg-white/15 backdrop-blur-md"
-                : "border-slate-400 text-slate-900 bg-white/90 hover:border-slate-500 hover:bg-white shadow-md"
-            }`}
-          >
-            <FaDownload className="text-xs" /> Download Resume
-          </a>
-        </motion.div>
-
-        {/* Social Links */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-4"
-        >
-          {[
-            { icon: <FaGithub />, link: "https://github.com/ErAbhishekNamdev", label: "GitHub" },
-            { icon: <FaLinkedin />, link: "https://www.linkedin.com/in/abhishek-namdev-software-engineer/", label: "LinkedIn" },
-            { icon: <FaTwitter />, link: "https://x.com/Abhishekna78501", label: "Twitter" },
-            { icon: <FaWhatsapp />, link: whatsappUrl, label: "WhatsApp" },
-            { icon: <FaBriefcase />, link: "https://www.naukri.com/mnjuser/profile", label: "Naukri" },
-          ].map((s, i) => (
-            <a
-              key={i}
-              href={s.link}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={s.label}
-              className={`flex h-[44px] w-[44px] items-center justify-center rounded-[12px] border text-lg transition-all duration-300 ${
-                dark
-                  ? "bg-[#1E3C8C] dark:border-transparent border-white text-white hover:text-[#00D4FF] hover:border-[#00D4FF]/60 hover:bg-[#0f172a]/80"
-                  : "bg-[#1E3C8C] border-slate-300 text-white hover:text-[#0284C7] hover:border-[#0284C7]/60 shadow-md"
-              }`}
-            >
-              {s.icon}
-            </a>
-          ))}
-        </motion.div>
+          className="absolute rounded-full"
+          style={{
+            width: 480,
+            height: 480,
+            bottom: -100,
+            right: -80,
+            filter: "blur(80px)",
+            background: dark
+              ? "radial-gradient(circle,rgba(192,38,211,0.22) 0%,rgba(244,114,182,0.07) 45%,transparent 70%)"
+              : "radial-gradient(circle,rgba(192,38,211,0.10) 0%,rgba(244,114,182,0.04) 45%,transparent 70%)",
+          }}
+          animate={{ scale: [1, 1.09, 1], y: [0, -22, 0] }}
+          transition={{
+            duration: 11,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        />
       </div>
 
-      {/* Fixed contact widget */}
-      <div className="fixed right-4 bottom-4 z-50 flex flex-col items-end gap-3 sm:right-6 sm:bottom-6">
+      {/* ── Two-column grid ── */}
+      <div className="relative z-10 flex-1 flex items-center px-5 md:px-10 lg:px-16 py-8">
+       <div className="w-full max-w-7xl mx-auto flex flex-col gap-8">
+        <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[50%_50%] lg:grid-cols-[48%_52%] gap-6 lg:gap-10 items-center">
+          {/* LEFT */}
+          <div className="flex flex-col items-start text-left gap-0">
+            <StatusBadge dark={dark} badgeText={badgeText} />
+
+            <motion.span
+              initial={{ opacity: 0, x: -24 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className={`text-[11px] font-bold tracking-[0.2em] uppercase mb-3 ${dark ? "text-indigo-400" : "text-indigo-600"}`}
+            >
+              👋 Hello, I&apos;m
+            </motion.span>
+
+            <motion.h1
+              initial={{ opacity: 0, x: -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.75, delay: 0.22 }}
+              className={`font-extrabold tracking-tight leading-[1.05] ${dark ? "text-white" : "text-slate-900"}`}
+              style={{
+                fontFamily: "'Syne',sans-serif",
+                fontSize: "clamp(34px,4.2vw,62px)",
+              }}
+            >
+              Abhishek{" "}
+              <span className="bg-gradient-to-r from-[#6366F1] via-[#7C3AED] to-[#C026D3] bg-clip-text text-transparent">
+                Namdev
+              </span>
+            </motion.h1>
+
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.32 }}
+              className="mt-3 flex items-center gap-1.5 text-base md:text-lg font-bold"
+              style={{ fontFamily: "'Syne',sans-serif" }}
+            >
+              <span className={dark ? "text-slate-400" : "text-slate-500"}>
+                I am a
+              </span>
+              <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent min-w-[190px]">
+                {roleText}
+              </span>
+              <span
+                className={`inline-block h-[1em] w-[2px] rounded-full animate-pulse ${dark ? "bg-[#00D4FF]" : "bg-[#7C3AED]"}`}
+              />
+            </motion.div>
+            <motion.p
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.42 }}
+              className={`mt-4 text-sm md:text-[15px] leading-relaxed max-w-md ${dark ? "text-slate-400" : "text-slate-600"}`}
+            >
+              Specializing in React, Next.js &amp; TypeScript — I build
+              pixel-perfect, high-performance websites and apps for startups,
+              businesses, and founders who care about craft.
+            </motion.p>
+
+            {/* Trust bar */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.52 }}
+              className="mt-5 flex flex-wrap items-center gap-4"
+            >
+              {[
+                ["50+", "Projects"],
+                ["30+", "Clients"],
+                ["3+", "Years"],
+              ].map(([val, lbl], i) => (
+                <div key={i} className="flex flex-col items-start">
+                  <span
+                    className={`text-lg font-extrabold leading-none ${dark ? "text-white" : "text-slate-900"}`}
+                    style={{ fontFamily: "'Syne',sans-serif" }}
+                  >
+                    {val}
+                  </span>
+                  <span className="text-[10px] font-medium text-slate-500">
+                    {lbl}
+                  </span>
+                </div>
+              ))}
+              <div
+                className={`h-8 w-px ${dark ? "bg-white/10" : "bg-slate-200"}`}
+              />
+              <div className="flex -space-x-2">
+                {AVATAR_COLORS.map((c, i) => (
+                  <div
+                    key={i}
+                    className="h-7 w-7 rounded-full border-2 border-white flex items-center justify-center text-white text-[9px] font-bold"
+                    style={{ background: c }}
+                  >
+                    {AVATAR_INITIALS[i]}
+                  </div>
+                ))}
+                <div
+                  className={`h-7 w-7 rounded-full border-2 border-white flex items-center justify-center text-[8px] font-bold ${
+                    dark
+                      ? "bg-slate-700 text-slate-300"
+                      : "bg-slate-100 text-slate-600"
+                  }`}
+                >
+                  +26
+                </div>
+              </div>
+              <span className="text-[10px] font-medium text-slate-500">
+                Happy clients
+              </span>
+            </motion.div>
+
+            {/* Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.62 }}
+              className="mt-7 flex flex-wrap items-center gap-3"
+            >
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm text-white transition-all duration-300 hover:scale-105"
+                style={{
+                  background: "linear-gradient(to right,#6366F1,#7C3AED)",
+                  boxShadow: "0 0 28px rgba(99,102,241,0.45)",
+                }}
+              >
+                Get In Touch <FaArrowRight style={{ fontSize: 10 }} />
+              </a>
+              <a
+                href="#"
+                className={`inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 border ${
+                  dark
+                    ? "border-white/20 text-white hover:border-indigo-400/50 hover:bg-indigo-500/10"
+                    : "border-slate-300 text-slate-800 bg-white/90 hover:border-indigo-400 shadow-sm"
+                }`}
+              >
+                <FaDownload style={{ fontSize: 10 }} /> Download Resume
+              </a>
+            </motion.div>
+
+            {/* Socials */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.75 }}
+              className="mt-6 flex flex-wrap items-center gap-2.5"
+            >
+              {SOCIALS.map((s, i) => (
+                <motion.a
+                  key={i}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={s.label}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.75 + i * 0.07 }}
+                  whileHover={{ y: -4, scale: 1.14 }}
+                  className={`flex h-10 w-10 items-center justify-center rounded-xl border text-base transition-colors duration-300 ${
+                    dark
+                      ? "bg-[#1E3C8C] border-indigo-500/15 text-white hover:text-[#00D4FF]"
+                      : "bg-[#1E3C8C] border-transparent text-white hover:opacity-80 shadow-md"
+                  }`}
+                >
+                  {s.icon}
+                </motion.a>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* RIGHT – Laptop */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.85, delay: 0.3 }}
+            className="flex items-center justify-center"
+          >
+            <div className="relative w-full max-w-[560px] md:max-w-[600px] lg:max-w-[640px]">
+              {/* Glow */}
+              <div
+                className="absolute pointer-events-none"
+                style={{
+                  inset: "-20px",
+                  background:
+                    "radial-gradient(ellipse at 50% 55%,rgba(99,102,241,0.38) 0%,rgba(124,58,237,0.18) 40%,transparent 70%)",
+                  filter: "blur(45px)",
+                }}
+              />
+              <div
+                className="absolute pointer-events-none"
+                style={{
+                  bottom: -30,
+                  left: "10%",
+                  right: "10%",
+                  height: 60,
+                  background: "rgba(192,38,211,0.35)",
+                  filter: "blur(30px)",
+                  borderRadius: "50%",
+                }}
+              />
+
+              {/* Floating laptop */}
+              <motion.div
+                animate={{ y: [0, -14, 0] }}
+                transition={{
+                  duration: 4.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                whileHover={{ rotateY: 5, rotateX: -2, scale: 1.02 }}
+                style={{ transformStyle: "preserve-3d", perspective: 1200 }}
+              >
+                {/* Lid */}
+                <div
+                  className="relative w-full rounded-[18px] overflow-hidden"
+                  style={{
+                    background: dark
+                      ? "linear-gradient(to bottom,#1e2235,#0f1120)"
+                      : "linear-gradient(to bottom,#cdd0e0,#b0b5c8)",
+                    padding: "6px 6px 0",
+                    boxShadow: dark
+                      ? "0 32px 80px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.07)"
+                      : "0 32px 80px rgba(0,0,0,0.22),0 0 0 1px rgba(255,255,255,0.6)",
+                  }}
+                >
+                  {/* Traffic lights + camera */}
+                  <div className="flex items-center justify-between px-3 py-1.5">
+                    <div className="flex gap-1.5">
+                      <div className="h-2 w-2 rounded-full bg-[#ff5f57]" />
+                      <div className="h-2 w-2 rounded-full bg-[#febc2e]" />
+                      <div className="h-2 w-2 rounded-full bg-[#28c840]" />
+                    </div>
+                    <div
+                      className={`h-1.5 w-1.5 rounded-full ${dark ? "bg-slate-600" : "bg-slate-400"}`}
+                    />
+                    <div className="w-10" />
+                  </div>
+
+                  {/* Screen */}
+                  <div
+                    className="rounded-t-xl overflow-hidden"
+                    style={{ aspectRatio: "16/10" }}
+                  >
+                    <div
+                      className="absolute top-0 left-0 right-0 h-1/3 z-10 pointer-events-none"
+                      style={{
+                        background:
+                          "linear-gradient(180deg,rgba(255,255,255,0.06) 0%,transparent 100%)",
+                      }}
+                    />
+                    <LaptopScreen />
+                  </div>
+                </div>
+
+                {/* Base */}
+                <div
+                  className="mx-auto h-[10px]"
+                  style={{
+                    width: "96%",
+                    background: dark
+                      ? "linear-gradient(to bottom,#2a2d42,#1a1d2e)"
+                      : "linear-gradient(to bottom,#b8bcc8,#9a9eb2)",
+                  }}
+                />
+                <div
+                  className="mx-auto h-[7px] rounded-b-2xl"
+                  style={{
+                    width: "82%",
+                    background: dark
+                      ? "linear-gradient(to bottom,#1a1d2e,#0f1120)"
+                      : "linear-gradient(to bottom,#9a9eb2,#7e8295)",
+                  }}
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+       </div>
+      </div>
+
+      {/* ── Chat widget — fixed bottom-right, unchanged ── */}
+      <div className="fixed right-4 bottom-4 z-[10000] flex flex-col items-end gap-3 sm:right-6 sm:bottom-6">
         {contactOpen && (
           <div
-            className={`w-[300px] rounded-[32px] border bg-white/95 dark:bg-[#2A2A3C] p-3 shadow-2xl backdrop-blur-xl transition-all duration-300 ${dark ? "border-white/10 bg-slate-950/95 text-white" : "border-slate-200 bg-white text-slate-900"}`}
+            className={`w-[300px] rounded-[32px] border p-3 shadow-2xl backdrop-blur-xl ${
+              dark
+                ? "border-white/10 bg-slate-950/95 text-white"
+                : "border-slate-200 bg-white text-slate-900"
+            }`}
           >
             <div className="flex flex-col gap-3">
+              {/* Call */}
               <button
                 type="button"
                 onClick={() => window.open(callUrl, "_self")}
-                className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-900 transition hover:border-[#00D4FF] hover:bg-[#EFF8FF] dark:border-white/10 dark:bg-slate-900 dark:text-white dark:hover:bg-[#0C1A2F]"
+                className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-900 transition hover:border-[#00D4FF] hover:bg-[#EFF8FF]"
               >
                 <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#00D4FF]/15 text-[#00D4FF]">
                   <FaPhoneAlt />
                 </span>
                 <div>
                   <div className="text-sm font-semibold">Call Us</div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400">
-                    7024073871
-                  </div>
+                  <div className="text-xs text-slate-500">7024073871</div>
                 </div>
               </button>
+              {/* WhatsApp */}
               <button
                 type="button"
                 onClick={() => window.open(whatsappUrl, "_blank")}
-                className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-900 transition hover:border-[#25D366] hover:bg-[#ECFFF2] dark:border-white/10 dark:bg-slate-900 dark:text-white dark:hover:bg-[#102317]"
+                className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-900 transition hover:border-[#25D366] hover:bg-[#ECFFF2]"
               >
                 <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#25D366]/15 text-[#25D366]">
                   <FaWhatsapp />
                 </span>
                 <div>
-                  <div className="text-sm font-semibold">Whatsapp</div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400">
-                    7024073871
-                  </div>
+                  <div className="text-sm font-semibold">WhatsApp</div>
+                  <div className="text-xs text-slate-500">7024073871</div>
                 </div>
               </button>
+              {/* Callback */}
               <button
                 type="button"
                 onClick={() => {
                   setCallbackOpen(true);
                   setContactOpen(false);
                 }}
-                className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-900 transition hover:border-[#F6B93B] hover:bg-[#FFF4E2] dark:border-white/10 dark:bg-slate-900 dark:text-white dark:hover:bg-[#3B2A0C]"
+                className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-900 transition hover:border-[#F6B93B] hover:bg-[#FFF4E2]"
               >
                 <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#F6B93B]/15 text-[#F6B93B]">
                   <FaCommentDots />
                 </span>
                 <div>
                   <div className="text-sm font-semibold">
-                    Request a Call back
+                    Request a Callback
                   </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400">
+                  <div className="text-xs text-slate-500">
                     Quick response guaranteed
                   </div>
                 </div>
@@ -351,40 +529,22 @@ export default function Hero() {
           </div>
         )}
 
-        {/* <button
-          type="button"
-          onClick={() => setContactOpen((prev) => !prev)}
-          className={`flex h-16 w-16 items-center justify-center rounded-full border text-xl shadow-2xl transition-all duration-300 ${
-            contactOpen ? 'bg-[#ffffff] text-[#0B1225] border-slate-300' : dark ? 'bg-[#0E172E] text-white border-[#ffffff12]' : 'bg-[#10B981] text-white border-slate-200'
-          } ${dark ? 'shadow-[#0B1B35]/60' : 'shadow-slate-300/80'}`}
-        >
-          {contactOpen ? <FaTimes /> : <FaCommentDots />}
-        </button> */}
         <div className="relative">
-          {/* Outer pulse ring */}
           {!contactOpen && (
             <span className="absolute inset-0 rounded-full bg-[#00D4FF]/40 animate-ping" />
           )}
-
           <button
             type="button"
-            onClick={() => setContactOpen((prev) => !prev)}
+            onClick={() => setContactOpen((p) => !p)}
             aria-label={contactOpen ? "Close chat" : "Open chat"}
-            className={`relative flex h-20 w-20 items-center justify-center rounded-full text-3xl transition-all duration-300 hover:scale-110 active:scale-95 ${
-              contactOpen
-                ? "bg-gradient-to-br from-[#00D4FF] via-[#7C3AED] to-[#C026D3] text-white shadow-[0_8px_30px_rgba(0,0,0,0.25)]"
-                : "bg-gradient-to-br from-[#00D4FF] via-[#7C3AED] to-[#C026D3] text-white shadow-[0_8px_35px_rgba(124,58,237,0.55)] hover:shadow-[0_8px_45px_rgba(124,58,237,0.75)]"
-            }`}
+            className="relative flex h-20 w-20 items-center justify-center rounded-full text-3xl transition-all duration-300 hover:scale-110 active:scale-95 text-white"
+            style={{
+              background: "linear-gradient(135deg,#00D4FF,#7C3AED,#C026D3)",
+              boxShadow: "0 8px 35px rgba(124,58,237,0.55)",
+            }}
           >
-            {contactOpen ? (
-              // <FaTimes className="text-3xl" />
-                            <FaRobot className="text-4xl" />
-            ) : (
-              <FaRobot className="text-4xl" />
-            )}
+            <FaRobot style={{ fontSize: 34 }} />
           </button>
-
-          {/* Online status dot */}
           {!contactOpen && (
             <span className="absolute bottom-1 right-1 flex h-5 w-5">
               <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
@@ -395,23 +555,26 @@ export default function Hero() {
       </div>
 
       {callbackOpen && (
-        <div className="fixed right-4 bottom-24 z-50 sm:right-6 sm:bottom-24">
+        <div className="fixed right-4 bottom-24 z-[10000] sm:right-6 sm:bottom-24">
           <div
-            className={`w-[300px] rounded-[28px] border p-3 shadow-[0_18px_60px_rgba(15,23,42,0.12)] transition ${dark ? "border-white/10 bg-slate-950/95 dark:bg-[#2A2A3C] text-white" : "border-slate-200 bg-white text-slate-900"}`}
+            className={`w-[300px] rounded-[28px] border p-3 shadow-xl ${
+              dark
+                ? "border-white/10 bg-slate-950/95 text-white"
+                : "border-slate-200 bg-white text-slate-900"
+            }`}
           >
-            <div className="rounded-[10px] bg-[#F7C948]/10 dark:bg-black/60 p-3.5 shadow-sm shadow-[#F7C948]/20">
+            <div className="rounded-[10px] bg-[#F7C948]/10 p-3.5">
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <p className="text-sm font-semibold">Request a Call back</p>
-                  <p className="mt-1 text-[11px] text-slate-600 dark:text-slate-300">
-                    Enter details and we’ll call you shortly.
+                  <p className="text-sm font-semibold">Request a Callback</p>
+                  <p className="mt-1 text-[11px] text-slate-600">
+                    Enter details and we'll call you shortly.
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setCallbackOpen(false)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-100 dark:border-white/15 dark:bg-slate-900/80 dark:text-slate-200"
-                  aria-label="Close callback form"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
                 >
                   <FaTimes />
                 </button>
@@ -423,37 +586,37 @@ export default function Hero() {
               className="mt-3 space-y-2.5"
               onSubmit={() => setCallbackOpen(false)}
             >
-              <input type="hidden" name="_subject" value="Callback Request from Portfolio" />
+              <input type="hidden" name="_subject" value="Callback Request" />
               <input type="hidden" name="_captcha" value="false" />
               <input
                 name="name"
-                className="w-full rounded-[8px] border border-slate-200 bg-white px-3.5 py-2 text-sm outline-none transition focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20 dark:border-white/10 dark:bg-slate-900 dark:text-white"
-                placeholder="Name"
                 required
+                placeholder="Name"
+                className="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-sm outline-none focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20"
               />
               <input
                 name="phone"
-                className="w-full rounded-[8px] border border-slate-200 bg-white px-3.5 py-2 text-sm outline-none transition focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20 dark:border-white/10 dark:bg-slate-900 dark:text-white"
-                placeholder="Phone No"
                 type="tel"
                 required
+                placeholder="Phone No"
+                className="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-sm outline-none focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20"
               />
               <input
                 name="email"
-                className="w-full rounded-[8px] border border-slate-200 bg-white px-3.5 py-2 text-sm outline-none transition focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20 dark:border-white/10 dark:bg-slate-900 dark:text-white"
-                placeholder="Email"
                 type="email"
                 required
+                placeholder="Email"
+                className="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-sm outline-none focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20"
               />
               <textarea
                 name="message"
-                className="w-full rounded-[8px] border border-slate-200 bg-white px-3.5 py-2 text-sm outline-none transition focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20 dark:border-white/10 dark:bg-slate-900 dark:text-white"
                 rows={2}
                 placeholder="Your Message (optional)"
+                className="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-sm outline-none focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20"
               />
               <button
                 type="submit"
-                className="w-full rounded-[8px] bg-[#F7C948] px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-[#e8c23c]"
+                className="w-full rounded-lg bg-[#F7C948] px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-[#e8c23c] transition"
               >
                 Submit
               </button>

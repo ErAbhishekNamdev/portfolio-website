@@ -63,6 +63,7 @@ function useCroppedLogo(imageSrc) {
   return croppedSrc;
 }
 
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
