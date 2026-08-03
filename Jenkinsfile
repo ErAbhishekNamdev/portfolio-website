@@ -5,6 +5,11 @@ pipeline {
         nodejs 'NodeJS'
     }
 
+    environment {
+        NETLIFY_AUTH_TOKEN = credentials('NETLIFY_AUTH_TOKEN')
+        NETLIFY_SITE_ID = credentials('PORTFOLIO_WEBSITE')
+    }
+
     stages {
 
         stage('Checkout') {
@@ -15,30 +20,40 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                bat 'npm install'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'npm run build'
+                bat 'npm run build'
             }
         }
 
-        stage('Test') {
+        stage('Deploy to Netlify') {
             steps {
-                sh 'npm test'
+                bat '''
+                npx netlify deploy ^
+                --dir=dist ^
+                --prod ^
+                --site=%NETLIFY_SITE_ID% ^
+                --auth=%NETLIFY_AUTH_TOKEN%
+                '''
             }
         }
     }
 
     post {
         success {
-            echo 'Build Successful'
+            echo 'Build and Deployment Successful!'
         }
 
         failure {
-            echo 'Build Failed'
+            echo 'Build or Deployment Failed!'
+        }
+
+        always {
+            cleanWs()
         }
     }
 }
