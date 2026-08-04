@@ -8,6 +8,41 @@ import logoicons from '../assets/whitelogo.png';
 
 const navLinks = ['About', 'Projects', 'Experience', 'Skills', 'Certificates', 'Contact'];
 
+const TAGLINES = [
+  'From Concept to Creation',
+  'From Design to deployment',
+  'Turn ideas into reality',
+  'Frontend is my passion',
+];
+
+function useNavTyping(lines) {
+  const [text, setText] = useState('');
+  const [index, setIndex] = useState(0);
+  const [stage, setStage] = useState('typing');
+
+  useEffect(() => {
+    let id;
+    const current = lines[index];
+    if (stage === 'typing') {
+      if (text.length < current.length)
+        id = setTimeout(() => setText(current.slice(0, text.length + 1)), 70);
+      else id = setTimeout(() => setStage('pause'), 1800);
+    } else if (stage === 'pause') {
+      id = setTimeout(() => setStage('deleting'), 800);
+    } else {
+      if (text.length > 0)
+        id = setTimeout(() => setText(current.slice(0, text.length - 1)), 35);
+      else {
+        setIndex((i) => (i + 1) % lines.length);
+        setStage('typing');
+      }
+    }
+    return () => clearTimeout(id);
+  }, [text, index, stage, lines]);
+
+  return text;
+}
+
 // Custom hook to dynamically crop empty transparent padding around PNG image
 function useCroppedLogo(imageSrc) {
   const [croppedSrc, setCroppedSrc] = useState(imageSrc);
@@ -63,6 +98,15 @@ function useCroppedLogo(imageSrc) {
   return croppedSrc;
 }
 
+function NavTagline() {
+  const taglineText = useNavTyping(TAGLINES);
+  return (
+    <span className="inline-flex items-center gap-[2px]">
+      {taglineText}
+      <span className="inline-block w-[1.5px] h-[0.8em] rounded-full bg-current animate-pulse ml-[1px]" />
+    </span>
+  );
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -122,13 +166,13 @@ export default function Navbar() {
               }`}>
               Code Craft Journey
             </span>
-            <span className={`text-[12px] md:text-[12px] font-bold leading-tight transition-colors duration-300 truncate whitespace-nowrap ${dark
-                ? 'text-slate-400 group-hover:text-slate-200'
-                : 'text-slate-500 group-hover:text-slate-700'
+            <span className={`text-[13px] md:text-[11px] font-semibold leading-tight transition-colors duration-300 whitespace-nowrap flex items-center gap-[2px] ${dark
+                ? 'text-black group-hover:text-[#00D4FF]'
+                : 'text-black group-hover:text-[#0284C7]'
               }`}>
-              From Concept to Creation
+              <NavTagline />
             </span>
-          </div>
+          </div> 
         </a>
 
         {/* Desktop Nav Links */}
