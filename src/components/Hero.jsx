@@ -188,33 +188,27 @@ export default function Hero() {
        <div className="w-full max-w-7xl mx-auto flex flex-col gap-8">
         <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[50%_50%] lg:grid-cols-[48%_52%] gap-6 lg:gap-10 items-center">
           {/* LEFT */}
-          <div className="flex flex-col items-start text-left gap-0">
+          <div className="flex flex-col items-start text-left gap-0 mt-2">
             <StatusBadge dark={dark} badgeText={badgeText} />
-
-            <motion.span
-              initial={{ opacity: 0, x: -24 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className={`text-[11px] font-bold tracking-[0.2em] uppercase mb-3 ${dark ? "text-indigo-400" : "text-indigo-600"}`}
-            >
-              👋 Hello, I&apos;m
-            </motion.span>
-
             <motion.h1
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.75, delay: 0.22 }}
-              className={`font-extrabold tracking-tight leading-[1.05] ${dark ? "text-white" : "text-slate-900"}`}
+              className={`font-extrabold tracking-tight leading-[1.08] ${dark ? "text-white" : "text-slate-900"}`}
               style={{
                 fontFamily: "'Syne',sans-serif",
-                fontSize: "clamp(34px,4.2vw,62px)",
+                fontSize: "clamp(30px,3.6vw,35px)",
               }}
             >
               Abhishek{" "}
-              <span className="bg-gradient-to-r from-[#6366F1] via-[#7C3AED] to-[#C026D3] bg-clip-text text-transparent">
+              <span
+                className="bg-gradient-to-r from-[#6366F1] via-[#7C3AED] to-[#C026D3] bg-clip-text text-transparent"
+                style={{ WebkitBackgroundClip: "text" }}
+              >
                 Namdev
               </span>
             </motion.h1>
+
 
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -237,64 +231,22 @@ export default function Hero() {
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.42 }}
-              className={`mt-4 text-sm md:text-[15px] leading-relaxed max-w-md ${dark ? "text-slate-400" : "text-slate-600"}`}
+              className={`mt-4 text-sm md:text-[15px] leading-[1.8] max-w-[440px] ${dark ? "text-slate-400" : "text-slate-600"}`}
             >
-              Specializing in React, Next.js &amp; TypeScript — I build
-              pixel-perfect, high-performance websites and apps for startups,
-              businesses, and founders who care about craft.
-            </motion.p>
-
-            {/* Trust bar */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.52 }}
-              className="mt-5 flex flex-wrap items-center gap-4"
-            >
-              {[
-                ["50+", "Projects"],
-                ["30+", "Clients"],
-                ["3+", "Years"],
-              ].map(([val, lbl], i) => (
-                <div key={i} className="flex flex-col items-start">
-                  <span
-                    className={`text-lg font-extrabold leading-none ${dark ? "text-white" : "text-slate-900"}`}
-                    style={{ fontFamily: "'Syne',sans-serif" }}
-                  >
-                    {val}
-                  </span>
-                  <span className="text-[10px] font-medium text-slate-500">
-                    {lbl}
-                  </span>
-                </div>
-              ))}
-              <div
-                className={`h-8 w-px ${dark ? "bg-white/10" : "bg-slate-200"}`}
-              />
-              <div className="flex -space-x-2">
-                {AVATAR_COLORS.map((c, i) => (
-                  <div
-                    key={i}
-                    className="h-7 w-7 rounded-full border-2 border-white flex items-center justify-center text-white text-[9px] font-bold"
-                    style={{ background: c }}
-                  >
-                    {AVATAR_INITIALS[i]}
-                  </div>
-                ))}
-                <div
-                  className={`h-7 w-7 rounded-full border-2 border-white flex items-center justify-center text-[8px] font-bold ${
-                    dark
-                      ? "bg-slate-700 text-slate-300"
-                      : "bg-slate-100 text-slate-600"
-                  }`}
-                >
-                  +26
-                </div>
-              </div>
-              <span className="text-[10px] font-medium text-slate-500">
-                Happy clients
+              I design and build{" "}
+              <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
+                fast, accessible, production-ready
+              </span>{" "}
+              web applications — specializing in{" "}
+              <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
+                React, Next.js &amp; TypeScript
               </span>
-            </motion.div>
+              . Trusted by startups &amp; founders who care about{" "}
+              <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
+                exceptional craft
+              </span>
+              .
+            </motion.p>
 
             {/* Buttons */}
             <motion.div
@@ -317,8 +269,8 @@ export default function Hero() {
                 href="#"
                 className={`inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 border ${
                   dark
-                    ? "border-white/20 text-white hover:border-indigo-400/50 hover:bg-indigo-500/10"
-                    : "border-slate-300 text-slate-800 bg-white/90 hover:border-indigo-400 shadow-sm"
+                    ? "border-white/20 text-white dark:bg-[#2A2A3C] hover:border-indigo-400/50 hover:bg-indigo-500/10"
+                    : "border-slate-300 text-slate-800 bg-white/90  hover:border-indigo-400 shadow-sm"
                 }`}
               >
                 <FaDownload style={{ fontSize: 10 }} /> Download Resume
@@ -330,7 +282,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.75 }}
-              className="mt-6 flex flex-wrap items-center gap-2.5"
+              className="mt-6 flex flex-wrap items-center gap-3"
             >
               {SOCIALS.map((s, i) => (
                 <motion.a
@@ -339,17 +291,29 @@ export default function Hero() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={s.label}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.75 + i * 0.07 }}
-                  whileHover={{ y: -4, scale: 1.14 }}
-                  className={`flex h-10 w-10 items-center justify-center rounded-xl border text-base transition-colors duration-300 ${
+                  initial={{ opacity: 0, y: 12, scale: 0.85 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ delay: 0.78 + i * 0.08, type: "spring", stiffness: 260, damping: 18 }}
+                  whileHover={{ y: -5, scale: 1.18 }}
+                  whileTap={{ scale: 0.92 }}
+                  className={`group relative flex h-10 w-10 items-center justify-center rounded-xl text-[15px] transition-all duration-300 ${
                     dark
-                      ? "bg-[#1E3C8C] border-indigo-500/15 text-white hover:text-[#00D4FF]"
-                      : "bg-[#1E3C8C] border-transparent text-white hover:opacity-80 shadow-md"
+                      ? "bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:border-indigo-400/60 hover:bg-indigo-500/15"
+                      : "bg-white border border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-300 hover:bg-indigo-50 shadow-sm hover:shadow-indigo-100"
                   }`}
+                  style={{
+                    boxShadow: dark
+                      ? undefined
+                      : "0 1px 3px rgba(0,0,0,0.08)",
+                  }}
                 >
-                  {s.icon}
+                  {/* Glow ring on hover */}
+                  <span
+                    className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+                      dark ? "shadow-[0_0_14px_rgba(99,102,241,0.5)]" : "shadow-[0_0_10px_rgba(99,102,241,0.25)]"
+                    }`}
+                  />
+                  <span className="relative z-10">{s.icon}</span>
                 </motion.a>
               ))}
             </motion.div>
