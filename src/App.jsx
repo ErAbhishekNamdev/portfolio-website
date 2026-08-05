@@ -13,7 +13,7 @@ import Footer from './components/Footer';
 function AppContent() {
   const { dark } = useTheme();
   return (
-    <div className={`min-h-screen font-inter overflow-x-hidden transition-colors duration-300 ${dark ? 'bg-[#05050A] text-slate-100 noise-bg' : 'bg-[#F4F6FB] text-slate-900'}`}>
+    <div className={`min-h-screen font-inter overflow-x-hidden transition-colors duration-300 ${dark ? 'bg-[#0A0D14] text-slate-100 noise-bg' : 'bg-[#F4F6FB] text-slate-900'}`}>
       <Navbar />
       <Hero />
       <About />

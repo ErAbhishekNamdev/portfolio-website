@@ -70,7 +70,7 @@ export default function About() {
   const heading = dark ? 'text-white' : 'text-slate-900';
 
   return (
-    <section id="about" className={`py-24 px-4 section-spotlight transition-colors duration-300 ${dark ? 'bg-[#05050A]' : 'bg-[#F4F6FB]'}`}>
+    <section id="about" className={`py-24 px-4 section-spotlight transition-colors duration-300 ${dark ? 'bg-[#0A0D14]' : 'bg-[#F4F6FB]'}`}>
       <div className="max-w-container mx-auto">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="text-center mb-16">
           <span className={`text-xs tracking-[3px] uppercase font-semibold ${dark ? 'text-[#00D4FF]' : 'text-[#0284C7]'}`}>Introduction</span>
