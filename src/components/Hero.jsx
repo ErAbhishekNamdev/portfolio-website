@@ -377,9 +377,10 @@ export default function Hero() {
                     </div>
 
                     {/* Screen */}
-                    <div
-                      className="rounded-t-xl overflow-hidden max-md:rounded-t-lg relative aspect-[16/10] max-md:aspect-[16/12]"
-                    >
+                    <div className="w-full rounded-t-xl overflow-hidden max-md:rounded-lg relative aspect-[16/10]">
+                      <div className="absolute inset-0 w-full h-full">
+                        <LaptopScreen />
+                      </div>
                       <div
                         className="absolute top-0 left-0 right-0 h-1/3 z-10 pointer-events-none"
                         style={{
@@ -387,7 +388,6 @@ export default function Hero() {
                             "linear-gradient(180deg,rgba(255,255,255,0.06) 0%,transparent 100%)",
                         }}
                       />
-                      <LaptopScreen />
                     </div>
                   </div>
 
