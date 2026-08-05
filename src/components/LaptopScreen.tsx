@@ -338,7 +338,7 @@ function SceneShell({ children, className = "" }: { children: ReactNode; classNa
 
 function ProgressRail({ sceneIdx, onSelect, isMobile }: { sceneIdx: number; onSelect: (i: number) => void; isMobile: boolean }) {
   return (
-    <div className={`shrink-0 z-30 flex items-center justify-center gap-0 px-2 md:px-3 py-0.5 md:py-0 border-b border-white/[0.06] bg-[#0d1117]/95 ${isMobile ? "" : "absolute left-0 right-0 top-2"}`}>
+    <div className={`shrink-0 z-30 flex items-center justify-center gap-0 px-2 md:px-3 py-1.5 md:py-0 border-b border-white/[0.06] bg-[#0d1117]/95 ${isMobile ? "" : "absolute left-0 right-0 top-2"}`}>
       <div className="flex items-center w-full max-w-[92%]">
         {SCENES.map((key, i) => (
           <div key={key} className="flex items-center flex-1 last:flex-none">
@@ -349,17 +349,16 @@ function ProgressRail({ sceneIdx, onSelect, isMobile }: { sceneIdx: number; onSe
               className="group flex flex-col items-center gap-0.5 touch-manipulation shrink-0"
             >
               <span
-                className={`rounded-full transition-all duration-300 ${
-                  sceneIdx === i
+                className={`rounded-full transition-all duration-300 ${sceneIdx === i
                     ? "h-2 w-2 max-md:h-2.5 max-md:w-2.5 bg-[#6366f1] shadow-[0_0_8px_rgba(99,102,241,0.8)]"
                     : sceneIdx > i
                       ? "h-1.5 w-1.5 max-md:h-2 max-md:w-2 bg-[#6366f1]/60"
                       : "h-1.5 w-1.5 max-md:h-2 max-md:w-2 bg-white/25 group-hover:bg-white/40"
-                }`}
+                  }`}
               />
               <span className={`font-semibold uppercase tracking-wider ${isMobile ? "text-[5px]" : "text-[7px]"} ${sceneIdx === i ? "text-indigo-300" : "text-white/30"}`}>
-                  {SCENE_LABELS[key]}
-                </span>
+                {SCENE_LABELS[key]}
+              </span>
             </button>
             {i < SCENES.length - 1 && (
               <div className="flex-1 h-px mx-1 max-md:mx-0.5 bg-white/10 relative overflow-hidden">
@@ -595,7 +594,7 @@ function StatsScene({ isMobile, active }: { isMobile: boolean; active: boolean }
   return (
     <SceneShell>
       <div
-        className="h-full w-full flex flex-col items-center justify-center gap-1 md:gap-3 p-1.5 md:p-4 pt-1 md:pt-8 min-h-0 overflow-hidden"
+        className="h-full w-full flex flex-col items-center justify-center gap-1 md:gap-3 p-1.5 md:p-4 pt-2.5 md:pt-8 min-h-0 overflow-hidden"
         style={{ background: "linear-gradient(135deg,#0f0c29,#302b63,#24243e)" }}
       >
         <motion.p
@@ -700,7 +699,7 @@ function SkillsScene({ isMobile, active }: { isMobile: boolean; active: boolean 
   return (
     <SceneShell>
       <div
-        className="h-full w-full flex flex-col items-center justify-center gap-0.5 md:gap-1.5 p-1 md:p-4 pt-1 md:pt-8 min-h-0 overflow-hidden"
+        className="h-full w-full flex flex-col items-center justify-center gap-0.5 md:gap-1.5 p-1 md:p-4 pt-2.5 md:pt-8 min-h-0 overflow-hidden"
         style={{ background: "linear-gradient(135deg,#0f0c29,#302b63,#24243e)" }}
       >
         <motion.p
@@ -818,7 +817,7 @@ function ServicesScene({ isMobile, active }: { isMobile: boolean; active: boolea
   return (
     <SceneShell>
       <div
-        className="h-full w-full flex flex-col items-center justify-center gap-0.5 md:gap-1.5 p-1 md:p-4 pt-1 md:pt-8 min-h-0 overflow-hidden"
+        className="h-full w-full flex flex-col items-center justify-center gap-0.5 md:gap-1.5 p-1 md:p-4 pt-2.5 md:pt-8 min-h-0 overflow-hidden"
         style={{ background: "linear-gradient(135deg,#0f0c29,#302b63,#24243e)" }}
       >
         <motion.p
