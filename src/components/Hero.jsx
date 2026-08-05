@@ -25,10 +25,13 @@ const BADGE_MESSAGES = [
 
 const ROLE_LINES = [
   "Frontend Developer",
-  "React Specialist",
-  "UI/UX Engineer",
-  "Freelance Dev",
+  "React & Next.js Expert",
+  "Website Designer",
+  "Web App Builder",
+  "Freelance Developer",
 ];
+
+const LONGEST_ROLE = ROLE_LINES.reduce((a, b) => (a.length > b.length ? a : b));
 
 function useTyping(lines) {
   const [text, setText] = useState("");
@@ -186,7 +189,7 @@ export default function Hero() {
       {/* ── Two-column grid ── */}
       <div className="relative z-10 flex-1 flex items-center max-md:items-start px-5 md:px-10 lg:px-16 py-8 max-md:pt-[70px] max-md:pb-4">
         <div className="w-full max-w-7xl mx-auto flex flex-col gap-8 max-md:gap-4">
-          <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[50%_50%] lg:grid-cols-[48%_52%] gap-6 lg:gap-10 max-md:gap-4 items-center">
+          <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[50%_50%] lg:grid-cols-[48%_52%] gap-6 lg:gap-10 max-md:gap-8 items-center">
             {/* LEFT */}
             <div className="flex flex-col items-start text-left gap-0 mt-2 max-md:mt-0">
               <div className="h-9 shrink-0 md:hidden" aria-hidden="true" />
@@ -217,32 +220,40 @@ export default function Hero() {
                 <span className={dark ? "text-slate-400" : "text-slate-500"}>
                   I am a
                 </span>
-                <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent min-w-[190px] max-md:min-w-[120px]">
-                  {roleText}
+                <span className="relative inline-grid [grid-template-areas:'stack'] font-bold">
+                  {/* reserves width so layout doesn't jump while typing */}
+                  <span
+                    className="[grid-area:stack] invisible whitespace-nowrap pointer-events-none select-none"
+                    aria-hidden="true"
+                  >
+                    {LONGEST_ROLE}
+                  </span>
+                  <span className="[grid-area:stack] inline-flex items-baseline whitespace-nowrap">
+                    <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent">
+                      {roleText}
+                    </span>
+                    <span
+                      className={`caret-blink ml-0.5 inline-block h-[1.05em] w-[2px] shrink-0 rounded-sm ${dark ? "bg-[#00D4FF]" : "bg-[#7C3AED]"}`}
+                      aria-hidden="true"
+                    />
+                  </span>
                 </span>
-                <span
-                  className={`inline-block h-[1em] w-[2px] rounded-full animate-pulse ${dark ? "bg-[#00D4FF]" : "bg-[#7C3AED]"}`}
-                />
               </motion.div>
               <motion.p
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, delay: 0.42 }}
-                className={`mt-4 text-sm md:text-[15px] leading-[1.8] max-w-[440px] ${dark ? "text-slate-400" : "text-slate-600"}`}
+                className={`mt-4 max-w-[500px] text-left text-[13px] md:text-[15px] leading-[1.75] md:leading-[1.8] tracking-normal text-pretty ${dark ? "text-slate-400" : "text-slate-600"}`}
               >
-                I design and build{" "}
+                I transform ideas into{" "}
                 <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
-                  fast, accessible, production-ready
+                  exceptional digital experiences
                 </span>{" "}
-                web applications — specializing in{" "}
+                that drive business growth — helping startups, businesses, and entrepreneurs build{" "}
                 <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
-                  React, Next.js &amp; TypeScript
-                </span>
-                . Trusted by startups &amp; founders who care about{" "}
-                <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
-                  exceptional craft
-                </span>
-                .
+                  fast, scalable, SEO-friendly
+                </span>{" "}
+                websites and web apps, from landing pages to custom products, with beautiful design and clean code — so you can launch, redesign, or optimize with confidence.
               </motion.p>
 
               {/* Buttons */}
@@ -313,9 +324,9 @@ export default function Hero() {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.85, delay: 0.3 }}
-              className="flex items-center justify-center max-md:mt-2"
+              className="flex items-center justify-center max-md:mt-4 max-md:-mx-5 max-md:w-[calc(100%+2.5rem)]"
             >
-              <div className="relative w-full max-w-[560px] md:max-w-[600px] lg:max-w-[640px] max-md:max-w-[320px] max-md:mx-auto">
+              <div className="relative w-full max-w-[560px] md:max-w-[600px] lg:max-w-[640px] max-md:max-w-[calc(100vw-24px)] max-md:mx-auto">
                 {/* Glow */}
                 <div
                   className="absolute pointer-events-none"
@@ -352,12 +363,11 @@ export default function Hero() {
                 >
                   {/* Lid */}
                   <div
-                    className="relative w-full rounded-[18px] overflow-hidden max-md:rounded-[14px]"
+                    className="relative w-full rounded-[18px] overflow-hidden max-md:rounded-[12px] p-[6px] pb-0 max-md:p-[3px] max-md:pb-0"
                     style={{
                       background: dark
                         ? "linear-gradient(to bottom,#1e2235,#0f1120)"
                         : "linear-gradient(to bottom,#cdd0e0,#b0b5c8)",
-                      padding: "6px 6px 0",
                       boxShadow: dark
                         ? "0 32px 80px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.07)"
                         : "0 32px 80px rgba(0,0,0,0.22),0 0 0 1px rgba(255,255,255,0.6)",
@@ -417,12 +427,12 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* ── Chat widget — fixed bottom-right, unchanged ── */}
+      {/* ── Chat widget — fixed bottom-right ── */}
       <div className="fixed right-4 bottom-4 z-[10000] flex flex-col items-end gap-3 sm:right-6 sm:bottom-6">
         {contactOpen && (
           <div
             className={`w-[300px] rounded-[32px] border p-3 shadow-2xl backdrop-blur-xl ${dark
-              ? "border-white/10 bg-slate-950/95 text-white"
+              ? "border-white/10 bg-[#2A2A3C] text-white shadow-[0_12px_48px_rgba(0,0,0,0.55)]"
               : "border-slate-200 bg-white text-slate-900"
               }`}
           >
@@ -431,28 +441,34 @@ export default function Hero() {
               <button
                 type="button"
                 onClick={() => window.open(callUrl, "_self")}
-                className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-900 transition hover:border-[#00D4FF] hover:bg-[#EFF8FF]"
+                className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition ${dark
+                  ? "border-white/10 bg-white/[0.05] text-white hover:border-[#00D4FF]/50 hover:bg-[#00D4FF]/10"
+                  : "border-slate-200 bg-white text-slate-900 hover:border-[#00D4FF] hover:bg-[#EFF8FF]"
+                  }`}
               >
                 <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#00D4FF]/15 text-[#00D4FF]">
                   <FaPhoneAlt />
                 </span>
                 <div>
                   <div className="text-sm font-semibold">Call Us</div>
-                  <div className="text-xs text-slate-500">7024073871</div>
+                  <div className={`text-xs ${dark ? "text-slate-400" : "text-slate-500"}`}>7024073871</div>
                 </div>
               </button>
               {/* WhatsApp */}
               <button
                 type="button"
                 onClick={() => window.open(whatsappUrl, "_blank")}
-                className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-900 transition hover:border-[#25D366] hover:bg-[#ECFFF2]"
+                className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition ${dark
+                  ? "border-white/10 bg-white/[0.05] text-white hover:border-[#25D366]/50 hover:bg-[#25D366]/10"
+                  : "border-slate-200 bg-white text-slate-900 hover:border-[#25D366] hover:bg-[#ECFFF2]"
+                  }`}
               >
                 <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#25D366]/15 text-[#25D366]">
                   <FaWhatsapp />
                 </span>
                 <div>
                   <div className="text-sm font-semibold">WhatsApp</div>
-                  <div className="text-xs text-slate-500">7024073871</div>
+                  <div className={`text-xs ${dark ? "text-slate-400" : "text-slate-500"}`}>7024073871</div>
                 </div>
               </button>
               {/* Callback */}
@@ -462,7 +478,10 @@ export default function Hero() {
                   setCallbackOpen(true);
                   setContactOpen(false);
                 }}
-                className="flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-900 transition hover:border-[#F6B93B] hover:bg-[#FFF4E2]"
+                className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition ${dark
+                  ? "border-white/10 bg-white/[0.05] text-white hover:border-[#F6B93B]/50 hover:bg-[#F6B93B]/10"
+                  : "border-slate-200 bg-white text-slate-900 hover:border-[#F6B93B] hover:bg-[#FFF4E2]"
+                  }`}
               >
                 <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#F6B93B]/15 text-[#F6B93B]">
                   <FaCommentDots />
@@ -471,7 +490,7 @@ export default function Hero() {
                   <div className="text-sm font-semibold">
                     Request a Callback
                   </div>
-                  <div className="text-xs text-slate-500">
+                  <div className={`text-xs ${dark ? "text-slate-400" : "text-slate-500"}`}>
                     Quick response guaranteed
                   </div>
                 </div>
@@ -491,7 +510,9 @@ export default function Hero() {
             className="relative flex h-20 w-20 items-center justify-center rounded-full text-3xl transition-all duration-300 hover:scale-110 active:scale-95 text-white"
             style={{
               background: "linear-gradient(135deg,#00D4FF,#7C3AED,#C026D3)",
-              boxShadow: "0 8px 35px rgba(124,58,237,0.55)",
+              boxShadow: dark
+                ? "0 8px 35px rgba(124,58,237,0.65)"
+                : "0 8px 35px rgba(124,58,237,0.55)",
             }}
           >
             <FaRobot style={{ fontSize: 34 }} />
@@ -499,7 +520,7 @@ export default function Hero() {
           {!contactOpen && (
             <span className="absolute bottom-1 right-1 flex h-5 w-5">
               <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
-              <span className="relative inline-flex h-5 w-5 rounded-full bg-emerald-500 border-2 border-white" />
+              <span className={`relative inline-flex h-5 w-5 rounded-full bg-emerald-500 border-2 ${dark ? "border-[#2A2A3C]" : "border-white"}`} />
             </span>
           )}
         </div>
@@ -508,23 +529,26 @@ export default function Hero() {
       {callbackOpen && (
         <div className="fixed right-4 bottom-24 z-[10000] sm:right-6 sm:bottom-24">
           <div
-            className={`w-[300px] rounded-[28px] border p-3 shadow-xl ${dark
-              ? "border-white/10 bg-slate-950/95 text-white"
+            className={`w-[300px] rounded-[28px] border p-3 shadow-xl backdrop-blur-xl ${dark
+              ? "border-white/10 bg-[#2A2A3C] text-white shadow-[0_12px_48px_rgba(0,0,0,0.55)]"
               : "border-slate-200 bg-white text-slate-900"
               }`}
           >
-            <div className="rounded-[10px] bg-[#F7C948]/10 p-3.5">
+            <div className={`rounded-[10px] p-3.5 ${dark ? "border border-[#F7C948]/20 bg-[#F7C948]/10" : "bg-[#F7C948]/10"}`}>
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <p className="text-sm font-semibold">Request a Callback</p>
-                  <p className="mt-1 text-[11px] text-slate-600">
+                  <p className={`mt-1 text-[11px] ${dark ? "text-slate-400" : "text-slate-600"}`}>
                     Enter details and we'll call you shortly.
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setCallbackOpen(false)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
+                  className={`flex h-9 w-9 items-center justify-center rounded-full border transition ${dark
+                    ? "border-white/10 bg-white/[0.06] text-slate-300 hover:bg-white/10"
+                    : "border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
+                    }`}
                 >
                   <FaTimes />
                 </button>
@@ -542,27 +566,39 @@ export default function Hero() {
                 name="name"
                 required
                 placeholder="Name"
-                className="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-sm outline-none focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20"
+                className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
+                  ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                  : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                  }`}
               />
               <input
                 name="phone"
                 type="tel"
                 required
                 placeholder="Phone No"
-                className="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-sm outline-none focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20"
+                className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
+                  ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                  : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                  }`}
               />
               <input
                 name="email"
                 type="email"
                 required
                 placeholder="Email"
-                className="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-sm outline-none focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20"
+                className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
+                  ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                  : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                  }`}
               />
               <textarea
                 name="message"
                 rows={2}
                 placeholder="Your Message (optional)"
-                className="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-sm outline-none focus:border-[#F7C948] focus:ring-2 focus:ring-[#F7C948]/20"
+                className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
+                  ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                  : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                  }`}
               />
               <button
                 type="submit"
