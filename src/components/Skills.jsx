@@ -203,7 +203,7 @@ export default function Skills() {
   const { dark } = useTheme();
 
   return (
-    <section id="skills" className={`py-24 px-4 section-spotlight transition-colors duration-300 ${dark ? 'bg-[#05050A]' : 'bg-[#F4F6FB]'}`}>
+    <section id="skills" className={`py-24 px-4 section-spotlight transition-colors duration-300 ${dark ? 'bg-[#0E131F]' : 'bg-[#F4F6FB]'}`}>
       <div className="max-w-container mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
