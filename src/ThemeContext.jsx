@@ -13,6 +13,7 @@ export function ThemeProvider({ children }) {
     }
     return true;
   });
+  const [introPopupOpen, setIntroPopupOpen] = useState(false);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -30,7 +31,7 @@ export function ThemeProvider({ children }) {
   const toggle = () => setDark(prev => !prev);
 
   return (
-    <ThemeContext.Provider value={{ dark, toggle, setDark }}>
+    <ThemeContext.Provider value={{ dark, toggle, setDark, introPopupOpen, setIntroPopupOpen }}>
       {children}
     </ThemeContext.Provider>
   );

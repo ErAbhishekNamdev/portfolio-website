@@ -91,24 +91,23 @@ const AVATAR_INITIALS = ["AN", "RS", "KP", "MV"];
 
 function StatusBadge({ dark, badgeText }) {
   return (
-    <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[9999] flex justify-center pointer-events-none">
+    <div className="fixed top-[72px] md:top-20 left-1/2 -translate-x-1/2 z-[9999] flex justify-center pointer-events-none max-md:px-4 max-md:w-full md:w-auto">
       <motion.div
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55 }}
-        className={`pointer-events-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full text-[13px] font-semibold tracking-wide border backdrop-blur-md transition-all duration-150 ${
-          dark
-            ? "bg-[#111118]/90 border-emerald-500/35 text-emerald-400 shadow-[0_0_18px_rgba(16,185,129,0.18)]"
-            : "bg-white/95 border-emerald-500/45 text-emerald-700 shadow-sm"
-        }`}
+        className={`pointer-events-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full text-[13px] font-semibold tracking-wide border backdrop-blur-md transition-all duration-150 max-md:max-w-[calc(100vw-2rem)] max-md:px-3 max-md:py-1.5 max-md:text-[11px] ${dark
+          ? "bg-[#111118]/90 border-emerald-500/35 text-emerald-400 shadow-[0_0_18px_rgba(16,185,129,0.18)]"
+          : "bg-white/95 border-emerald-500/45 text-emerald-700 shadow-sm"
+          }`}
       >
         <span className="relative flex h-2 w-2 shrink-0">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
         </span>
-        <span className="flex items-center gap-0.5 whitespace-nowrap">
+        <span className="flex items-center gap-0.5 whitespace-nowrap max-md:truncate">
           {badgeText}
-          <span className="animate-pulse">|</span>
+          <span className="animate-pulse max-md:shrink-0">|</span>
         </span>
       </motion.div>
     </div>
@@ -116,7 +115,7 @@ function StatusBadge({ dark, badgeText }) {
 }
 
 export default function Hero() {
-  const { dark } = useTheme();
+  const { dark, introPopupOpen } = useTheme();
   const badgeText = useTyping(BADGE_MESSAGES);
   const roleText = useTyping(ROLE_LINES);
   const [contactOpen, setContactOpen] = useState(false);
@@ -128,11 +127,10 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className={`relative min-h-screen flex flex-col overflow-hidden transition-colors duration-300 ${
-        dark
-          ? "bg-[#02040C]"
-          : "bg-[#F4F6FB]"
-      }`}
+      className={`relative min-h-screen max-md:min-h-0 flex flex-col overflow-hidden transition-colors duration-300 ${dark
+        ? "bg-[#0A0D14]"
+        : "bg-[#F4F6FB]"
+        }`}
     >
       {/* Grid */}
       <div
@@ -183,261 +181,250 @@ export default function Hero() {
         />
       </div>
 
+      {!introPopupOpen && <StatusBadge dark={dark} badgeText={badgeText} />}
+
       {/* ── Two-column grid ── */}
-      <div className="relative z-10 flex-1 flex items-center px-5 md:px-10 lg:px-16 py-8">
-       <div className="w-full max-w-7xl mx-auto flex flex-col gap-8">
-        <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[50%_50%] lg:grid-cols-[48%_52%] gap-6 lg:gap-10 items-center">
-          {/* LEFT */}
-          <div className="flex flex-col items-start text-left gap-0 mt-2">
-            <StatusBadge dark={dark} badgeText={badgeText} />
-            <motion.h1
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.75, delay: 0.22 }}
-              className={`font-extrabold tracking-tight leading-[1.08] ${dark ? "text-white" : "text-slate-900"}`}
-              style={{
-                fontFamily: "'Syne',sans-serif",
-                fontSize: "clamp(30px,3.6vw,35px)",
-              }}
-            >
-              Abhishek{" "}
-              <span
-                className="bg-gradient-to-r from-[#6366F1] via-[#7C3AED] to-[#C026D3] bg-clip-text text-transparent"
-                style={{ WebkitBackgroundClip: "text" }}
-              >
-                Namdev
-              </span>
-            </motion.h1>
-
-
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.32 }}
-              className="mt-3 flex items-center gap-1.5 text-base md:text-lg font-bold"
-              style={{ fontFamily: "'Syne',sans-serif" }}
-            >
-              <span className={dark ? "text-slate-400" : "text-slate-500"}>
-                I am a
-              </span>
-              <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent min-w-[190px]">
-                {roleText}
-              </span>
-              <span
-                className={`inline-block h-[1em] w-[2px] rounded-full animate-pulse ${dark ? "bg-[#00D4FF]" : "bg-[#7C3AED]"}`}
-              />
-            </motion.div>
-            <motion.p
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.42 }}
-              className={`mt-4 text-sm md:text-[15px] leading-[1.8] max-w-[440px] ${dark ? "text-slate-400" : "text-slate-600"}`}
-            >
-              I design and build{" "}
-              <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
-                fast, accessible, production-ready
-              </span>{" "}
-              web applications — specializing in{" "}
-              <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
-                React, Next.js &amp; TypeScript
-              </span>
-              . Trusted by startups &amp; founders who care about{" "}
-              <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
-                exceptional craft
-              </span>
-              .
-            </motion.p>
-
-            {/* Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.62 }}
-              className="mt-7 flex flex-wrap items-center gap-3"
-            >
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm text-white transition-all duration-300 hover:scale-105"
+      <div className="relative z-10 flex-1 flex items-center max-md:items-start px-5 md:px-10 lg:px-16 py-8 max-md:pt-[70px] max-md:pb-4">
+        <div className="w-full max-w-7xl mx-auto flex flex-col gap-8 max-md:gap-4">
+          <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[50%_50%] lg:grid-cols-[48%_52%] gap-6 lg:gap-10 max-md:gap-4 items-center">
+            {/* LEFT */}
+            <div className="flex flex-col items-start text-left gap-0 mt-2 max-md:mt-0">
+              <div className="h-9 shrink-0 md:hidden" aria-hidden="true" />
+              <motion.h1
+                initial={{ opacity: 0, x: -40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.75, delay: 0.22 }}
+                className={`font-extrabold tracking-tight leading-[1.08] text-[22px] md:text-[clamp(30px,3.6vw,35px)] ${dark ? "text-white" : "text-slate-900"}`}
                 style={{
-                  background: "linear-gradient(to right,#6366F1,#7C3AED)",
-                  boxShadow: "0 0 28px rgba(99,102,241,0.45)",
+                  fontFamily: "'Syne',sans-serif",
                 }}
               >
-                Get In Touch <FaArrowRight style={{ fontSize: 10 }} />
-              </a>
-              <a
-                href="#"
-                className={`inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 border ${
-                  dark
-                    ? "border-white/20 text-white dark:bg-[#2A2A3C] hover:border-indigo-400/50 hover:bg-indigo-500/10"
-                    : "border-slate-300 text-slate-800 bg-white/90  hover:border-indigo-400 shadow-sm"
-                }`}
-              >
-                <FaDownload style={{ fontSize: 10 }} /> Download Resume
-              </a>
-            </motion.div>
-
-            {/* Socials */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.75 }}
-              className="mt-6 flex flex-wrap items-center gap-3"
-            >
-              {SOCIALS.map((s, i) => (
-                <motion.a
-                  key={i}
-                  href={s.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={s.label}
-                  initial={{ opacity: 0, y: 12, scale: 0.85 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ delay: 0.78 + i * 0.08, type: "spring", stiffness: 260, damping: 18 }}
-                  whileHover={{ y: -5, scale: 1.18 }}
-                  whileTap={{ scale: 0.92 }}
-                  className={`group relative flex h-10 w-10 items-center justify-center rounded-xl text-[15px] transition-all duration-300 ${
-                    dark
-                      ? "bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:border-indigo-400/60 hover:bg-indigo-500/15"
-                      : "bg-white border border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-300 hover:bg-indigo-50 shadow-sm hover:shadow-indigo-100"
-                  }`}
-                  style={{
-                    boxShadow: dark
-                      ? undefined
-                      : "0 1px 3px rgba(0,0,0,0.08)",
-                  }}
+                Abhishek{" "}
+                <span
+                  className="bg-gradient-to-r from-[#6366F1] via-[#7C3AED] to-[#C026D3] bg-clip-text text-transparent"
+                  style={{ WebkitBackgroundClip: "text" }}
                 >
-                  {/* Glow ring on hover */}
-                  <span
-                    className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                      dark ? "shadow-[0_0_14px_rgba(99,102,241,0.5)]" : "shadow-[0_0_10px_rgba(99,102,241,0.25)]"
-                    }`}
-                  />
-                  <span className="relative z-10">{s.icon}</span>
-                </motion.a>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* RIGHT – Laptop */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.85, delay: 0.3 }}
-            className="flex items-center justify-center"
-          >
-            <div className="relative w-full max-w-[560px] md:max-w-[600px] lg:max-w-[640px]">
-              {/* Glow */}
-              <div
-                className="absolute pointer-events-none"
-                style={{
-                  inset: "-20px",
-                  background:
-                    "radial-gradient(ellipse at 50% 55%,rgba(99,102,241,0.38) 0%,rgba(124,58,237,0.18) 40%,transparent 70%)",
-                  filter: "blur(45px)",
-                }}
-              />
-              <div
-                className="absolute pointer-events-none"
-                style={{
-                  bottom: -30,
-                  left: "10%",
-                  right: "10%",
-                  height: 60,
-                  background: "rgba(192,38,211,0.35)",
-                  filter: "blur(30px)",
-                  borderRadius: "50%",
-                }}
-              />
-
-              {/* Floating laptop */}
+                  Namdev
+                </span>
+              </motion.h1>
               <motion.div
-                animate={{ y: [0, -14, 0] }}
-                transition={{
-                  duration: 4.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                whileHover={{ rotateY: 5, rotateX: -2, scale: 1.02 }}
-                style={{ transformStyle: "preserve-3d", perspective: 1200 }}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7, delay: 0.32 }}
+                className="mt-3 flex items-center gap-1.5 text-base md:text-lg font-bold max-md:flex-wrap max-md:text-sm"
+                style={{ fontFamily: "'Syne',sans-serif" }}
               >
-                {/* Lid */}
-                <div
-                  className="relative w-full rounded-[18px] overflow-hidden"
-                  style={{
-                    background: dark
-                      ? "linear-gradient(to bottom,#1e2235,#0f1120)"
-                      : "linear-gradient(to bottom,#cdd0e0,#b0b5c8)",
-                    padding: "6px 6px 0",
-                    boxShadow: dark
-                      ? "0 32px 80px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.07)"
-                      : "0 32px 80px rgba(0,0,0,0.22),0 0 0 1px rgba(255,255,255,0.6)",
-                  }}
-                >
-                  {/* Traffic lights + camera */}
-                  <div className="flex items-center justify-between px-3 py-1.5">
-                    <div className="flex gap-1.5">
-                      <div className="h-2 w-2 rounded-full bg-[#ff5f57]" />
-                      <div className="h-2 w-2 rounded-full bg-[#febc2e]" />
-                      <div className="h-2 w-2 rounded-full bg-[#28c840]" />
-                    </div>
-                    <div
-                      className={`h-1.5 w-1.5 rounded-full ${dark ? "bg-slate-600" : "bg-slate-400"}`}
-                    />
-                    <div className="w-10" />
-                  </div>
-
-                  {/* Screen */}
-                  <div
-                    className="rounded-t-xl overflow-hidden"
-                    style={{ aspectRatio: "16/10" }}
-                  >
-                    <div
-                      className="absolute top-0 left-0 right-0 h-1/3 z-10 pointer-events-none"
-                      style={{
-                        background:
-                          "linear-gradient(180deg,rgba(255,255,255,0.06) 0%,transparent 100%)",
-                      }}
-                    />
-                    <LaptopScreen />
-                  </div>
-                </div>
-
-                {/* Base */}
-                <div
-                  className="mx-auto h-[10px]"
-                  style={{
-                    width: "96%",
-                    background: dark
-                      ? "linear-gradient(to bottom,#2a2d42,#1a1d2e)"
-                      : "linear-gradient(to bottom,#b8bcc8,#9a9eb2)",
-                  }}
-                />
-                <div
-                  className="mx-auto h-[7px] rounded-b-2xl"
-                  style={{
-                    width: "82%",
-                    background: dark
-                      ? "linear-gradient(to bottom,#1a1d2e,#0f1120)"
-                      : "linear-gradient(to bottom,#9a9eb2,#7e8295)",
-                  }}
+                <span className={dark ? "text-slate-400" : "text-slate-500"}>
+                  I am a
+                </span>
+                <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent min-w-[190px] max-md:min-w-[120px]">
+                  {roleText}
+                </span>
+                <span
+                  className={`inline-block h-[1em] w-[2px] rounded-full animate-pulse ${dark ? "bg-[#00D4FF]" : "bg-[#7C3AED]"}`}
                 />
               </motion.div>
+              <motion.p
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7, delay: 0.42 }}
+                className={`mt-4 text-sm md:text-[15px] leading-[1.8] max-w-[440px] ${dark ? "text-slate-400" : "text-slate-600"}`}
+              >
+                I design and build{" "}
+                <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
+                  fast, accessible, production-ready
+                </span>{" "}
+                web applications — specializing in{" "}
+                <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
+                  React, Next.js &amp; TypeScript
+                </span>
+                . Trusted by startups &amp; founders who care about{" "}
+                <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
+                  exceptional craft
+                </span>
+                .
+              </motion.p>
+
+              {/* Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.62 }}
+                className="mt-7 flex flex-wrap items-center gap-3 max-md:w-full max-md:flex-row max-md:flex-nowrap max-md:gap-2"
+              >
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm text-white transition-all duration-300 hover:scale-105 max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3 max-md:py-2.5 max-md:text-xs"
+                  style={{
+                    background: "linear-gradient(to right,#6366F1,#7C3AED)",
+                    boxShadow: "0 0 28px rgba(99,102,241,0.45)",
+                  }}
+                >
+                  Get In Touch <FaArrowRight style={{ fontSize: 10 }} />
+                </a>
+                <a
+                  href="#"
+                  className={`inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 border max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3 max-md:py-2.5 max-md:text-xs max-md:whitespace-nowrap ${dark
+                    ? "border-white/20 text-white dark:bg-[#2A2A3C] hover:border-indigo-400/50 hover:bg-indigo-500/10"
+                    : "border-slate-300 text-slate-800 bg-white/90  hover:border-indigo-400 shadow-sm"
+                    }`}
+                >
+                  <FaDownload style={{ fontSize: 10 }} /> Download Resume
+                </a>
+              </motion.div>
+
+              {/* Socials */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.75 }}
+                className="mt-6 flex flex-wrap items-center gap-3 max-md:w-full max-md:justify-center"
+              >
+                {SOCIALS.map((s, i) => (
+                  <motion.a
+                    key={i}
+                    href={s.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={s.label}
+                    initial={{ opacity: 0, y: 12, scale: 0.85 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ delay: 0.78 + i * 0.08, type: "spring", stiffness: 260, damping: 18 }}
+                    whileHover={{ y: -5, scale: 1.18 }}
+                    whileTap={{ scale: 0.92 }}
+                    className="group relative flex h-10 w-10 items-center justify-center rounded-xl text-[15px] text-white border border-[#1E3C8C]/50 transition-all duration-300 hover:border-[#2a4fa8] hover:shadow-[0_0_16px_rgba(30,60,140,0.45)]"
+                    style={{
+                      background: "#1E3C8C",
+                      boxShadow: "0 2px 8px rgba(30,60,140,0.3)",
+                    }}
+                  >
+                    {/* Glow ring on hover */}
+                    <span
+                      className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_14px_rgba(30,60,140,0.5)]"
+                    />
+                    <span className="relative z-10">{s.icon}</span>
+                  </motion.a>
+                ))}
+              </motion.div>
             </div>
-          </motion.div>
+
+            {/* RIGHT – Laptop */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.85, delay: 0.3 }}
+              className="flex items-center justify-center max-md:mt-2"
+            >
+              <div className="relative w-full max-w-[560px] md:max-w-[600px] lg:max-w-[640px] max-md:max-w-[320px] max-md:mx-auto">
+                {/* Glow */}
+                <div
+                  className="absolute pointer-events-none"
+                  style={{
+                    inset: "-20px",
+                    background:
+                      "radial-gradient(ellipse at 50% 55%,rgba(99,102,241,0.38) 0%,rgba(124,58,237,0.18) 40%,transparent 70%)",
+                    filter: "blur(45px)",
+                  }}
+                />
+                <div
+                  className="absolute pointer-events-none"
+                  style={{
+                    bottom: -30,
+                    left: "10%",
+                    right: "10%",
+                    height: 60,
+                    background: "rgba(192,38,211,0.35)",
+                    filter: "blur(30px)",
+                    borderRadius: "50%",
+                  }}
+                />
+
+                {/* Floating laptop */}
+                <motion.div
+                  animate={{ y: [0, -14, 0] }}
+                  transition={{
+                    duration: 4.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  whileHover={{ rotateY: 5, rotateX: -2, scale: 1.02 }}
+                  style={{ transformStyle: "preserve-3d", perspective: 1200 }}
+                >
+                  {/* Lid */}
+                  <div
+                    className="relative w-full rounded-[18px] overflow-hidden max-md:rounded-[14px]"
+                    style={{
+                      background: dark
+                        ? "linear-gradient(to bottom,#1e2235,#0f1120)"
+                        : "linear-gradient(to bottom,#cdd0e0,#b0b5c8)",
+                      padding: "6px 6px 0",
+                      boxShadow: dark
+                        ? "0 32px 80px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.07)"
+                        : "0 32px 80px rgba(0,0,0,0.22),0 0 0 1px rgba(255,255,255,0.6)",
+                    }}
+                  >
+                    {/* Traffic lights + camera */}
+                    <div className="flex items-center justify-between px-3 py-1.5">
+                      <div className="flex gap-1.5">
+                        <div className="h-2 w-2 rounded-full bg-[#ff5f57]" />
+                        <div className="h-2 w-2 rounded-full bg-[#febc2e]" />
+                        <div className="h-2 w-2 rounded-full bg-[#28c840]" />
+                      </div>
+                      <div
+                        className={`h-1.5 w-1.5 rounded-full ${dark ? "bg-slate-600" : "bg-slate-400"}`}
+                      />
+                      <div className="w-10" />
+                    </div>
+
+                    {/* Screen */}
+                    <div
+                      className="rounded-t-xl overflow-hidden max-md:rounded-t-lg relative aspect-[16/10] max-md:aspect-[16/12]"
+                    >
+                      <div
+                        className="absolute top-0 left-0 right-0 h-1/3 z-10 pointer-events-none"
+                        style={{
+                          background:
+                            "linear-gradient(180deg,rgba(255,255,255,0.06) 0%,transparent 100%)",
+                        }}
+                      />
+                      <LaptopScreen />
+                    </div>
+                  </div>
+
+                  {/* Base */}
+                  <div
+                    className="mx-auto h-[10px]"
+                    style={{
+                      width: "96%",
+                      background: dark
+                        ? "linear-gradient(to bottom,#2a2d42,#1a1d2e)"
+                        : "linear-gradient(to bottom,#b8bcc8,#9a9eb2)",
+                    }}
+                  />
+                  <div
+                    className="mx-auto h-[7px] rounded-b-2xl"
+                    style={{
+                      width: "82%",
+                      background: dark
+                        ? "linear-gradient(to bottom,#1a1d2e,#0f1120)"
+                        : "linear-gradient(to bottom,#9a9eb2,#7e8295)",
+                    }}
+                  />
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
         </div>
-       </div>
       </div>
 
       {/* ── Chat widget — fixed bottom-right, unchanged ── */}
       <div className="fixed right-4 bottom-4 z-[10000] flex flex-col items-end gap-3 sm:right-6 sm:bottom-6">
         {contactOpen && (
           <div
-            className={`w-[300px] rounded-[32px] border p-3 shadow-2xl backdrop-blur-xl ${
-              dark
-                ? "border-white/10 bg-slate-950/95 text-white"
-                : "border-slate-200 bg-white text-slate-900"
-            }`}
+            className={`w-[300px] rounded-[32px] border p-3 shadow-2xl backdrop-blur-xl ${dark
+              ? "border-white/10 bg-slate-950/95 text-white"
+              : "border-slate-200 bg-white text-slate-900"
+              }`}
           >
             <div className="flex flex-col gap-3">
               {/* Call */}
@@ -521,11 +508,10 @@ export default function Hero() {
       {callbackOpen && (
         <div className="fixed right-4 bottom-24 z-[10000] sm:right-6 sm:bottom-24">
           <div
-            className={`w-[300px] rounded-[28px] border p-3 shadow-xl ${
-              dark
-                ? "border-white/10 bg-slate-950/95 text-white"
-                : "border-slate-200 bg-white text-slate-900"
-            }`}
+            className={`w-[300px] rounded-[28px] border p-3 shadow-xl ${dark
+              ? "border-white/10 bg-slate-950/95 text-white"
+              : "border-slate-200 bg-white text-slate-900"
+              }`}
           >
             <div className="rounded-[10px] bg-[#F7C948]/10 p-3.5">
               <div className="flex items-start justify-between gap-2">

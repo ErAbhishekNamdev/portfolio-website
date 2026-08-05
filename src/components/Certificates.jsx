@@ -147,7 +147,7 @@ export default function Certificates() {
   const subtext = dark ? 'text-slate-400' : 'text-slate-600';
 
   return (
-    <section id="certificates" className={`py-24 px-4 section-spotlight transition-colors duration-300 ${dark ? 'bg-[#05050A]' : 'bg-[#F4F6FB]'}`}>
+    <section id="certificates" className={`py-24 px-4 section-spotlight transition-colors duration-300 ${dark ? 'bg-[#0A0D14]' : 'bg-[#F4F6FB]'}`}>
       <div className="max-w-container mx-auto">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="text-center mb-14">
           <span className={`text-xs tracking-[3px] uppercase font-semibold ${dark ? 'text-[#00D4FF]' : 'text-[#0284C7]'}`}>Credentials</span>

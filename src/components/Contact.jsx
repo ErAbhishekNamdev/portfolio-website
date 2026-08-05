@@ -11,11 +11,11 @@ export default function Contact() {
   const subtext = dark ? 'text-slate-400' : 'text-slate-600';
   const cardBg = dark ? 'glass-card border-white/10' : 'bg-white border-slate-200/90 shadow-md shadow-slate-200/40';
   const inputBg = dark
-    ? 'bg-[#111118]/80 border-white/15 text-slate-100 placeholder-slate-500 focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF]'
+    ? 'bg-[#121824]/90 border-white/15 text-slate-100 placeholder-slate-500 focus:border-[#00D4FF] focus:ring-1 focus:ring-[#00D4FF]'
     : 'bg-slate-100/90 border-slate-300 text-slate-900 placeholder-slate-500 focus:border-[#0284C7] focus:ring-1 focus:ring-[#0284C7]';
 
   return (
-    <section id="contact" className={`py-24 px-4 relative overflow-hidden transition-colors duration-300 ${dark ? 'bg-[#05050A]' : 'bg-[#F4F6FB]'}`}>
+    <section id="contact" className={`py-24 px-4 relative overflow-hidden transition-colors duration-300 ${dark ? 'bg-[#0A0D14]' : 'bg-[#F4F6FB]'}`}>
       {/* Background Ambient Glows */}
       <div className={`absolute top-0 right-0 w-96 h-96 rounded-full blur-[130px] pointer-events-none ${
         dark ? 'bg-[#00D4FF]/[0.08]' : 'bg-[#0284C7]/10'
