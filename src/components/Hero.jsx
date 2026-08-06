@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   FaGithub,
@@ -34,6 +34,174 @@ const ROLE_LINES = [
 ];
 
 const LONGEST_ROLE = ROLE_LINES.reduce((a, b) => (a.length > b.length ? a : b));
+
+const WELCOME_LINE1 = "Welcome to my Creative Space";
+const WELCOME_LINE2 = "Where ideas come alive through design & code.";
+const WELCOME_SPEECH =
+  "Welcome to my Creative Space. Where ideas come alive through design and code.";
+
+let lastWelcomeSpeechAt = 0;
+
+function speakWelcomeText() {
+  const synth = window.speechSynthesis;
+  if (!synth) return;
+
+  const now = Date.now();
+  if (now - lastWelcomeSpeechAt < 400) return;
+  lastWelcomeSpeechAt = now;
+
+  const runSpeak = () => {
+    const voices = synth.getVoices();
+    if (!voices.length) return false;
+
+    if (synth.speaking || synth.pending) synth.cancel();
+
+    window.setTimeout(() => {
+      const utter = new SpeechSynthesisUtterance(WELCOME_SPEECH);
+      utter.rate = 0.78;
+      utter.pitch = 1.02;
+      utter.volume = 1;
+      utter.lang = "en-US";
+
+      const voice =
+        voices.find((v) => v.lang.startsWith("en") && /google|natural|samantha|zira|david|neural/i.test(v.name)) ||
+        voices.find((v) => v.lang.startsWith("en"));
+      if (voice) utter.voice = voice;
+
+      let resumeTimer;
+      utter.onstart = () => {
+        synth.resume();
+        resumeTimer = window.setInterval(() => {
+          if (!synth.speaking) {
+            clearInterval(resumeTimer);
+            return;
+          }
+          synth.resume();
+        }, 140);
+      };
+      const cleanup = () => {
+        if (resumeTimer) clearInterval(resumeTimer);
+      };
+      utter.onend = cleanup;
+      utter.onerror = cleanup;
+
+      synth.speak(utter);
+      synth.resume();
+    }, 80);
+
+    return true;
+  };
+
+  if (runSpeak()) return;
+
+  let attempts = 0;
+  const poll = window.setInterval(() => {
+    attempts += 1;
+    if (runSpeak() || attempts >= 30) clearInterval(poll);
+  }, 100);
+
+  const onVoices = () => {
+    if (runSpeak()) {
+      clearInterval(poll);
+      synth.removeEventListener("voiceschanged", onVoices);
+    }
+  };
+  synth.addEventListener("voiceschanged", onVoices);
+}
+
+function useWelcomeIntro() {
+  const [line1Count, setLine1Count] = useState(0);
+  const [line2Count, setLine2Count] = useState(0);
+  const [phase, setPhase] = useState("line1");
+  const speechStartedRef = useRef(false);
+
+  useEffect(() => {
+    speechStartedRef.current = false;
+    window.speechSynthesis?.getVoices();
+
+    const unlockSpeech = () => {
+      if (!window.speechSynthesis?.speaking) {
+        lastWelcomeSpeechAt = 0;
+        speakWelcomeText();
+      }
+    };
+
+    document.addEventListener("click", unlockSpeech, { once: true, passive: true });
+    document.addEventListener("touchstart", unlockSpeech, { once: true, passive: true });
+    document.addEventListener("keydown", unlockSpeech, { once: true });
+
+    return () => {
+      document.removeEventListener("click", unlockSpeech);
+      document.removeEventListener("touchstart", unlockSpeech);
+      document.removeEventListener("keydown", unlockSpeech);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (phase !== "line1" && phase !== "line2") return undefined;
+
+    let id;
+    if (phase === "line1") {
+      if (line1Count < WELCOME_LINE1.length) {
+        id = window.setTimeout(() => {
+          if (line1Count === 0 && !speechStartedRef.current) {
+            speechStartedRef.current = true;
+            speakWelcomeText();
+          }
+          setLine1Count((c) => c + 1);
+        }, line1Count === 0 ? 80 : 52);
+      } else {
+        id = window.setTimeout(() => setPhase("line2"), 320);
+      }
+    } else if (line2Count < WELCOME_LINE2.length) {
+      id = window.setTimeout(() => setLine2Count((c) => c + 1), 36);
+    } else {
+      setPhase("done");
+    }
+    return () => clearTimeout(id);
+  }, [phase, line1Count, line2Count]);
+
+  const isComplete = phase === "done";
+  const isTyping = phase === "line1" || phase === "line2";
+
+  return { line1Count, line2Count, isComplete, isTyping };
+}
+
+function WelcomeLine1({ count, dark, showCaret }) {
+  const welcomePart = WELCOME_LINE1.slice(0, Math.min(count, 7));
+  const middlePart = count > 7 ? WELCOME_LINE1.slice(7, Math.min(count, 13)) : "";
+  const creativePart = count > 13 ? WELCOME_LINE1.slice(13, count) : "";
+
+  return (
+    <>
+      {welcomePart ? (
+        <span
+          className="bg-gradient-to-r from-[#6366F1] via-[#7C3AED] to-[#C026D3] bg-clip-text text-transparent"
+          style={{ WebkitBackgroundClip: "text" }}
+        >
+          {welcomePart}
+        </span>
+      ) : null}
+      {middlePart ? (
+        <span className={dark ? "text-white" : "text-slate-900"}>{middlePart}</span>
+      ) : null}
+      {creativePart ? (
+        <span
+          className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent"
+          style={{ WebkitBackgroundClip: "text" }}
+        >
+          {creativePart}
+        </span>
+      ) : null}
+      {showCaret ? (
+        <span
+          className={`caret-blink ml-0.5 inline-block h-[1em] w-[2px] shrink-0 rounded-sm align-[-0.05em] ${dark ? "bg-[#7C3AED]" : "bg-[#6366F1]"}`}
+          aria-hidden="true"
+        />
+      ) : null}
+    </>
+  );
+}
 
 function useTyping(lines) {
   const [text, setText] = useState("");
@@ -146,6 +314,8 @@ export default function Hero() {
   const { dark, introPopupOpen } = useTheme();
   const badgeText = useTyping(BADGE_MESSAGES);
   const roleText = useTyping(ROLE_LINES);
+  const { line1Count, line2Count, isComplete: welcomeComplete, isTyping: welcomeTyping } =
+    useWelcomeIntro();
   const [contactOpen, setContactOpen] = useState(false);
   const [callbackOpen, setCallbackOpen] = useState(false);
   const [cbLoading, setCbLoading] = useState(false);
@@ -186,7 +356,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className={`relative min-h-0 lg:min-h-screen flex flex-col overflow-hidden transition-colors duration-300 ${dark
+      className={`relative min-h-0 md:min-h-screen flex flex-col overflow-hidden transition-colors duration-300 ${dark
         ? "bg-[#0A0D14]"
         : "bg-[#F4F6FB]"
         }`}
@@ -243,34 +413,60 @@ export default function Hero() {
       {!introPopupOpen && <StatusBadge dark={dark} badgeText={badgeText} />}
 
       {/* ── Two-column grid ── */}
-      <div className="relative z-10 flex-1 flex items-start py-6 max-md:pt-[100px] max-md:pb-4 md:pt-[96px] md:pb-6 lg:pt-[104px] lg:pb-8">
-        <div className="w-full max-w-container mx-auto px-4 md:px-6 flex flex-col gap-6 max-md:gap-4 lg:gap-8">
-          <div className="w-full grid grid-cols-1 md:grid-cols-[50%_50%] lg:grid-cols-[48%_52%] gap-6 lg:gap-10 max-md:gap-12 items-center">
-            {/* LEFT */}
-            <div className="flex flex-col items-start text-left gap-0 max-md:mt-0 md:mt-0 w-full">
+      <div className="relative z-10 flex-1 flex items-center max-md:items-start py-6 max-md:pt-[100px] max-md:pb-4 md:pt-[88px] md:pb-6">
+        <div className="w-full max-w-container mx-auto px-4 md:px-6">
+          <div className="w-full grid grid-cols-1 md:grid-cols-[50%_50%] lg:grid-cols-[48%_52%] gap-6 lg:gap-10 max-md:gap-12 items-center md:items-start">
+            {/* LEFT — tight stack, no spread */}
+            <div className="flex flex-col items-start text-left w-full gap-2.5 md:gap-3">
 
-              <motion.h1
-                initial={{ opacity: 0, x: -40 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.75, delay: 0.22 }}
-                className={`max-md:mt-2 font-extrabold tracking-tight leading-[1.08] text-[22px] md:text-[clamp(28px,3.2vw,35px)] ${dark ? "text-white" : "text-slate-900"}`}
-                style={{
-                  fontFamily: "'Syne',sans-serif",
-                }}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+                className="max-md:mt-2 w-full"
               >
-                Abhishek{" "}
-                <span
-                  className="bg-gradient-to-r from-[#6366F1] via-[#7C3AED] to-[#C026D3] bg-clip-text text-transparent"
-                  style={{ WebkitBackgroundClip: "text" }}
+                <h1
+                  className="text-[21px] md:text-[26px] lg:text-[27px] font-bold leading-[1.35] tracking-tight min-h-[1.35em]"
+                  style={{ fontFamily: "'Syne',sans-serif" }}
                 >
-                  Namdev
-                </span>
-              </motion.h1>
+                  <WelcomeLine1
+                    count={line1Count}
+                    dark={dark}
+                    showCaret={welcomeTyping && line1Count < WELCOME_LINE1.length}
+                  />
+                </h1>
+
+                {(line1Count >= WELCOME_LINE1.length || line2Count > 0) && (
+                  <p
+                    className={`mt-1.5 text-[12px] md:text-[15px] font-normal leading-[1.55] min-h-[1.55em] ${
+                      dark ? "text-white" : "text-slate-500"
+                    }`}
+                    style={{ fontFamily: "'Syne',sans-serif" }}
+                  >
+                    {WELCOME_LINE2.slice(0, line2Count)}
+                    {welcomeTyping && line1Count >= WELCOME_LINE1.length && line2Count < WELCOME_LINE2.length && (
+                      <span
+                        className={`caret-blink ml-0.5 inline-block h-[1em] w-[2px] shrink-0 rounded-sm align-[-0.05em] ${dark ? "bg-white" : "bg-slate-500"}`}
+                        aria-hidden="true"
+                      />
+                    )}
+                  </p>
+                )}
+
+                {welcomeComplete && (
+                  <span
+                    className="mt-2 block h-[2px] w-9 rounded-full"
+                    style={{ background: "linear-gradient(90deg,#6366F1,#7C3AED,#C026D3)" }}
+                    aria-hidden="true"
+                  />
+                )}
+              </motion.div>
+
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, delay: 0.32 }}
-                className="mt-3 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 text-base md:text-lg font-bold max-md:text-sm w-full"
+                className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 text-base md:text-lg font-bold max-md:text-sm w-full"
                 style={{ fontFamily: "'Syne',sans-serif" }}
               >
                 <span className={`shrink-0 ${dark ? "text-slate-400" : "text-slate-500"}`}>
@@ -308,7 +504,7 @@ export default function Hero() {
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, delay: 0.42 }}
-                className={`md:hidden mt-3 w-full max-w-full text-left text-[13px] leading-[1.8] tracking-normal ${dark ? "text-slate-400" : "text-slate-600"}`}
+                className={`md:hidden w-full max-w-full text-left text-[13px] leading-[1.8] tracking-normal ${dark ? "text-slate-400" : "text-slate-600"}`}
                 style={{ textAlign: "left", hyphens: "none" }}
               >
                 I transform ideas into{" "}
@@ -339,7 +535,7 @@ export default function Hero() {
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, delay: 0.42 }}
-                className={`hidden md:block mt-4 max-w-[500px] text-left text-[15px] leading-[1.85] tracking-normal text-pretty ${dark ? "text-slate-400" : "text-slate-600"}`}
+                className={`hidden md:block w-full max-w-none text-left text-[15px] leading-[1.65] tracking-normal text-pretty ${dark ? "text-slate-400" : "text-slate-600"}`}
               >
                 I transform ideas into{" "}
                 <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
@@ -377,11 +573,11 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.62 }}
-                className="mt-7 flex flex-wrap items-center gap-3 max-md:w-full max-md:flex-row max-md:flex-nowrap max-md:gap-2"
+                className="flex flex-wrap items-center gap-2.5 max-md:w-full max-md:flex-row max-md:flex-nowrap max-md:gap-2"
               >
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm text-white transition-all duration-300 hover:scale-105 max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3 max-md:py-2.5 max-md:text-xs"
+                  className="inline-flex items-center gap-2 px-6 py-3 md:px-5 md:py-2.5 rounded-full font-semibold text-sm text-white transition-all duration-300 hover:scale-105 max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3 max-md:py-2.5 max-md:text-xs"
                   style={{
                     background: "linear-gradient(to right,#6366F1,#7C3AED)",
                     boxShadow: "0 0 28px rgba(99,102,241,0.45)",
@@ -391,7 +587,7 @@ export default function Hero() {
                 </a>
                 <a
                   href="#"
-                  className={`inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 border max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3 max-md:py-2.5 max-md:text-xs max-md:whitespace-nowrap ${dark
+                  className={`inline-flex items-center gap-2 px-6 py-3 md:px-5 md:py-2.5 rounded-full font-semibold text-sm transition-all duration-300 border max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3 max-md:py-2.5 max-md:text-xs max-md:whitespace-nowrap ${dark
                     ? "border-white/20 text-white dark:bg-[#2A2A3C] hover:border-indigo-400/50 hover:bg-indigo-500/10"
                     : "border-slate-300 text-slate-800 bg-white/90  hover:border-indigo-400 shadow-sm"
                     }`}
@@ -405,7 +601,7 @@ export default function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.75 }}
-                className="mt-6 max-md:mt-5 flex w-full flex-wrap items-center justify-start gap-3 max-md:justify-center max-md:mx-auto max-md:mb-2"
+                className="mt-6 md:mt-7 flex w-full flex-wrap items-center justify-start gap-3 max-md:justify-center max-md:mx-auto max-md:mb-2"
               >
                 {SOCIALS.map((s, i) => (
                   <motion.a
