@@ -243,7 +243,7 @@ export default function Hero() {
       {!introPopupOpen && <StatusBadge dark={dark} badgeText={badgeText} />}
 
       {/* ── Two-column grid ── */}
-      <div className="relative z-10 flex-1 flex items-start py-6 max-md:pt-[88px] max-md:pb-4 md:pt-[76px] md:pb-6 lg:pt-[82px] lg:pb-8">
+      <div className="relative z-10 flex-1 flex items-start py-6 max-md:pt-[100px] max-md:pb-4 md:pt-[96px] md:pb-6 lg:pt-[104px] lg:pb-8">
         <div className="w-full max-w-container mx-auto px-4 md:px-6 flex flex-col gap-6 max-md:gap-4 lg:gap-8">
           <div className="w-full grid grid-cols-1 md:grid-cols-[50%_50%] lg:grid-cols-[48%_52%] gap-6 lg:gap-10 max-md:gap-12 items-center">
             {/* LEFT */}
@@ -363,12 +363,13 @@ export default function Hero() {
                 </span>{" "}
                 to{" "}
                 <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
-                  full-featured web applications,
+                  full-featured web applications
                 </span>{" "}
-                every project is built to strengthen your online presence, engage your audience, and support{" "}
+                — with{" "}
                 <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
-                  long-term business growth.
-                </span>
+                  long-term business growth
+                </span>{" "}
+                in mind.
               </motion.p>
 
               {/* Buttons */}
