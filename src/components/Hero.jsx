@@ -123,7 +123,6 @@ export default function Hero() {
   const roleText = useTyping(ROLE_LINES);
   const [contactOpen, setContactOpen] = useState(false);
   const [callbackOpen, setCallbackOpen] = useState(false);
-
   const whatsappUrl = "https://wa.me/917024073871";
   const callUrl = "tel:7024073871";
 
