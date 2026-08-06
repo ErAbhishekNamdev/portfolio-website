@@ -11,16 +11,18 @@ import {
   FaCommentDots,
   FaTimes,
   FaRobot,
-  FaBriefcase,
 } from "react-icons/fa";
 import { useTheme } from "../ThemeContext";
 import LaptopScreen from "./LaptopScreen";
+import naukriIcon from "../assets/image copy 2.png";
 
 const BADGE_MESSAGES = [
   "Available for Frontend Collaborations",
   "Available for Freelance Projects",
   "Ready for React & Next.js Work",
+  'Building High-Performance Web Apps',
   "Open to New Opportunities",
+  "Ready for React & Next.js Work",
 ];
 
 const ROLE_LINES = [
@@ -61,31 +63,54 @@ function useTyping(lines) {
   return text;
 }
 
+
+
 const SOCIALS = [
   {
     icon: <FaGithub />,
     href: "https://github.com/ErAbhishekNamdev",
     label: "GitHub",
+    bg: "#1c1c1e",
+    border: "rgba(255,255,255,0.15)",
+    hoverBorder: "rgba(255,255,255,0.4)",
+    glow: "rgba(255,255,255,0.18)",
   },
   {
     icon: <FaLinkedin />,
     href: "https://www.linkedin.com/in/abhishek-namdev-software-engineer/",
     label: "LinkedIn",
+    bg: "#0A66C2",
+    border: "rgba(10,102,194,0.5)",
+    hoverBorder: "rgba(10,102,194,0.9)",
+    glow: "rgba(10,102,194,0.45)",
   },
   {
     icon: <FaTwitter />,
     href: "https://x.com/Abhishekna78501",
-    label: "Twitter",
+    label: "Twitter / X",
+    bg: "#000000",
+    border: "rgba(255,255,255,0.12)",
+    hoverBorder: "rgba(255,255,255,0.35)",
+    glow: "rgba(255,255,255,0.15)",
   },
   {
     icon: <FaWhatsapp />,
     href: "https://wa.me/917024073871",
     label: "WhatsApp",
+    bg: "#25D366",
+    border: "rgba(37,211,102,0.45)",
+    hoverBorder: "rgba(37,211,102,0.9)",
+    glow: "rgba(37,211,102,0.45)",
   },
   {
-    icon: <FaBriefcase />,
+    icon: <img src={naukriIcon} alt="Naukri" className="w-full h-full object-cover rounded-xl" />,
     href: "https://www.naukri.com/mnjuser/profile",
     label: "Naukri",
+    bg: "transparent",
+    border: "rgba(37,99,235,0.4)",
+    hoverBorder: "rgba(37,99,235,0.9)",
+    glow: "rgba(37,99,235,0.5)",
+    isImage: true,
   },
 ];
 
@@ -123,9 +148,40 @@ export default function Hero() {
   const roleText = useTyping(ROLE_LINES);
   const [contactOpen, setContactOpen] = useState(false);
   const [callbackOpen, setCallbackOpen] = useState(false);
-
+  const [cbLoading, setCbLoading] = useState(false);
+  const [cbSuccess, setCbSuccess] = useState(false);
+  const [cbError, setCbError] = useState("");
   const whatsappUrl = "https://wa.me/917024073871";
   const callUrl = "tel:7024073871";
+
+  async function handleCallbackSubmit(e) {
+    e.preventDefault();
+    setCbLoading(true);
+    setCbError("");
+    const formData = new FormData(e.target);
+    formData.append("access_key", "ab110ab7-2adf-4524-8baa-91916758c32c");
+    formData.append("subject", "📞 Callback Request — Portfolio");
+    formData.append("from_name", "Portfolio Contact Form");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      if (data.success) {
+        setCbSuccess(true);
+        e.target.reset();
+        setTimeout(() => { setCbSuccess(false); setCallbackOpen(false); }, 3000);
+      } else {
+        setCbError(data.message || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setCbError("Network error. Please try again.");
+    } finally {
+      setCbLoading(false);
+    }
+  }
 
   return (
     <section
@@ -298,22 +354,33 @@ export default function Hero() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={s.label}
+                    title={s.label}
                     initial={{ opacity: 0, y: 12, scale: 0.85 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ delay: 0.78 + i * 0.08, type: "spring", stiffness: 260, damping: 18 }}
-                    whileHover={{ y: -5, scale: 1.18 }}
+                    whileHover={{ y: -5, scale: 1.15 }}
                     whileTap={{ scale: 0.92 }}
-                    className="group relative flex h-10 w-10 items-center justify-center rounded-xl text-[15px] text-white border border-[#1E3C8C]/50 transition-all duration-300 hover:border-[#2a4fa8] hover:shadow-[0_0_16px_rgba(30,60,140,0.45)]"
+                    className="group relative flex h-10 w-10 items-center justify-center rounded-xl text-[18px] text-white border transition-all duration-300"
                     style={{
-                      background: "#1E3C8C",
-                      boxShadow: "0 2px 8px rgba(30,60,140,0.3)",
+                      background: s.bg,
+                      borderColor: s.border,
+                      boxShadow: `0 2px 8px ${s.glow}`,
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.borderColor = s.hoverBorder;
+                      e.currentTarget.style.boxShadow = `0 0 18px ${s.glow}, 0 4px 12px ${s.glow}`;
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.borderColor = s.border;
+                      e.currentTarget.style.boxShadow = `0 2px 8px ${s.glow}`;
                     }}
                   >
-                    {/* Glow ring on hover */}
+                    {/* Brand glow pulse on hover */}
                     <span
-                      className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-[0_0_14px_rgba(30,60,140,0.5)]"
+                      className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      style={{ boxShadow: `0 0 16px ${s.glow}` }}
                     />
-                    <span className="relative z-10">{s.icon}</span>
+                    <span className="relative z-10 flex items-center justify-center">{s.icon}</span>
                   </motion.a>
                 ))}
               </motion.div>
@@ -529,84 +596,110 @@ export default function Hero() {
       {callbackOpen && (
         <div className="fixed right-4 bottom-24 z-[10000] sm:right-6 sm:bottom-24">
           <div
-            className={`w-[300px] rounded-[28px] border p-3 shadow-xl backdrop-blur-xl ${dark
-              ? "border-white/10 bg-[#2A2A3C] text-white shadow-[0_12px_48px_rgba(0,0,0,0.55)]"
-              : "border-slate-200 bg-white text-slate-900"
-              }`}
+            className={`w-[300px] rounded-[28px] border p-3 shadow-xl backdrop-blur-xl ${
+              dark
+                ? "border-white/10 bg-[#2A2A3C] text-white shadow-[0_12px_48px_rgba(0,0,0,0.55)]"
+                : "border-slate-200 bg-white text-slate-900"
+            }`}
           >
-            <div className={`rounded-[10px] p-3.5 ${dark ? "border border-[#F7C948]/20 bg-[#F7C948]/10" : "bg-[#F7C948]/10"}`}>
+            <div className={`rounded-[10px] p-3.5 ${ dark ? "border border-[#F7C948]/20 bg-[#F7C948]/10" : "bg-[#F7C948]/10" }`}>
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <p className="text-sm font-semibold">Request a Callback</p>
-                  <p className={`mt-1 text-[11px] ${dark ? "text-slate-400" : "text-slate-600"}`}>
+                  <p className={`mt-1 text-[11px] ${ dark ? "text-slate-400" : "text-slate-600" }`}>
                     Enter details and we'll call you shortly.
                   </p>
                 </div>
                 <button
                   type="button"
-                  onClick={() => setCallbackOpen(false)}
-                  className={`flex h-9 w-9 items-center justify-center rounded-full border transition ${dark
-                    ? "border-white/10 bg-white/[0.06] text-slate-300 hover:bg-white/10"
-                    : "border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
-                    }`}
+                  onClick={() => { setCallbackOpen(false); setCbSuccess(false); setCbError(""); }}
+                  className={`flex h-9 w-9 items-center justify-center rounded-full border transition ${
+                    dark
+                      ? "border-white/10 bg-white/[0.06] text-slate-300 hover:bg-white/10"
+                      : "border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
+                  }`}
                 >
                   <FaTimes />
                 </button>
               </div>
             </div>
-            <form
-              action="https://formsubmit.co/abhisheknamdev9171@gmail.com"
-              method="POST"
-              className="mt-3 space-y-2.5"
-              onSubmit={() => setCallbackOpen(false)}
-            >
-              <input type="hidden" name="_subject" value="Callback Request" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input
-                name="name"
-                required
-                placeholder="Name"
-                className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
-                  ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                  : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                  }`}
-              />
-              <input
-                name="phone"
-                type="tel"
-                required
-                placeholder="Phone No"
-                className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
-                  ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                  : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                  }`}
-              />
-              <input
-                name="email"
-                type="email"
-                required
-                placeholder="Email"
-                className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
-                  ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                  : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                  }`}
-              />
-              <textarea
-                name="message"
-                rows={2}
-                placeholder="Your Message (optional)"
-                className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
-                  ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                  : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                  }`}
-              />
-              <button
-                type="submit"
-                className="w-full rounded-lg bg-[#F7C948] px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-[#e8c23c] transition"
+
+            {/* ── Success State ── */}
+            {cbSuccess ? (
+              <div className="mt-4 flex flex-col items-center gap-2 py-4 text-center">
+                <span className="text-3xl">✅</span>
+                <p className="text-sm font-semibold text-emerald-500">Request Sent!</p>
+                <p className={`text-[11px] ${ dark ? "text-slate-400" : "text-slate-500" }`}>
+                  We'll call you back shortly.
+                </p>
+              </div>
+            ) : (
+              <form
+                onSubmit={handleCallbackSubmit}
+                className="mt-3 space-y-2.5"
               >
-                Submit
-              </button>
-            </form>
+                <input
+                  name="name"
+                  required
+                  placeholder="Name"
+                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${
+                    dark
+                      ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                      : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                  }`}
+                />
+                <input
+                  name="phone"
+                  type="tel"
+                  required
+                  placeholder="Phone No"
+                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${
+                    dark
+                      ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                      : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                  }`}
+                />
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="Email"
+                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${
+                    dark
+                      ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                      : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                  }`}
+                />
+                <textarea
+                  name="message"
+                  rows={2}
+                  placeholder="Your Message (optional)"
+                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${
+                    dark
+                      ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                      : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                  }`}
+                />
+
+                {/* Error message */}
+                {cbError && (
+                  <p className="text-[11px] text-red-500 font-medium">{cbError}</p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={cbLoading}
+                  className="w-full rounded-lg bg-[#F7C948] px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-[#e8c23c] transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {cbLoading ? (
+                    <>
+                      <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-700 border-t-transparent" />
+                      Sending...
+                    </>
+                  ) : "Submit Request"}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       )}
