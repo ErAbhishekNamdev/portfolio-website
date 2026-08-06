@@ -186,7 +186,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className={`relative min-h-screen max-md:min-h-0 flex flex-col overflow-hidden transition-colors duration-300 ${dark
+      className={`relative min-h-0 lg:min-h-screen flex flex-col overflow-hidden transition-colors duration-300 ${dark
         ? "bg-[#0A0D14]"
         : "bg-[#F4F6FB]"
         }`}
@@ -243,17 +243,17 @@ export default function Hero() {
       {!introPopupOpen && <StatusBadge dark={dark} badgeText={badgeText} />}
 
       {/* ── Two-column grid ── */}
-      <div className="relative z-10 flex-1 flex items-center max-md:items-start px-5 md:px-10 lg:px-16 py-8 max-md:pt-[70px] max-md:pb-4">
-        <div className="w-full max-w-7xl mx-auto flex flex-col gap-8 max-md:gap-4">
-          <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[50%_50%] lg:grid-cols-[48%_52%] gap-6 lg:gap-10 max-md:gap-8 items-center">
+      <div className="relative z-10 flex-1 flex items-start py-6 max-md:pt-[88px] max-md:pb-4 md:pt-[76px] md:pb-6 lg:pt-[82px] lg:pb-8">
+        <div className="w-full max-w-container mx-auto px-4 md:px-6 flex flex-col gap-6 max-md:gap-4 lg:gap-8">
+          <div className="w-full grid grid-cols-1 md:grid-cols-[50%_50%] lg:grid-cols-[48%_52%] gap-6 lg:gap-10 max-md:gap-12 items-center">
             {/* LEFT */}
-            <div className="flex flex-col items-start text-left gap-0 mt-2 max-md:mt-0">
-              <div className="h-9 shrink-0 md:hidden" aria-hidden="true" />
+            <div className="flex flex-col items-start text-left gap-0 max-md:mt-0 md:mt-0 w-full">
+
               <motion.h1
                 initial={{ opacity: 0, x: -40 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.75, delay: 0.22 }}
-                className={`font-extrabold tracking-tight leading-[1.08] text-[22px] md:text-[clamp(30px,3.6vw,35px)] ${dark ? "text-white" : "text-slate-900"}`}
+                className={`max-md:mt-2 font-extrabold tracking-tight leading-[1.08] text-[22px] md:text-[clamp(28px,3.2vw,35px)] ${dark ? "text-white" : "text-slate-900"}`}
                 style={{
                   fontFamily: "'Syne',sans-serif",
                 }}
@@ -270,14 +270,13 @@ export default function Hero() {
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, delay: 0.32 }}
-                className="mt-3 flex items-center gap-1.5 text-base md:text-lg font-bold max-md:flex-wrap max-md:text-sm"
+                className="mt-3 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 text-base md:text-lg font-bold max-md:text-sm w-full"
                 style={{ fontFamily: "'Syne',sans-serif" }}
               >
-                <span className={dark ? "text-slate-400" : "text-slate-500"}>
+                <span className={`shrink-0 ${dark ? "text-slate-400" : "text-slate-500"}`}>
                   I am a
                 </span>
-                <span className="relative inline-grid [grid-template-areas:'stack'] font-bold">
-                  {/* reserves width so layout doesn't jump while typing */}
+                <span className="relative hidden md:inline-grid [grid-template-areas:'stack'] font-bold">
                   <span
                     className="[grid-area:stack] invisible whitespace-nowrap pointer-events-none select-none"
                     aria-hidden="true"
@@ -294,22 +293,82 @@ export default function Hero() {
                     />
                   </span>
                 </span>
+                <span className="inline-flex items-baseline md:hidden font-bold">
+                  <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent">
+                    {roleText}
+                  </span>
+                  <span
+                    className={`caret-blink ml-0.5 inline-block h-[1.05em] w-[2px] shrink-0 rounded-sm ${dark ? "bg-[#00D4FF]" : "bg-[#7C3AED]"}`}
+                    aria-hidden="true"
+                  />
+                </span>
               </motion.div>
+              {/* Mobile — single paragraph, natural left-aligned wrap */}
               <motion.p
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, delay: 0.42 }}
-                className={`mt-4 max-w-[500px] text-left text-[13px] md:text-[15px] leading-[1.75] md:leading-[1.8] tracking-normal text-pretty ${dark ? "text-slate-400" : "text-slate-600"}`}
+                className={`md:hidden mt-3 w-full max-w-full text-left text-[13px] leading-[1.8] tracking-normal ${dark ? "text-slate-400" : "text-slate-600"}`}
+                style={{ textAlign: "left", hyphens: "none" }}
               >
                 I transform ideas into{" "}
-                <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
-                  exceptional digital experiences
-                </span>{" "}
-                that drive business growth — helping startups, businesses, and entrepreneurs build{" "}
                 <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
-                  fast, scalable, SEO-friendly
+                  high-performing digital&nbsp;experiences
                 </span>{" "}
-                websites and web apps, from landing pages to custom products, with beautiful design and clean code — so you can launch, redesign, or optimize with confidence.
+                that{" "}
+                <span className={dark ? "text-white" : ""}>
+                  help startups, businesses, and entrepreneurs grow
+                </span>
+                . I build{" "}
+                <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
+                  fast, scalable, and&nbsp;SEO-friendly
+                </span>{" "}
+                websites and web apps — from{" "}
+                <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
+                  landing pages to full-featured&nbsp;applications
+                </span>{" "}
+                — with clean code, modern design, and{" "}
+                <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
+                  long-term business&nbsp;growth
+                </span>{" "}
+                in mind.
+              </motion.p>
+
+              {/* Desktop — concise + 2 extra lines (mobile unchanged) */}
+              <motion.p
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.7, delay: 0.42 }}
+                className={`hidden md:block mt-4 max-w-[500px] text-left text-[15px] leading-[1.85] tracking-normal text-pretty ${dark ? "text-slate-400" : "text-slate-600"}`}
+              >
+                I transform ideas into{" "}
+                <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
+                  high-performing digital experiences
+                </span>{" "}
+                that{" "}
+                <span className={dark ? "text-white" : ""}>
+                  help startups, businesses, and entrepreneurs grow
+                </span>
+                . Whether you&apos;re{" "}
+                <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
+                  launching a new business, designing a brand-new website, or redesigning an existing one,
+                </span>{" "}
+                I build{" "}
+                <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
+                  fast, scalable, and SEO-friendly
+                </span>{" "}
+                websites and web apps with clean code, modern design, and a seamless user experience. From{" "}
+                <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
+                  high-converting landing pages
+                </span>{" "}
+                to{" "}
+                <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
+                  full-featured web applications,
+                </span>{" "}
+                every project is built to strengthen your online presence, engage your audience, and support{" "}
+                <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
+                  long-term business growth.
+                </span>
               </motion.p>
 
               {/* Buttons */}
@@ -340,12 +399,12 @@ export default function Hero() {
                 </a>
               </motion.div>
 
-              {/* Socials */}
+              {/* Socials — centered on mobile */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.75 }}
-                className="mt-6 flex flex-wrap items-center gap-3 max-md:w-full max-md:justify-center"
+                className="mt-6 max-md:mt-5 flex w-full flex-wrap items-center justify-start gap-3 max-md:justify-center max-md:mx-auto max-md:mb-2"
               >
                 {SOCIALS.map((s, i) => (
                   <motion.a
@@ -391,9 +450,9 @@ export default function Hero() {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.85, delay: 0.3 }}
-              className="flex items-center justify-center max-md:mt-4 max-md:-mx-5 max-md:w-[calc(100%+2.5rem)]"
+              className="flex w-full items-center justify-center max-md:mt-6 max-md:pt-2 max-md:-mx-3 max-md:w-[calc(100%+1.5rem)]"
             >
-              <div className="relative w-full max-w-[560px] md:max-w-[600px] lg:max-w-[640px] max-md:max-w-[calc(100vw-24px)] max-md:mx-auto">
+              <div className="relative w-full max-md:max-w-[calc(100vw-1rem)] md:max-w-[680px] lg:max-w-[720px] xl:max-w-[760px] mx-auto">
                 {/* Glow */}
                 <div
                   className="absolute pointer-events-none"
