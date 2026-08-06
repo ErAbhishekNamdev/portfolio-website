@@ -1139,7 +1139,10 @@ export default function LaptopScreen() {
   };
 
   return (
-    <div className="relative w-full h-full min-h-0 flex flex-col overflow-hidden touch-manipulation select-none" style={{ background: "#0d1117" }}>
+    <div
+      className="relative w-full h-full min-h-0 flex flex-col overflow-hidden touch-manipulation select-none ring-1 ring-inset ring-white/[0.06]"
+      style={{ background: "#0d1117" }}
+    >
 
       {/* Scene area */}
       <div className="relative flex-1 min-h-0 w-full overflow-hidden">

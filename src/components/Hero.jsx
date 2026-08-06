@@ -453,13 +453,14 @@ export default function Hero() {
               className="flex w-full items-center justify-center max-md:mt-6 max-md:pt-2 max-md:-mx-3 max-md:w-[calc(100%+1.5rem)]"
             >
               <div className="relative w-full max-md:max-w-[calc(100vw-1rem)] md:max-w-[680px] lg:max-w-[720px] xl:max-w-[760px] mx-auto">
-                {/* Glow */}
+                {/* Glow — stronger in dark mode so laptop reads off the bg */}
                 <div
                   className="absolute pointer-events-none"
                   style={{
-                    inset: "-20px",
-                    background:
-                      "radial-gradient(ellipse at 50% 55%,rgba(99,102,241,0.38) 0%,rgba(124,58,237,0.18) 40%,transparent 70%)",
+                    inset: dark ? "-28px" : "-20px",
+                    background: dark
+                      ? "radial-gradient(ellipse at 50% 55%,rgba(99,102,241,0.55) 0%,rgba(124,58,237,0.28) 42%,transparent 72%)"
+                      : "radial-gradient(ellipse at 50% 55%,rgba(99,102,241,0.38) 0%,rgba(124,58,237,0.18) 40%,transparent 70%)",
                     filter: "blur(45px)",
                   }}
                 />
@@ -470,7 +471,7 @@ export default function Hero() {
                     left: "10%",
                     right: "10%",
                     height: 60,
-                    background: "rgba(192,38,211,0.35)",
+                    background: dark ? "rgba(124,58,237,0.45)" : "rgba(192,38,211,0.35)",
                     filter: "blur(30px)",
                     borderRadius: "50%",
                   }}
@@ -489,18 +490,24 @@ export default function Hero() {
                 >
                   {/* Lid */}
                   <div
-                    className="relative w-full rounded-[18px] overflow-hidden max-md:rounded-[12px] p-[6px] pb-0 max-md:p-[3px] max-md:pb-0"
+                    className={`relative w-full rounded-[18px] overflow-hidden max-md:rounded-[12px] p-[6px] pb-0 max-md:p-[3px] max-md:pb-0 ${
+                      dark
+                        ? "border border-white/[0.16] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_0_40px_rgba(99,102,241,0.22),0_24px_64px_rgba(0,0,0,0.55)]"
+                        : ""
+                    }`}
                     style={{
                       background: dark
-                        ? "linear-gradient(to bottom,#1e2235,#0f1120)"
+                        ? "linear-gradient(to bottom,#4a5168 0%,#3a4058 40%,#2f354a 75%,#262b3d 100%)"
                         : "linear-gradient(to bottom,#cdd0e0,#b0b5c8)",
                       boxShadow: dark
-                        ? "0 32px 80px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.07)"
+                        ? undefined
                         : "0 32px 80px rgba(0,0,0,0.22),0 0 0 1px rgba(255,255,255,0.6)",
                     }}
                   >
                     {/* Traffic lights + camera */}
-                    <div className="flex items-center justify-between px-3 py-1.5">
+                    <div
+                      className={`flex items-center justify-between px-3 py-1.5 ${dark ? "bg-[#2a2f42]/80" : ""}`}
+                    >
                       <div className="flex gap-1.5">
                         <div className="h-2 w-2 rounded-full bg-[#ff5f57]" />
                         <div className="h-2 w-2 rounded-full bg-[#febc2e]" />
@@ -513,7 +520,12 @@ export default function Hero() {
                     </div>
 
                     {/* Screen */}
-                    <div className="w-full rounded-t-xl overflow-hidden max-md:rounded-lg relative aspect-[16/10]">
+                    <div
+                      className={`w-full rounded-t-xl overflow-hidden max-md:rounded-lg relative aspect-[16/10] ${
+                        dark ? "ring-1 ring-inset ring-white/[0.12] shadow-inner" : ""
+                      }`}
+                      style={dark ? { boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)" } : undefined}
+                    >
                       <div className="absolute inset-0 w-full h-full">
                         <LaptopScreen />
                       </div>
@@ -533,7 +545,7 @@ export default function Hero() {
                     style={{
                       width: "96%",
                       background: dark
-                        ? "linear-gradient(to bottom,#2a2d42,#1a1d2e)"
+                        ? "linear-gradient(to bottom,#3a4058,#2f354a)"
                         : "linear-gradient(to bottom,#b8bcc8,#9a9eb2)",
                     }}
                   />
@@ -542,7 +554,7 @@ export default function Hero() {
                     style={{
                       width: "82%",
                       background: dark
-                        ? "linear-gradient(to bottom,#1a1d2e,#0f1120)"
+                        ? "linear-gradient(to bottom,#2f354a,#252a3a)"
                         : "linear-gradient(to bottom,#9a9eb2,#7e8295)",
                     }}
                   />
