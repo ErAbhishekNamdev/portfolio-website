@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   FaGithub,
@@ -40,101 +40,81 @@ const WELCOME_LINE2 = "Where ideas come alive through design & code.";
 const WELCOME_SPEECH =
   "Welcome to my Creative Space. Where ideas come alive through design and code.";
 
-let lastWelcomeSpeechAt = 0;
+let welcomeSpokenThisLoad = false;
 
 function speakWelcomeText() {
+  if (welcomeSpokenThisLoad) return;
+
   const synth = window.speechSynthesis;
   if (!synth) return;
 
-  const now = Date.now();
-  if (now - lastWelcomeSpeechAt < 400) return;
-  lastWelcomeSpeechAt = now;
+  const speakNow = () => {
+    if (welcomeSpokenThisLoad) return;
 
-  const runSpeak = () => {
     const voices = synth.getVoices();
-    if (!voices.length) return false;
+    if (!voices.length) return;
+
+    welcomeSpokenThisLoad = true;
 
     if (synth.speaking || synth.pending) synth.cancel();
 
-    window.setTimeout(() => {
-      const utter = new SpeechSynthesisUtterance(WELCOME_SPEECH);
-      utter.rate = 0.78;
-      utter.pitch = 1.02;
-      utter.volume = 1;
-      utter.lang = "en-US";
+    const utter = new SpeechSynthesisUtterance(WELCOME_SPEECH);
+    utter.rate = 0.78;
+    utter.pitch = 1.02;
+    utter.volume = 1;
+    utter.lang = "en-US";
 
-      const voice =
-        voices.find((v) => v.lang.startsWith("en") && /google|natural|samantha|zira|david|neural/i.test(v.name)) ||
-        voices.find((v) => v.lang.startsWith("en"));
-      if (voice) utter.voice = voice;
+    const voice =
+      voices.find((v) => v.lang.startsWith("en") && /google|natural|samantha|zira|david|neural/i.test(v.name)) ||
+      voices.find((v) => v.lang.startsWith("en"));
+    if (voice) utter.voice = voice;
 
-      let resumeTimer;
-      utter.onstart = () => {
-        synth.resume();
-        resumeTimer = window.setInterval(() => {
-          if (!synth.speaking) {
-            clearInterval(resumeTimer);
-            return;
-          }
-          synth.resume();
-        }, 140);
-      };
-      const cleanup = () => {
-        if (resumeTimer) clearInterval(resumeTimer);
-      };
-      utter.onend = cleanup;
-      utter.onerror = cleanup;
-
-      synth.speak(utter);
+    let resumeTimer;
+    utter.onstart = () => {
       synth.resume();
-    }, 80);
+      resumeTimer = window.setInterval(() => {
+        if (!synth.speaking) {
+          clearInterval(resumeTimer);
+          return;
+        }
+        synth.resume();
+      }, 140);
+    };
+    const cleanup = () => {
+      if (resumeTimer) clearInterval(resumeTimer);
+    };
+    utter.onend = cleanup;
+    utter.onerror = cleanup;
 
-    return true;
+    synth.speak(utter);
+    synth.resume();
   };
 
-  if (runSpeak()) return;
+  if (synth.getVoices().length) {
+    speakNow();
+    return;
+  }
 
-  let attempts = 0;
-  const poll = window.setInterval(() => {
-    attempts += 1;
-    if (runSpeak() || attempts >= 30) clearInterval(poll);
-  }, 100);
-
-  const onVoices = () => {
-    if (runSpeak()) {
-      clearInterval(poll);
-      synth.removeEventListener("voiceschanged", onVoices);
-    }
+  let handled = false;
+  const trySpeak = () => {
+    if (handled || welcomeSpokenThisLoad) return;
+    if (!synth.getVoices().length) return;
+    handled = true;
+    synth.removeEventListener("voiceschanged", trySpeak);
+    speakNow();
   };
-  synth.addEventListener("voiceschanged", onVoices);
+
+  synth.addEventListener("voiceschanged", trySpeak);
+  window.setTimeout(trySpeak, 300);
 }
 
 function useWelcomeIntro() {
   const [line1Count, setLine1Count] = useState(0);
   const [line2Count, setLine2Count] = useState(0);
   const [phase, setPhase] = useState("line1");
-  const speechStartedRef = useRef(false);
 
   useEffect(() => {
-    speechStartedRef.current = false;
     window.speechSynthesis?.getVoices();
-
-    const unlockSpeech = () => {
-      if (!window.speechSynthesis?.speaking) {
-        lastWelcomeSpeechAt = 0;
-        speakWelcomeText();
-      }
-    };
-
-    document.addEventListener("click", unlockSpeech, { once: true, passive: true });
-    document.addEventListener("touchstart", unlockSpeech, { once: true, passive: true });
-    document.addEventListener("keydown", unlockSpeech, { once: true });
-
-    return () => {
-      document.removeEventListener("click", unlockSpeech);
-      document.removeEventListener("touchstart", unlockSpeech);
-      document.removeEventListener("keydown", unlockSpeech);
-    };
   }, []);
 
   useEffect(() => {
@@ -144,10 +124,7 @@ function useWelcomeIntro() {
     if (phase === "line1") {
       if (line1Count < WELCOME_LINE1.length) {
         id = window.setTimeout(() => {
-          if (line1Count === 0 && !speechStartedRef.current) {
-            speechStartedRef.current = true;
-            speakWelcomeText();
-          }
+          if (line1Count === 0) speakWelcomeText();
           setLine1Count((c) => c + 1);
         }, line1Count === 0 ? 80 : 52);
       } else {
