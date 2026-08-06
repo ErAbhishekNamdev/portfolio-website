@@ -4,7 +4,7 @@ import { HiMenuAlt3, HiX } from 'react-icons/hi';
 import { FaSun, FaMoon, FaArrowRight } from 'react-icons/fa';
 import { useTheme } from '../ThemeContext';
 
-import logoicons from '../assets/image copy.png';
+import logoicons from '../assets/logo.jpeg';
 
 const navLinks = ['About', 'Projects', 'Experience', 'Skills', 'Certificates', 'Contact'];
 

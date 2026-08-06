@@ -873,33 +873,40 @@ function HireStepCard({
   isLast?: boolean;
   isMobile?: boolean;
 }) {
-  const stepInner = (
-    <>
-      <div className="flex h-4 w-4 md:h-7 md:w-7 items-center justify-center rounded-full bg-indigo-500/15 border border-indigo-400/45 shadow-[0_0_10px_rgba(99,102,241,0.25)]">
-        <span className="text-[5px] md:text-[8px] font-extrabold text-indigo-200">{step.step}</span>
-      </div>
-      <span className="text-[5px] md:text-[8px] font-bold text-white mt-0.5 md:mt-1 leading-tight text-center line-clamp-1">
-        {step.title}
-      </span>
-    </>
-  );
-
   return (
     <div className="flex flex-1 items-center min-w-0">
-      {isMobile ? (
-        <div className="flex flex-col items-center flex-1 min-w-0">{stepInner}</div>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0, y: 4 }}
-          animate={{ opacity: active ? 1 : 0, y: active ? 0 : 4 }}
-          transition={{ delay: 0.06 + index * 0.05 }}
-          className="flex flex-col items-center flex-1 min-w-0"
-        >
-          {stepInner}
-        </motion.div>
-      )}
+      <motion.div
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: active ? 1 : 0, y: active ? 0 : 6 }}
+        transition={{ delay: 0.08 + index * 0.07, duration: 0.4 }}
+        className="flex flex-col items-center flex-1 min-w-0 gap-0.5 md:gap-1"
+      >
+        {/* Icon circle */}
+        <div className="relative flex items-center justify-center">
+          <div
+            className="flex h-5 w-5 md:h-9 md:w-9 items-center justify-center rounded-full border border-indigo-400/40 bg-indigo-500/10"
+            style={{ boxShadow: "0 0 12px rgba(99,102,241,0.3)" }}
+          >
+            <span className="text-[8px] md:text-base leading-none">{step.icon}</span>
+          </div>
+          <span
+            className="absolute -top-0.5 -right-0.5 md:-top-1 md:-right-1 flex h-2.5 w-2.5 md:h-4 md:w-4 items-center justify-center rounded-full bg-[#6366f1] text-[4px] md:text-[7px] font-extrabold text-white"
+            style={{ boxShadow: "0 0 6px rgba(99,102,241,0.7)" }}
+          >
+            {step.step}
+          </span>
+        </div>
+        <span className="text-[5px] md:text-[8px] font-bold text-white leading-tight text-center">{step.title}</span>
+        <span className="hidden md:block text-[6px] text-slate-400 text-center leading-tight">{step.desc}</span>
+      </motion.div>
       {!isLast && (
-        <div className="h-px flex-1 min-w-[4px] max-w-[10px] md:max-w-[14px] mx-0.5 bg-gradient-to-r from-indigo-500/50 to-indigo-400/20 shrink" />
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: active ? 1 : 0 }}
+          transition={{ delay: 0.2 + index * 0.07, duration: 0.4 }}
+          className="h-px flex-1 min-w-[6px] md:min-w-[10px] mx-0.5 origin-left"
+          style={{ background: "linear-gradient(90deg,#6366f1,#7c3aed40)" }}
+        />
       )}
     </div>
   );
@@ -916,21 +923,38 @@ function HirePathCard({
   active: boolean;
   isMobile?: boolean;
 }) {
-  const cls = `relative flex flex-col items-center justify-center text-center rounded-md md:rounded-lg border ${path.border} p-1 md:p-2 min-h-[36px] md:min-h-[58px] overflow-hidden cursor-pointer hover:bg-white/[0.06] transition-colors`;
-  const style = {
-    background: `linear-gradient(160deg, ${path.accent}18, rgba(255,255,255,0.04))`,
-  };
   const inner = (
     <>
+      {/* Top color bar */}
       <div
-        className="absolute inset-x-0 top-0 h-[1px] md:h-[2px]"
+        className="absolute inset-x-0 top-0 h-[2px] md:h-[3px] rounded-t-md"
         style={{ background: `linear-gradient(90deg, transparent, ${path.accent}, transparent)` }}
       />
-      <span className="text-sm md:text-lg leading-none mb-0.5">{path.icon}</span>
-      <span className="text-[6px] md:text-[9px] font-extrabold text-white leading-tight">{path.label}</span>
-      <span className="text-[5px] md:text-[7px] text-slate-400 font-medium mt-0.5">{path.tagline}</span>
+      {/* Glow bg */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md md:rounded-lg"
+        style={{ background: `radial-gradient(circle at 50% 0%, ${path.accent}20, transparent 70%)` }}
+      />
+      <span className="text-lg md:text-2xl leading-none mb-0.5 md:mb-1 relative z-10">{path.icon}</span>
+      <span className="text-[7px] md:text-[11px] font-extrabold text-white leading-tight relative z-10">{path.label}</span>
+      <span
+        className="text-[5px] md:text-[8px] font-semibold mt-0.5 relative z-10"
+        style={{ color: path.accent }}
+      >
+        {path.tagline}
+      </span>
+      <div className="flex flex-col gap-px mt-0.5 md:mt-1 relative z-10">
+        {path.perks.map((perk) => (
+          <span key={perk} className="text-[4px] md:text-[7px] text-slate-400 flex items-center gap-0.5 justify-center">
+            <span className="text-[4px] md:text-[6px]" style={{ color: path.accent }}>✓</span> {perk}
+          </span>
+        ))}
+      </div>
     </>
   );
+
+  const cls = `group relative flex flex-col items-center justify-center text-center rounded-md md:rounded-xl border ${path.border} p-1.5 md:p-3 overflow-hidden cursor-pointer transition-all duration-300 hover:border-white/20`;
+  const style = { background: `linear-gradient(160deg, ${path.accent}12, rgba(13,17,23,0.8))` };
 
   if (isMobile) {
     return (
@@ -944,9 +968,9 @@ function HirePathCard({
     <motion.button
       type="button"
       onClick={scrollToContact}
-      initial={{ opacity: 0, scale: 0.96 }}
-      animate={{ opacity: active ? 1 : 0, scale: active ? 1 : 0.96 }}
-      transition={{ delay: 0.22 + index * 0.06 }}
+      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+      animate={{ opacity: active ? 1 : 0, y: active ? 0 : 10, scale: active ? 1 : 0.95 }}
+      transition={{ delay: 0.25 + index * 0.08, type: "spring", stiffness: 260, damping: 22 }}
       className={cls}
       style={style}
     >
@@ -959,91 +983,113 @@ function CtaScene({ isMobile, active }: { isMobile: boolean; active: boolean }) 
   return (
     <SceneShell>
       <div
-        className="h-full w-full flex flex-col px-1.5 md:px-2.5 py-0.5 md:py-2 min-h-0 overflow-hidden"
-        style={{ background: "linear-gradient(145deg,#0f0c29 0%,#1a1640 45%,#24243e 100%)" }}
+        className="h-full w-full flex flex-col gap-1 md:gap-2 px-2 md:px-4 py-1.5 md:py-3 min-h-0 overflow-hidden"
+        style={{ background: "linear-gradient(145deg,#080612 0%,#110e2a 50%,#1a1040 100%)" }}
       >
+        {/* Header */}
         <motion.div
-          initial={isMobile ? false : { opacity: 0, y: -4 }}
-          animate={{ opacity: active ? 1 : 0, y: active ? 0 : -4 }}
-          className="shrink-0 text-center"
+          initial={isMobile ? false : { opacity: 0, y: -8 }}
+          animate={{ opacity: active ? 1 : 0, y: active ? 0 : -8 }}
+          transition={{ duration: 0.4 }}
+          className="shrink-0 flex flex-col items-center gap-0.5 md:gap-1"
         >
-          <div className="inline-flex items-center gap-0.5 md:gap-1 px-1.5 md:px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30">
-            <span className="h-1 w-1 md:h-1.5 md:w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
-            <span className="text-[5px] md:text-[7px] font-bold text-emerald-300 uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1 px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+            <span
+              className="h-1 w-1 md:h-1.5 md:w-1.5 rounded-full bg-emerald-400 animate-pulse"
+              style={{ boxShadow: "0 0 6px rgba(52,211,153,0.9)" }}
+            />
+            <span className="text-[5px] md:text-[8px] font-bold text-emerald-300 uppercase tracking-widest">
               Open for Projects
             </span>
           </div>
-          <h2 className="text-white font-bold text-[8px] md:text-[12px] leading-tight mt-0.5 md:mt-1">
+          <h2 className="text-white font-extrabold text-[9px] md:text-[15px] leading-tight text-center">
             Ready to{" "}
-            <span className="bg-gradient-to-r from-[#00D4FF] to-[#7C3AED] bg-clip-text text-transparent">
+            <span
+              className="bg-clip-text text-transparent"
+              style={{ backgroundImage: "linear-gradient(90deg,#00D4FF,#7C3AED,#ec4899)" }}
+            >
               Work Together?
             </span>
           </h2>
         </motion.div>
 
-        <div className="flex-1 min-h-0 flex flex-col justify-evenly gap-0.5 md:gap-1.5 my-0.5 md:my-1.5 rounded-lg md:rounded-xl border border-white/[0.08] bg-black/25 p-1 md:p-2 overflow-hidden">
-          <div className="shrink-0 flex items-start w-full px-0.5">
-            {HIRE_STEPS.map((s, i) => (
-              <HireStepCard
-                key={s.step}
-                step={s}
-                index={i}
-                active={active}
-                isLast={i === HIRE_STEPS.length - 1}
-                isMobile={isMobile}
-              />
-            ))}
-          </div>
-
-          <div className="shrink-0 grid grid-cols-3 gap-0.5 md:gap-1.5 w-full">
-            {HIRE_PATHS.map((path, i) => (
-              <HirePathCard key={path.label} path={path} index={i} active={active} isMobile={isMobile} />
-            ))}
-          </div>
-
-          <div className="shrink-0 flex flex-wrap justify-center gap-0.5 md:gap-1">
-            {HIRE_TRUST.map((t) => (
-              <span
-                key={t.label}
-                className="inline-flex items-center gap-0.5 px-1 md:px-1.5 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-[4px] md:text-[7px] font-semibold text-slate-300"
-              >
-                <span className="text-[6px] md:text-[8px] leading-none opacity-90">{t.icon}</span>
-                {t.label}
-              </span>
-            ))}
-          </div>
+        {/* Steps */}
+        <div className="shrink-0 flex items-start w-full px-0.5 md:px-2">
+          {HIRE_STEPS.map((s, i) => (
+            <HireStepCard
+              key={s.step}
+              step={s}
+              index={i}
+              active={active}
+              isLast={i === HIRE_STEPS.length - 1}
+              isMobile={isMobile}
+            />
+          ))}
         </div>
 
+        {/* Path cards */}
+        <div className="shrink-0 grid grid-cols-3 gap-1 md:gap-2 w-full">
+          {HIRE_PATHS.map((path, i) => (
+            <HirePathCard key={path.label} path={path} index={i} active={active} isMobile={isMobile} />
+          ))}
+        </div>
+
+        {/* Trust pills */}
         <motion.div
-          initial={isMobile ? false : { opacity: 0, y: 4 }}
-          animate={{ opacity: active ? 1 : 0, y: active ? 0 : 4 }}
-          transition={{ delay: 0.35 }}
-          className="shrink-0 space-y-0.5 md:space-y-1"
+          initial={isMobile ? false : { opacity: 0 }}
+          animate={{ opacity: active ? 1 : 0 }}
+          transition={{ delay: 0.45 }}
+          className="shrink-0 flex flex-wrap justify-center gap-0.5 md:gap-1"
+        >
+          {HIRE_TRUST.map((t) => (
+            <span
+              key={t.label}
+              className="inline-flex items-center gap-0.5 md:gap-1 px-1.5 md:px-2 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-[4px] md:text-[7px] font-semibold text-slate-300"
+            >
+              <span className="text-[6px] md:text-[9px]">{t.icon}</span>
+              {t.label}
+            </span>
+          ))}
+        </motion.div>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial={isMobile ? false : { opacity: 0, y: 6 }}
+          animate={{ opacity: active ? 1 : 0, y: active ? 0 : 6 }}
+          transition={{ delay: 0.5 }}
+          className="shrink-0 flex flex-col gap-0.5 md:gap-1.5"
         >
           <button
             type="button"
             onClick={scrollToContact}
-            className="w-full rounded-md md:rounded-lg py-1 md:py-2 text-center cursor-pointer border border-indigo-400/30 shadow-[0_4px_16px_rgba(99,102,241,0.35)] hover:brightness-110 transition-all"
-            style={{ background: "linear-gradient(90deg,#4f46e5,#7c3aed,#9333ea)" }}
+            className="relative w-full rounded-md md:rounded-xl py-1 md:py-2.5 text-center cursor-pointer overflow-hidden group"
+            style={{
+              background: "linear-gradient(90deg,#4f46e5,#7c3aed,#9333ea)",
+              boxShadow: "0 4px 20px rgba(99,102,241,0.45)",
+            }}
           >
-            <span className="text-white font-extrabold text-[7px] md:text-[9px] tracking-wide">
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              style={{ background: "linear-gradient(90deg,#6366f1,#8b5cf6,#a855f7)" }}
+            />
+            <span className="relative text-white font-extrabold text-[7px] md:text-[11px] tracking-wide">
               Start Your Project →
             </span>
           </button>
-          <div className="grid grid-cols-2 gap-0.5 md:gap-1">
+          <div className="grid grid-cols-2 gap-0.5 md:gap-1.5">
             <button
               type="button"
               onClick={scrollToContact}
-              className="text-[5px] md:text-[7px] font-semibold text-slate-300 py-0.5 md:py-1 rounded-md bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] transition-colors cursor-pointer"
+              className="text-[5px] md:text-[8px] font-semibold text-slate-300 py-0.5 md:py-1.5 rounded-md md:rounded-lg bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] hover:border-white/20 transition-all cursor-pointer"
             >
-              📩 &nbsp;Contact
+              📩 Contact
             </button>
             <button
               type="button"
               onClick={scrollToContact}
-              className="text-[5px] md:text-[7px] font-semibold text-emerald-300 py-0.5 md:py-1 rounded-md bg-emerald-500/10 border border-emerald-500/25 hover:bg-emerald-500/15 transition-colors cursor-pointer"
+              className="text-[5px] md:text-[8px] font-semibold text-emerald-300 py-0.5 md:py-1.5 rounded-md md:rounded-lg bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all cursor-pointer"
+              style={{ boxShadow: "0 0 12px rgba(52,211,153,0.15)" }}
             >
-              ⚡ &nbsp;Hire Now
+              ⚡ Hire Now
             </button>
           </div>
         </motion.div>
@@ -1052,19 +1098,27 @@ function CtaScene({ isMobile, active }: { isMobile: boolean; active: boolean }) 
   );
 }
 
+
 /* ─── Main ─── */
 
 export default function LaptopScreen() {
   const [sceneIdx, setSceneIdx] = useState(0);
+  const [direction, setDirection] = useState(1);
   const isMobile = useIsMobile();
   const scene = SCENES[sceneIdx];
 
-  const selectScene = (index: number) => setSceneIdx(index);
-
   useEffect(() => {
-    const id = setTimeout(() => setSceneIdx((i) => (i + 1) % SCENES.length), DURATIONS[scene]);
+    const id = setTimeout(() => {
+      setDirection(1);
+      setSceneIdx((i) => (i + 1) % SCENES.length);
+    }, DURATIONS[scene]);
     return () => clearTimeout(id);
   }, [scene]);
+
+  const goToScene = (index: number) => {
+    setDirection(index >= sceneIdx ? 1 : -1);
+    setSceneIdx(index);
+  };
 
   const renderScene = () => {
     const active = true;
@@ -1085,22 +1139,54 @@ export default function LaptopScreen() {
   };
 
   return (
-    <div className="relative w-full h-full min-h-0 flex flex-col overflow-hidden touch-manipulation select-none" style={{ background: "#0d1117" }}>
-      <ProgressRail sceneIdx={sceneIdx} onSelect={selectScene} isMobile={isMobile} />
+    <div
+      className="relative w-full h-full min-h-0 flex flex-col overflow-hidden touch-manipulation select-none ring-1 ring-inset ring-white/[0.06]"
+      style={{ background: "#0d1117" }}
+    >
 
+      {/* Scene area */}
       <div className="relative flex-1 min-h-0 w-full overflow-hidden">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={scene}
-            initial={isMobile ? false : { opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={isMobile ? undefined : { opacity: 0, y: -10 }}
-            transition={{ duration: 0.35 }}
-            className="h-full w-full md:pt-4"
+            custom={direction}
+            variants={{
+              enter: (d: number) => ({ opacity: 0, x: d * 40, scale: 0.97 }),
+              center: { opacity: 1, x: 0, scale: 1 },
+              exit: (d: number) => ({ opacity: 0, x: d * -40, scale: 0.97 }),
+            }}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.38, ease: [0.32, 0.72, 0, 1] }}
+            className="h-full w-full"
           >
             {renderScene()}
           </motion.div>
         </AnimatePresence>
+      </div>
+
+      {/* Minimal dot indicator */}
+      <div className="shrink-0 flex items-center justify-center gap-1.5 py-1 bg-[#0d1117]/90">
+        {SCENES.map((key, i) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() => goToScene(i)}
+            aria-label={SCENE_LABELS[key]}
+            className="focus:outline-none"
+          >
+            <motion.span
+              animate={{
+                width: sceneIdx === i ? 16 : 5,
+                backgroundColor: sceneIdx === i ? "#6366f1" : "rgba(255,255,255,0.2)",
+              }}
+              transition={{ duration: 0.3 }}
+              className="block h-[5px] rounded-full"
+              style={{ display: "block" }}
+            />
+          </button>
+        ))}
       </div>
     </div>
   );
