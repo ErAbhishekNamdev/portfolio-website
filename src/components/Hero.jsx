@@ -578,7 +578,7 @@ export default function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.75 }}
-                className="mt-6 md:mt-7 flex w-full flex-wrap items-center justify-start gap-3 max-md:justify-center max-md:mx-auto max-md:mb-2"
+                className="mt-6 md:mt-2 flex w-full flex-wrap items-center justify-start gap-3 max-md:justify-center max-md:mx-auto max-md:mb-2"
               >
                 {SOCIALS.map((s, i) => (
                   <motion.a
