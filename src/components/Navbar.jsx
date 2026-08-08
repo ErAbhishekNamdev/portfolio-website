@@ -149,17 +149,39 @@ export default function Navbar() {
           }`}
       >
         <div className="max-w-container mx-auto px-6 py-2 flex items-center justify-between min-h-[64px]">
-          {/* Brand Logo */}
-          <a href="#" className="flex items-center gap-3 group py-1 min-w-0">
-            {/* Logo Image without border/container */}
-            <div className="w-10 h-10 md:w-11 md:h-11 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105">
-              <img
-                src={autoCroppedLogo}
-                alt="Code Craft Journey Logo"
-                className={`w-full h-full rounded-[10px] object-contain ${dark ? 'brightness-110' : 'mix-blend-multiply'
+          {/* Brand Logo Container with World-Class 3D Animation */}
+          <a href="#" className="flex items-center gap-3 group py-1 min-w-0 perspective-[1000px]">
+            {/* 3D Floating & Rotating Logo Badge */}
+            <motion.div
+              whileHover={{ rotateY: 18, rotateX: -12, scale: 1.12, y: -2 }}
+              whileTap={{ scale: 0.92 }}
+              animate={{ y: [0, -4, 0] }}
+              transition={{
+                y: { duration: 3.5, repeat: Infinity, ease: "easeInOut" },
+                rotateY: { type: "spring", stiffness: 300, damping: 15 },
+                rotateX: { type: "spring", stiffness: 300, damping: 15 },
+              }}
+              className="relative w-10 h-10 md:w-11 md:h-11 flex items-center justify-center shrink-0 rounded-xl p-[2px] transform-gpu shadow-[0_4px_20px_rgba(0,212,255,0.4)] group-hover:shadow-[0_0_30px_rgba(0,212,255,0.7)] transition-shadow duration-300"
+              style={{
+                background: "linear-gradient(135deg, #00D4FF 0%, #7C3AED 50%, #F472B6 100%)",
+              }}
+            >
+              {/* 3D Rotating Glowing Ring Effect */}
+              <span className="absolute -inset-[3px] rounded-2xl bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] opacity-60 group-hover:opacity-100 blur-sm transition-opacity duration-300 animate-pulse" />
+
+              {/* Inner Logo Image Wrapper */}
+              <div className="relative z-10 w-full h-full rounded-[10px] overflow-hidden bg-[#0A0D14] flex items-center justify-center">
+                <img
+                  src={autoCroppedLogo}
+                  alt="Code Craft Journey Logo"
+                  className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${
+                    dark ? 'brightness-110' : 'brightness-105'
                   }`}
-              />
-            </div>
+                />
+                {/* 3D Glass Light Beam Shimmer */}
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-700 ease-out pointer-events-none" />
+              </div>
+            </motion.div>
 
             {/* Logo Text Block */}
             <div className="flex flex-col gap-0.5 text-left min-w-0 overflow-hidden">
@@ -312,15 +334,37 @@ export default function Navbar() {
             </button>
 
             <div className="flex flex-col items-center gap-3.5 text-center">
-              <div className="relative">
-                <div className="w-12 h-12 flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-105">
-                  <img
-                    src={autoCroppedLogo}
-                    alt="Code Craft Journey Logo"
-                    className={`w-full h-full rounded-[8px] object-contain ${dark ? 'brightness-110' : 'mix-blend-multiply'
+              <div className="relative perspective-[1000px]">
+                <motion.div
+                  whileHover={{ rotateY: 20, rotateX: -12, scale: 1.15, y: -2 }}
+                  whileTap={{ scale: 0.92 }}
+                  animate={{ y: [0, -5, 0] }}
+                  transition={{
+                    y: { duration: 3.5, repeat: Infinity, ease: "easeInOut" },
+                    rotateY: { type: "spring", stiffness: 300, damping: 15 },
+                    rotateX: { type: "spring", stiffness: 300, damping: 15 },
+                  }}
+                  className="relative w-14 h-14 flex items-center justify-center shrink-0 rounded-2xl p-[2.5px] transform-gpu shadow-[0_4px_22px_rgba(0,212,255,0.4)] hover:shadow-[0_0_35px_rgba(0,212,255,0.75)] transition-shadow duration-300"
+                  style={{
+                    background: "linear-gradient(135deg, #00D4FF 0%, #7C3AED 50%, #F472B6 100%)",
+                  }}
+                >
+                  {/* 3D Rotating Glowing Aura Ring */}
+                  <span className="absolute -inset-[3px] rounded-2xl bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] opacity-60 group-hover:opacity-100 blur-md transition-opacity duration-300 animate-pulse" />
+
+                  {/* Inner Logo Wrapper */}
+                  <div className="relative z-10 w-full h-full rounded-xl overflow-hidden bg-[#0A0D14] flex items-center justify-center">
+                    <img
+                      src={autoCroppedLogo}
+                      alt="Code Craft Journey Logo"
+                      className={`w-full h-full object-cover transition-transform duration-500 hover:scale-110 ${
+                        dark ? 'brightness-110' : 'brightness-105'
                       }`}
-                  />
-                </div>
+                    />
+                    {/* 3D Glass Light Beam Shimmer */}
+                    <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/35 to-transparent translate-x-[-120%] hover:translate-x-[120%] transition-transform duration-700 ease-out pointer-events-none" />
+                  </div>
+                </motion.div>
               </div>
 
               <div className="space-y-1.5">
