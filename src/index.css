@@ -126,11 +126,11 @@ html:not(.light) .noise-bg::before {
 
 /* Glass card styling — dark mode cards */
 .glass-card {
-  background: linear-gradient(135deg, rgba(18, 24, 36, 0.85) 0%, rgba(12, 16, 26, 0.95) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 35px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, rgba(26, 36, 56, 0.85) 0%, rgba(16, 24, 38, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 15px 40px -5px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 html.light .glass-card {
@@ -223,12 +223,34 @@ html.light .card-glow:hover {
 }
 
 @keyframes orbit {
-  from { transform: rotate(0deg) translateX(130px) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(130px) rotate(-360deg); }
+  from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+
+@media (min-width: 640px) {
+  @keyframes orbit {
+    from { transform: rotate(0deg) translateX(145px) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(145px) rotate(-360deg); }
+  }
 }
 
 .animate-orbit {
   animation: orbit 30s linear infinite;
+}
+
+@keyframes marquee-horizontal {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-horizontal {
+  display: flex;
+  width: max-content;
+  animation: marquee-horizontal 35s linear infinite;
+}
+
+.animate-marquee-horizontal:hover {
+  animation-play-state: paused;
 }
 
 @keyframes scroll-dot {
@@ -272,3 +294,57 @@ html.light .swiper-button-next, html.light .swiper-button-prev {
 html.light .swiper-pagination-bullet-active {
   background: #0284C7 !important;
 }
+
+/* ===== WORLD-CLASS BENTO & SHIMMER STYLES ===== */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2.5s infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.bento-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.dark .bento-card {
+  background: linear-gradient(145deg, rgba(24, 34, 54, 0.85) 0%, rgba(15, 22, 36, 0.95) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 30px rgba(0, 212, 255, 0.03);
+}
+
+html.light .bento-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(246, 248, 252, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  box-shadow: 0 10px 35px -10px rgba(148, 163, 184, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+html.dark .bento-card:hover {
+  border-color: rgba(0, 212, 255, 0.5) !important;
+  box-shadow: 0 0 50px rgba(0, 212, 255, 0.22), 0 20px 45px rgba(0, 0, 0, 0.9);
+  transform: translateY(-4px);
+}
+
+html.light .bento-card:hover {
+  border-color: rgba(2, 132, 199, 0.4) !important;
+  box-shadow: 0 0 40px rgba(2, 132, 199, 0.15), 0 20px 40px rgba(148, 163, 184, 0.3);
+  transform: translateY(-4px);
+}
+
