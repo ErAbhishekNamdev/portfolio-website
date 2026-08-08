@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   FaGithub,
@@ -287,6 +287,200 @@ function StatusBadge({ dark, badgeText }) {
   );
 }
 
+function Hero3DCanvas({ dark }) {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let animId;
+
+    let width = (canvas.width = canvas.parentElement?.offsetWidth || window.innerWidth);
+    let height = (canvas.height = canvas.parentElement?.offsetHeight || window.innerHeight);
+
+    const handleResize = () => {
+      if (!canvas.parentElement) return;
+      width = canvas.width = canvas.parentElement.offsetWidth;
+      height = canvas.height = canvas.parentElement.offsetHeight;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const isDesktop = width >= 768;
+    const numPoints = isDesktop ? 130 : 70;
+    const radius = Math.min(width, height) * (isDesktop ? 0.46 : 0.38);
+
+    const points = [];
+    const colorPaletteDark = ["#00D4FF", "#7C3AED", "#F472B6", "#38BDF8"];
+    const colorPaletteLight = ["#0284C7", "#7C3AED", "#2563EB", "#D946EF"];
+    const colors = dark ? colorPaletteDark : colorPaletteLight;
+
+    for (let i = 0; i < numPoints; i++) {
+      const theta = Math.acos(2 * Math.random() - 1);
+      const phi = 2 * Math.PI * Math.random();
+      const r = radius * (0.6 + Math.random() * 0.4);
+      points.push({
+        x: r * Math.sin(theta) * Math.cos(phi),
+        y: r * Math.sin(theta) * Math.sin(phi),
+        z: r * Math.cos(theta),
+        size: Math.random() * 2.8 + 1.4,
+        color: colors[i % colors.length],
+      });
+    }
+
+    let rotX = 0;
+    let rotY = 0;
+    let targetRotX = 0;
+    let targetRotY = 0;
+    let mouseX = -9999;
+    let mouseY = -9999;
+
+    const handleMouseMove = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+      const mx = (mouseX - width / 2) / (width / 2);
+      const my = (mouseY - height / 2) / (height / 2);
+      targetRotY = mx * 0.9;
+      targetRotX = -my * 0.9;
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+
+    // Mobile & Desktop Scroll-Linked 3D Rotation Physics
+    let lastScrollY = window.scrollY;
+    const handleScroll = () => {
+      const dy = window.scrollY - lastScrollY;
+      lastScrollY = window.scrollY;
+      targetRotX += dy * 0.004;
+      targetRotY += dy * 0.003;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Touch Drag Rotation for Mobile Devices
+    let touchStartX = 0;
+    let touchStartY = 0;
+    const handleTouchMove = (e) => {
+      if (!e.touches[0]) return;
+      const touch = e.touches[0];
+      const dx = touch.clientX - touchStartX;
+      const dy = touch.clientY - touchStartY;
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      targetRotY += dx * 0.008;
+      targetRotX -= dy * 0.008;
+    };
+    const handleTouchStart = (e) => {
+      if (!e.touches[0]) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    };
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      rotX += (targetRotX - rotX) * 0.045 + 0.002;
+      rotY += (targetRotY - rotY) * 0.045 + 0.003;
+
+      const cosX = Math.cos(rotX);
+      const sinX = Math.sin(rotX);
+      const cosY = Math.cos(rotY);
+      const sinY = Math.sin(rotY);
+
+      const centerX = isDesktop ? width * 0.42 : width / 2;
+      const centerY = height / 2;
+      const projected = [];
+
+      for (let i = 0; i < points.length; i++) {
+        const p = points[i];
+        let x1 = p.x * cosY - p.z * sinY;
+        let z1 = p.x * sinY + p.z * cosY;
+        let y1 = p.y * cosX - z1 * sinX;
+        let z2 = p.y * sinX + z1 * cosX;
+
+        const fov = 420;
+        const scale = fov / (fov + z2 + 320);
+        let px = centerX + x1 * scale;
+        let py = centerY + y1 * scale;
+
+        if (mouseX > 0 && mouseY > 0) {
+          const mdx = px - mouseX;
+          const mdy = py - mouseY;
+          const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+          if (mdist < 140) {
+            const force = (1 - mdist / 140) * 24;
+            px += (mdx / (mdist || 1)) * force;
+            py += (mdy / (mdist || 1)) * force;
+          }
+        }
+
+        const alpha = Math.max(0.15, Math.min(1, (z2 + 320) / 520));
+        projected.push({ px, py, scale, z: z2, color: p.color, size: p.size, alpha });
+      }
+
+      const lineDistLimit = isDesktop ? 115 : 90;
+      for (let i = 0; i < projected.length; i++) {
+        for (let j = i + 1; j < projected.length; j++) {
+          const p1 = projected[i];
+          const p2 = projected[j];
+          const dx = p1.px - p2.px;
+          const dy = p1.py - p2.py;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < lineDistLimit) {
+            const lineAlpha = (1 - dist / lineDistLimit) * (dark ? 0.30 : 0.22) * Math.min(p1.alpha, p2.alpha);
+            ctx.beginPath();
+            ctx.moveTo(p1.px, p1.py);
+            ctx.lineTo(p2.px, p2.py);
+            ctx.strokeStyle = dark
+              ? `rgba(0, 212, 255, ${lineAlpha})`
+              : `rgba(2, 132, 199, ${lineAlpha})`;
+            ctx.lineWidth = isDesktop ? 0.9 : 0.75;
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (let i = 0; i < projected.length; i++) {
+        const p = projected[i];
+        if (p.scale <= 0) continue;
+
+        ctx.beginPath();
+        const r = Math.max(1.2, p.size * p.scale);
+        ctx.arc(p.px, p.py, r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = dark ? p.alpha : Math.min(1, p.alpha * 1.1);
+        ctx.shadowBlur = dark ? 16 * p.scale : 6 * p.scale;
+        ctx.shadowColor = p.color;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.globalAlpha = 1;
+      }
+
+      animId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [dark]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className={`absolute inset-0 w-full h-full pointer-events-none z-0 ${dark ? 'opacity-60 md:opacity-85' : 'opacity-40 md:opacity-55'}`}
+  />
+  );
+}
+
 export default function Hero() {
   const { dark, introPopupOpen } = useTheme();
   const badgeText = useTyping(BADGE_MESSAGES);
@@ -300,6 +494,28 @@ export default function Hero() {
   const [cbError, setCbError] = useState("");
   const whatsappUrl = "https://wa.me/917024073871";
   const callUrl = "tel:7024073871";
+
+  const [tiltStyle, setTiltStyle] = useState({ transform: "perspective(1000px) rotateX(0deg) rotateY(0deg)" });
+
+  const handleMouseMove = (e) => {
+    const card = e.currentTarget;
+    const box = card.getBoundingClientRect();
+    const x = e.clientX - box.left - box.width / 2;
+    const y = e.clientY - box.top - box.height / 2;
+    const rX = -(y / (box.height / 2)) * 7;
+    const rY = (x / (box.width / 2)) * 7;
+    setTiltStyle({
+      transform: `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg)`,
+      transition: "transform 0.1s ease"
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTiltStyle({
+      transform: "perspective(1000px) rotateX(0deg) rotateY(0deg)",
+      transition: "transform 0.5s ease"
+    });
+  };
 
   async function handleCallbackSubmit(e) {
     e.preventDefault();
@@ -335,15 +551,19 @@ export default function Hero() {
       id="hero"
       className={`relative min-h-0 md:min-h-screen flex flex-col overflow-hidden transition-colors duration-300 ${dark
         ? "bg-[#0A0D14]"
-        : "bg-[#F4F6FB]"
+        : "bg-[#F8FAFC]"
         }`}
     >
+      {/* 3D Interactive Particle Sphere Canvas */}
+      <Hero3DCanvas dark={dark} />
+
       {/* Grid */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: `linear-gradient(rgba(99,102,241,0.06) 1px,transparent 1px),
-                          linear-gradient(90deg,rgba(99,102,241,0.06) 1px,transparent 1px)`,
+          backgroundImage: dark
+            ? `linear-gradient(rgba(99,102,241,0.06) 1px,transparent 1px), linear-gradient(90deg,rgba(99,102,241,0.06) 1px,transparent 1px)`
+            : `linear-gradient(rgba(2,132,199,0.04) 1px,transparent 1px), linear-gradient(90deg,rgba(2,132,199,0.04) 1px,transparent 1px)`,
           backgroundSize: "44px 44px",
         }}
       />
@@ -360,7 +580,7 @@ export default function Hero() {
             filter: "blur(80px)",
             background: dark
               ? "radial-gradient(circle,rgba(99,102,241,0.25) 0%,rgba(124,58,237,0.1) 45%,transparent 70%)"
-              : "radial-gradient(circle,rgba(99,102,241,0.14) 0%,rgba(124,58,237,0.05) 45%,transparent 70%)",
+              : "radial-gradient(circle,rgba(2,132,199,0.10) 0%,rgba(99,102,241,0.04) 45%,transparent 70%)",
           }}
           animate={{ scale: [1, 1.07, 1], x: [0, 18, 0] }}
           transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
@@ -375,7 +595,7 @@ export default function Hero() {
             filter: "blur(80px)",
             background: dark
               ? "radial-gradient(circle,rgba(192,38,211,0.22) 0%,rgba(244,114,182,0.07) 45%,transparent 70%)"
-              : "radial-gradient(circle,rgba(192,38,211,0.10) 0%,rgba(244,114,182,0.04) 45%,transparent 70%)",
+              : "radial-gradient(circle,rgba(192,38,211,0.08) 0%,rgba(244,114,182,0.03) 45%,transparent 70%)",
           }}
           animate={{ scale: [1, 1.09, 1], y: [0, -22, 0] }}
           transition={{
@@ -393,8 +613,16 @@ export default function Hero() {
       <div className="relative z-10 flex-1 flex items-center max-md:items-start py-6 max-md:pt-[100px] max-md:pb-4 md:pt-[88px] md:pb-6">
         <div className="w-full max-w-container mx-auto px-4 md:px-6">
           <div className="w-full grid grid-cols-1 md:grid-cols-[50%_50%] lg:grid-cols-[48%_52%] gap-6 lg:gap-10 max-md:gap-12 items-center md:items-start">
-            {/* LEFT — tight stack, no spread */}
-            <div className="flex flex-col items-start text-left w-full gap-2.5 md:gap-3">
+            {/* LEFT — 3D Interactive Text & Hologram Container */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.15 }}
+              style={tiltStyle}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              className="flex flex-col items-start text-left w-full gap-3 md:gap-3.5 relative group perspective-[1000px] transform-gpu"
+            >
 
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
@@ -432,8 +660,8 @@ export default function Hero() {
 
                 {welcomeComplete && (
                   <span
-                    className="mt-2 block h-[2px] w-9 rounded-full"
-                    style={{ background: "linear-gradient(90deg,#6366F1,#7C3AED,#C026D3)" }}
+                    className="mt-2 block h-[3px] w-12 rounded-full shadow-[0_0_12px_rgba(99,102,241,0.8)] animate-pulse"
+                    style={{ background: "linear-gradient(90deg,#00D4FF,#7C3AED,#F472B6)" }}
                     aria-hidden="true"
                   />
                 )}
@@ -457,7 +685,7 @@ export default function Hero() {
                     {LONGEST_ROLE}
                   </span>
                   <span className="[grid-area:stack] inline-flex items-baseline whitespace-nowrap">
-                    <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,212,255,0.3)]">
                       {roleText}
                     </span>
                     <span
@@ -467,7 +695,7 @@ export default function Hero() {
                   </span>
                 </span>
                 <span className="inline-flex items-baseline md:hidden font-bold">
-                  <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,212,255,0.3)]">
                     {roleText}
                   </span>
                   <span
@@ -476,6 +704,7 @@ export default function Hero() {
                   />
                 </span>
               </motion.div>
+
               {/* Mobile — single paragraph, natural left-aligned wrap */}
               <motion.p
                 initial={{ opacity: 0, x: -30 }}
@@ -515,7 +744,7 @@ export default function Hero() {
                 className={`hidden md:block w-full max-w-none text-left text-[15px] leading-[1.65] tracking-normal text-pretty ${dark ? "text-slate-400" : "text-slate-600"}`}
               >
                 I transform ideas into{" "}
-                <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
+                <span className="font-semibold bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent">
                   high-performing digital experiences
                 </span>{" "}
                 that{" "}
@@ -539,46 +768,61 @@ export default function Hero() {
                   full-featured web applications
                 </span>{" "}
                 — with{" "}
-                <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
+                <span className="font-semibold bg-gradient-to-r from-[#00D4FF] to-[#7C3AED] bg-clip-text text-transparent">
                   long-term business growth
                 </span>{" "}
                 in mind.
               </motion.p>
 
-              {/* Buttons */}
+              {/* Buttons — Ultra-World-Class 3D Glassmorphic Action Buttons */}
               <motion.div
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.62 }}
-                className="flex flex-wrap items-center gap-2.5 max-md:w-full max-md:flex-row max-md:flex-nowrap max-md:gap-2"
+                className="flex flex-wrap items-center gap-3.5 mt-2 max-md:w-full max-md:flex-row max-md:flex-nowrap max-md:gap-2 relative z-20 perspective-[1000px]"
               >
-                <a
+                {/* 3D Primary Button */}
+                <motion.a
                   href="#contact"
-                  className="inline-flex items-center gap-2 px-6 py-3 md:px-5 md:py-2.5 rounded-full font-semibold text-sm text-white transition-all duration-300 hover:scale-105 max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3 max-md:py-2.5 max-md:text-xs"
+                  whileHover={{ y: -5, scale: 1.05, rotateX: -5, rotateY: 5 }}
+                  whileTap={{ y: 1, scale: 0.96 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 15 }}
+                  className="group relative inline-flex items-center gap-2.5 px-6 py-3 md:px-6 md:py-3 rounded-full font-bold text-sm text-white transition-all duration-300 shadow-[0_10px_28px_rgba(99,102,241,0.55)] hover:shadow-[0_20px_45px_rgba(0,212,255,0.75)] max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-2.5 max-md:text-xs overflow-hidden border border-white/20"
                   style={{
-                    background: "linear-gradient(to right,#6366F1,#7C3AED)",
-                    boxShadow: "0 0 28px rgba(99,102,241,0.45)",
+                    background: "linear-gradient(135deg, #6366F1 0%, #7C3AED 50%, #C026D3 100%)",
                   }}
                 >
-                  Get In Touch <FaArrowRight style={{ fontSize: 10 }} />
-                </a>
-                <a
+                  {/* 3D Laser Beam Sweep */}
+                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-1000 ease-out pointer-events-none" />
+                  <span className="relative z-10 flex items-center gap-2">
+                    Get In Touch <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1.5 group-hover:scale-110" />
+                  </span>
+                </motion.a>
+
+                {/* 3D Secondary Glass Button */}
+                <motion.a
                   href="#"
-                  className={`inline-flex items-center gap-2 px-6 py-3 md:px-5 md:py-2.5 rounded-full font-semibold text-sm transition-all duration-300 border max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3 max-md:py-2.5 max-md:text-xs max-md:whitespace-nowrap ${dark
-                    ? "border-white/20 text-white dark:bg-[#2A2A3C] hover:border-indigo-400/50 hover:bg-indigo-500/10"
-                    : "border-slate-300 text-slate-800 bg-white/90  hover:border-indigo-400 shadow-sm"
+                  whileHover={{ y: -5, scale: 1.05, rotateX: -5, rotateY: -5 }}
+                  whileTap={{ y: 1, scale: 0.96 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 15 }}
+                  className={`group relative inline-flex items-center gap-2.5 px-6 py-3 md:px-6 md:py-3 rounded-full font-bold text-sm transition-all duration-300 border max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-2.5 max-md:text-xs max-md:whitespace-nowrap overflow-hidden ${dark
+                    ? "border-white/20 text-white bg-[#1E2538]/90 hover:border-cyan-400/80 hover:bg-cyan-500/15 shadow-[0_10px_25px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_35px_rgba(0,212,255,0.35)]"
+                    : "border-slate-300 text-slate-800 bg-white/95 hover:border-indigo-500 hover:bg-indigo-50/80 shadow-md hover:shadow-xl"
                     }`}
                 >
-                  <FaDownload style={{ fontSize: 10 }} /> Download Resume
-                </a>
+                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-1000 ease-out pointer-events-none" />
+                  <span className="relative z-10 flex items-center gap-2">
+                    <FaDownload className="text-xs transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110" /> Download Resume
+                  </span>
+                </motion.a>
               </motion.div>
 
-              {/* Socials — centered on mobile */}
+              {/* Socials — 3D Key-Card Interactive Spring Icons */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.75 }}
-                className="mt-6 md:mt-2 flex w-full flex-wrap items-center justify-start gap-3 max-md:justify-center max-md:mx-auto max-md:mb-2"
+                className="mt-6 md:mt-3 flex w-full flex-wrap items-center justify-start gap-3.5 max-md:justify-center max-md:mx-auto max-md:mb-2 perspective-[1000px]"
               >
                 {SOCIALS.map((s, i) => (
                   <motion.a
@@ -588,36 +832,49 @@ export default function Hero() {
                     rel="noreferrer"
                     aria-label={s.label}
                     title={s.label}
-                    initial={{ opacity: 0, y: 12, scale: 0.85 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ delay: 0.78 + i * 0.08, type: "spring", stiffness: 260, damping: 18 }}
-                    whileHover={{ y: -5, scale: 1.15 }}
-                    whileTap={{ scale: 0.92 }}
-                    className="group relative flex h-10 w-10 items-center justify-center rounded-xl text-[18px] text-white border transition-all duration-300"
+                    initial={{ opacity: 0, y: 16, scale: 0.75 }}
+                    animate={{
+                      opacity: 1,
+                      y: [0, -4, 0],
+                      scale: 1,
+                    }}
+                    transition={{
+                      opacity: { delay: 0.78 + i * 0.08, duration: 0.5 },
+                      scale: { delay: 0.78 + i * 0.08, duration: 0.5 },
+                      y: {
+                        duration: 3.2 + i * 0.35,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: i * 0.15,
+                      },
+                    }}
+                    whileHover={{ y: -10, scale: 1.28, rotateX: 20, rotateY: -18, rotateZ: 5 }}
+                    whileTap={{ scale: 0.88 }}
+                    className="group relative flex h-11 w-11 items-center justify-center rounded-2xl text-[20px] text-white border transition-all duration-300 transform-gpu shadow-lg"
                     style={{
                       background: s.bg,
                       borderColor: s.border,
-                      boxShadow: `0 2px 8px ${s.glow}`,
+                      boxShadow: `0 6px 18px ${s.glow}`,
                     }}
                     onMouseEnter={e => {
                       e.currentTarget.style.borderColor = s.hoverBorder;
-                      e.currentTarget.style.boxShadow = `0 0 18px ${s.glow}, 0 4px 12px ${s.glow}`;
+                      e.currentTarget.style.boxShadow = `0 0 32px ${s.glow}, 0 12px 28px ${s.glow}`;
                     }}
                     onMouseLeave={e => {
                       e.currentTarget.style.borderColor = s.border;
-                      e.currentTarget.style.boxShadow = `0 2px 8px ${s.glow}`;
+                      e.currentTarget.style.boxShadow = `0 6px 18px ${s.glow}`;
                     }}
                   >
-                    {/* Brand glow pulse on hover */}
+                    {/* 3D Glowing Halo Ring */}
                     <span
-                      className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      style={{ boxShadow: `0 0 16px ${s.glow}` }}
+                      className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-130"
+                      style={{ boxShadow: `0 0 28px ${s.glow}` }}
                     />
-                    <span className="relative z-10 flex items-center justify-center">{s.icon}</span>
+                    <span className="relative z-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-120 group-hover:rotate-6">{s.icon}</span>
                   </motion.a>
                 ))}
               </motion.div>
-            </div>
+            </motion.div>
 
             {/* RIGHT – Laptop */}
             <motion.div
