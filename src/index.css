@@ -3,10 +3,12 @@
 @tailwind utilities;
 
 @keyframes caret-blink {
+
   0%,
   49% {
     opacity: 1;
   }
+
   50%,
   100% {
     opacity: 0;
@@ -214,8 +216,13 @@ html.light .card-glow:hover {
 
 /* Ambient glow orb animations */
 @keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .animate-spin-slow {
@@ -223,24 +230,95 @@ html.light .card-glow:hover {
 }
 
 @keyframes orbit {
-  from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+  from {
+    transform: rotate(0deg) translateX(var(--orbit-radius, 118px)) rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg) translateX(var(--orbit-radius, 118px)) rotate(-360deg);
+  }
 }
 
-@media (min-width: 640px) {
-  @keyframes orbit {
-    from { transform: rotate(0deg) translateX(145px) rotate(0deg); }
-    to { transform: rotate(360deg) translateX(145px) rotate(-360deg); }
+@keyframes orbit-reverse {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
   }
 }
 
 .animate-orbit {
-  animation: orbit 30s linear infinite;
+  animation: orbit 36s linear infinite;
+  will-change: transform;
+}
+
+.animate-orbit-reverse {
+  animation: orbit-reverse 36s linear infinite;
+  will-change: transform;
+}
+
+.tech-orbit-ring {
+  --orbit-radius: 124px;
+  --orbit-icon-size: 38px;
+}
+
+@media (min-width: 640px) {
+  .tech-orbit-ring {
+    --orbit-radius: 146px;
+    --orbit-icon-size: 42px;
+  }
+}
+
+@media (min-width: 768px) {
+  .tech-orbit-ring {
+    --orbit-radius: 163px;
+    --orbit-icon-size: 44px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .tech-orbit-ring {
+    --orbit-radius: 176px;
+    --orbit-icon-size: 46px;
+  }
+}
+
+.tech-orbit-icon {
+  width: var(--orbit-icon-size);
+  height: var(--orbit-icon-size);
+  margin-top: calc(var(--orbit-icon-size) / -2);
+  margin-left: calc(var(--orbit-icon-size) / -2);
+}
+
+.tech-orbit-icon-inner {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.tech-orbit-icon-inner:hover {
+  transform: scale(1.15);
+  z-index: 50;
+}
+
+html.dark .tech-orbit-icon-inner:hover {
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.35);
+  border-color: rgba(0, 212, 255, 0.5) !important;
+}
+
+html.light .tech-orbit-icon-inner:hover {
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.25);
+  border-color: rgba(14, 165, 233, 0.45) !important;
 }
 
 @keyframes marquee-horizontal {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee-horizontal {
@@ -254,8 +332,15 @@ html.light .card-glow:hover {
 }
 
 @keyframes scroll-dot {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(12px); opacity: 0; }
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
 }
 
 .animate-scroll-dot {
@@ -263,8 +348,15 @@ html.light .card-glow:hover {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 .animate-float {
@@ -272,12 +364,14 @@ html.light .card-glow:hover {
 }
 
 /* Swiper custom buttons & pagination styling */
-.swiper-button-next, .swiper-button-prev {
+.swiper-button-next,
+.swiper-button-prev {
   color: #00D4FF !important;
   transition: transform 0.2s ease;
 }
 
-html.light .swiper-button-next, html.light .swiper-button-prev {
+html.light .swiper-button-next,
+html.light .swiper-button-prev {
   color: #0284C7 !important;
 }
 
@@ -297,8 +391,13 @@ html.light .swiper-pagination-bullet-active {
 
 /* ===== WORLD-CLASS BENTO & SHIMMER STYLES ===== */
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .animate-shimmer {
@@ -306,8 +405,15 @@ html.light .swiper-pagination-bullet-active {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fadeIn {
@@ -347,4 +453,3 @@ html.light .bento-card:hover {
   box-shadow: 0 0 40px rgba(2, 132, 199, 0.15), 0 20px 40px rgba(148, 163, 184, 0.3);
   transform: translateY(-4px);
 }
-
