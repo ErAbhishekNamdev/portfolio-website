@@ -209,25 +209,25 @@ export default function About() {
           <div className={`absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r ${dark ? 'from-[#05070E]' : 'from-[#F4F6FB]'} to-transparent z-10 pointer-events-none`} />
           <div className={`absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l ${dark ? 'from-[#05070E]' : 'from-[#F4F6FB]'} to-transparent z-10 pointer-events-none`} />
 
-          <div className="animate-marquee-horizontal flex gap-3">
+          <div className="animate-marquee-horizontal flex gap-2.5">
             {[...coreMetrics, ...coreMetrics].map((m, idx) => (
               <div
                 key={idx}
-                className={`group rounded-xl p-3 flex items-center gap-3 text-left shrink-0 w-[210px] relative overflow-hidden transition-all duration-300 border ${dark ? m.cardBgDark : m.cardBgLight}`}
+                className={`group rounded-xl p-2.5 flex items-center gap-2 text-left shrink-0 w-[155px] relative overflow-hidden transition-all duration-300 border ${dark ? m.cardBgDark : m.cardBgLight}`}
               >
-                <div className={`w-8.5 h-8.5 rounded-lg flex items-center justify-center shrink-0 border text-sm shadow-inner ${dark ? m.badgeBgDark : m.badgeBgLight}`}>
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border text-xs shadow-inner ${dark ? m.badgeBgDark : m.badgeBgLight}`}>
                   {m.icon}
                 </div>
                 <div className="overflow-hidden">
                   <div className="flex items-center gap-1">
-                    <span className={`text-base font-extrabold font-mono tracking-tight block ${dark ? m.titleColorDark : m.titleColorLight}`}>
+                    <span className={`text-sm font-extrabold font-mono tracking-tight block ${dark ? m.titleColorDark : m.titleColorLight}`}>
                       {m.value}
                     </span>
                   </div>
-                  <span className={`text-[11px] font-semibold block truncate ${dark ? m.titleColorDark : m.titleColorLight}`}>
+                  <span className={`text-[10px] font-semibold block truncate ${dark ? m.titleColorDark : m.titleColorLight}`}>
                     {m.title}
                   </span>
-                  <span className={`text-[9px] block truncate ${subtext}`}>
+                  <span className={`text-[8.5px] block truncate ${subtext}`}>
                     {m.sub}
                   </span>
                 </div>
@@ -344,7 +344,7 @@ export default function About() {
               {/* Center Hub Avatar */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
                 <div
-                  className={`relative w-[108px] h-[108px] sm:w-[120px] sm:h-[120px] md:w-[130px] md:h-[130px] rounded-full flex flex-col items-center justify-center gap-0.5 overflow-hidden transition-transform duration-300 hover:scale-105 ${dark
+                  className={`relative w-[115px] h-[115px] sm:w-[125px] sm:h-[125px] md:w-[135px] md:h-[135px] rounded-full flex flex-col items-center justify-center text-center p-2 overflow-hidden transition-transform duration-300 hover:scale-105 ${dark
                     ? 'bg-gradient-to-br from-[#1a2744] via-[#121a2e] to-[#0d1220] border border-cyan-500/30'
                     : 'bg-gradient-to-br from-white via-sky-50 to-indigo-50 border border-sky-300 shadow-[0_8px_30px_rgba(14,165,233,0.18)]'
                     }`}
@@ -361,19 +361,19 @@ export default function About() {
                   />
 
                   {/* AN Badge */}
-                  <div className={`relative w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white font-black text-xs shrink-0 bg-gradient-to-br ${dark ? 'from-cyan-400 via-blue-500 to-purple-600' : 'from-sky-500 via-indigo-500 to-purple-600'} shadow-md`}
+                  <div className={`relative w-8.5 h-8.5 sm:w-9.5 sm:h-9.5 rounded-full flex items-center justify-center text-white font-black text-xs shrink-0 mx-auto mb-1 bg-gradient-to-br ${dark ? 'from-cyan-400 via-blue-500 to-purple-600' : 'from-sky-500 via-indigo-500 to-purple-600'} shadow-md`}
                     style={{ boxShadow: dark ? '0 0 14px rgba(0,212,255,0.5)' : '0 4px 14px rgba(14,165,233,0.3)' }}
                   >
                     AN
                   </div>
 
-                  <span className={`relative text-xs sm:text-sm font-extrabold font-syne leading-tight ${heading}`}>
+                  <span className={`relative text-xs sm:text-sm font-extrabold font-syne leading-tight text-center block w-full truncate ${heading}`}>
                     Abhishek
                   </span>
 
-                  <div className="relative flex items-center gap-1.5 mt-0.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping inline-block" />
-                    <span className={`text-[9px] sm:text-[10px] font-mono font-semibold tracking-wide ${dark ? 'text-cyan-400' : 'text-sky-700'}`}>
+                  <div className="relative flex items-center justify-center gap-1 mt-0.5 w-full text-center px-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0 inline-block" />
+                    <span className={`text-[8.5px] sm:text-[9.5px] font-mono font-semibold tracking-wide truncate ${dark ? 'text-cyan-400' : 'text-sky-700'}`}>
                       Full-Stack Dev
                     </span>
                   </div>
@@ -469,51 +469,51 @@ export default function About() {
                       Engineering fast, scalable, and SEO-optimized web applications with modern design patterns, crisp micro-animations, and clean code architecture.
                     </p>
 
-                    {/* 3 Premium Engineering Highlight Cards with Rich Colored Background Fills */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 pt-1 font-mono">
+                    {/* 3 Premium Engineering Highlight Cards (Side-by-Side 3-Col Grid on Mobile & Desktop) */}
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-1 font-mono">
                       {/* Speed Card */}
-                      <div className={`p-3 rounded-2xl border transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group ${dark
+                      <div className={`p-2 sm:p-3 rounded-2xl border transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group ${dark
                         ? 'bg-gradient-to-br from-[#422d06] via-[#2d1e04] to-[#1e1302] border-[#422d06] text-amber-100 shadow-[0_4px_20px_rgba(245,158,11,0.25)]'
                         : 'bg-gradient-to-br from-amber-100 via-white to-orange-100 border-amber-300 text-amber-950 shadow-sm'
                         }`}>
-                        <div className="flex items-center justify-between mb-1.5">
-                          <span className="text-[10px] font-bold tracking-wider uppercase opacity-80">Speed</span>
-                          <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs shrink-0 ${dark ? 'bg-amber-500/30 text-amber-300 border border-amber-400/60' : 'bg-amber-200/90 text-amber-800'}`}>
+                        <div className="flex items-center justify-between mb-1 sm:mb-1.5">
+                          <span className="text-[9px] sm:text-[10px] font-bold tracking-wider uppercase opacity-80">Speed</span>
+                          <div className={`w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-lg flex items-center justify-center text-[10px] sm:text-xs shrink-0 ${dark ? 'bg-amber-500/30 text-amber-300 border border-amber-400/60' : 'bg-amber-200/90 text-amber-800'}`}>
                             ⚡
                           </div>
                         </div>
-                        <span className="font-extrabold text-sm sm:text-base block tracking-tight">99+ Score</span>
-                        <span className={`text-[10px] block font-sans mt-0.5 ${dark ? 'text-amber-300/80' : 'text-amber-800'}`}>Lighthouse Audited</span>
+                        <span className="font-extrabold text-xs sm:text-base block tracking-tight truncate">99+ Score</span>
+                        <span className={`text-[8px] sm:text-[10px] block font-sans mt-0.5 truncate ${dark ? 'text-amber-300/80' : 'text-amber-800'}`}>Lighthouse Audited</span>
                       </div>
 
                       {/* Quality Card */}
-                      <div className={`p-3 rounded-2xl border transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group ${dark
+                      <div className={`p-2 sm:p-3 rounded-2xl border transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group ${dark
                         ? 'bg-gradient-to-br from-[#0e485b] via-[#092d3a] to-[#041a23] border-[#08334e] text-cyan-100 shadow-[0_4px_20px_rgba(6,182,212,0.25)]'
                         : 'bg-gradient-to-br from-cyan-100 via-white to-sky-100 border-sky-300 text-sky-950 shadow-sm'
                         }`}>
-                        <div className="flex items-center justify-between mb-1.5">
-                          <span className="text-[10px] font-bold tracking-wider uppercase opacity-80">Quality</span>
-                          <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs shrink-0 ${dark ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-400/60' : 'bg-sky-200/90 text-sky-800'}`}>
+                        <div className="flex items-center justify-between mb-1 sm:mb-1.5">
+                          <span className="text-[9px] sm:text-[10px] font-bold tracking-wider uppercase opacity-80">Quality</span>
+                          <div className={`w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-lg flex items-center justify-center text-[10px] sm:text-xs shrink-0 ${dark ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-400/60' : 'bg-sky-200/90 text-sky-800'}`}>
                             🛡️
                           </div>
                         </div>
-                        <span className="font-extrabold text-sm sm:text-base block tracking-tight">100% Safe</span>
-                        <span className={`text-[10px] block font-sans mt-0.5 ${dark ? 'text-cyan-300/80' : 'text-sky-800'}`}>Typed Clean Code</span>
+                        <span className="font-extrabold text-xs sm:text-base block tracking-tight truncate">100% Safe</span>
+                        <span className={`text-[8px] sm:text-[10px] block font-sans mt-0.5 truncate ${dark ? 'text-cyan-300/80' : 'text-sky-800'}`}>Typed Clean Code</span>
                       </div>
 
                       {/* Availability Card */}
-                      <div className={`p-3 rounded-2xl border transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group ${dark
+                      <div className={`p-2 sm:p-3 rounded-2xl border transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group ${dark
                         ? 'bg-gradient-to-br from-[#063829] via-[#05261c] to-[#021c14] border-[#063829] text-emerald-100 shadow-[0_4px_20px_rgba(16,185,129,0.25)]'
                         : 'bg-gradient-to-br from-emerald-100 via-white to-teal-100 border-emerald-300 text-emerald-950 shadow-sm'
                         }`}>
-                        <div className="flex items-center justify-between mb-1.5">
-                          <span className="text-[10px] font-bold tracking-wider uppercase opacity-80">Status</span>
-                          <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs shrink-0 ${dark ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-400/60' : 'bg-emerald-200/90 text-emerald-800'}`}>
+                        <div className="flex items-center justify-between mb-1 sm:mb-1.5">
+                          <span className="text-[9px] sm:text-[10px] font-bold tracking-wider uppercase opacity-80">Status</span>
+                          <div className={`w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-lg flex items-center justify-center text-[10px] sm:text-xs shrink-0 ${dark ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-400/60' : 'bg-emerald-200/90 text-emerald-800'}`}>
                             🚀
                           </div>
                         </div>
-                        <span className="font-extrabold text-sm sm:text-base block tracking-tight">Open to Hire</span>
-                        <span className={`text-[10px] block font-sans mt-0.5 ${dark ? 'text-emerald-300/80' : 'text-emerald-800'}`}>Freelance & Full-time</span>
+                        <span className="font-extrabold text-xs sm:text-base block tracking-tight truncate">Open to Hire</span>
+                        <span className={`text-[8px] sm:text-[10px] block font-sans mt-0.5 truncate ${dark ? 'text-emerald-300/80' : 'text-emerald-800'}`}>Freelance & Fulltime</span>
                       </div>
                     </div>
                   </motion.div>
