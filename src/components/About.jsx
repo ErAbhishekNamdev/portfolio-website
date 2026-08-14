@@ -191,9 +191,6 @@ export default function About() {
           transition={{ duration: 0.7 }}
           className="text-center"
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase mb-3 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
-            <FaUserCheck className="text-cyan-400" /> Engineering Profile
-          </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-syne tracking-tight">
             <span className={heading}>About </span>
             <span className="gradient-text-cyan-purple">Me</span>
