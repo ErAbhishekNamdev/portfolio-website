@@ -42,17 +42,37 @@ const WELCOME_SPEECH =
 
 let welcomeSpokenThisLoad = false;
 
-function speakWelcomeText() {
-  if (welcomeSpokenThisLoad) return;
+function speakWelcomeText(onEnd) {
+  let finished = false;
+  const triggerEnd = () => {
+    if (!finished) {
+      finished = true;
+      if (onEnd) onEnd();
+    }
+  };
+
+  if (welcomeSpokenThisLoad) {
+    triggerEnd();
+    return;
+  }
 
   const synth = window.speechSynthesis;
-  if (!synth) return;
+  if (!synth) {
+    triggerEnd();
+    return;
+  }
 
   const speakNow = () => {
-    if (welcomeSpokenThisLoad) return;
+    if (welcomeSpokenThisLoad) {
+      triggerEnd();
+      return;
+    }
 
     const voices = synth.getVoices();
-    if (!voices.length) return;
+    if (!voices.length) {
+      triggerEnd();
+      return;
+    }
 
     welcomeSpokenThisLoad = true;
 
@@ -82,9 +102,13 @@ function speakWelcomeText() {
     };
     const cleanup = () => {
       if (resumeTimer) clearInterval(resumeTimer);
+      triggerEnd();
     };
     utter.onend = cleanup;
     utter.onerror = cleanup;
+
+    // Safety timeout in case browser TTS hangs
+    window.setTimeout(triggerEnd, 7000);
 
     synth.speak(utter);
     synth.resume();
@@ -97,7 +121,10 @@ function speakWelcomeText() {
 
   let handled = false;
   const trySpeak = () => {
-    if (handled || welcomeSpokenThisLoad) return;
+    if (handled || welcomeSpokenThisLoad) {
+      triggerEnd();
+      return;
+    }
     if (!synth.getVoices().length) return;
     handled = true;
     synth.removeEventListener("voiceschanged", trySpeak);
@@ -105,13 +132,19 @@ function speakWelcomeText() {
   };
 
   synth.addEventListener("voiceschanged", trySpeak);
-  window.setTimeout(trySpeak, 300);
+  window.setTimeout(() => {
+    if (!handled && !welcomeSpokenThisLoad) {
+      trySpeak();
+      triggerEnd();
+    }
+  }, 400);
 }
 
 function useWelcomeIntro() {
   const [line1Count, setLine1Count] = useState(0);
   const [line2Count, setLine2Count] = useState(0);
   const [phase, setPhase] = useState("line1");
+  const [speechFinished, setSpeechFinished] = useState(false);
 
   useEffect(() => {
     window.speechSynthesis?.getVoices();
@@ -124,7 +157,7 @@ function useWelcomeIntro() {
     if (phase === "line1") {
       if (line1Count < WELCOME_LINE1.length) {
         id = window.setTimeout(() => {
-          if (line1Count === 0) speakWelcomeText();
+          if (line1Count === 0) speakWelcomeText(() => setSpeechFinished(true));
           setLine1Count((c) => c + 1);
         }, line1Count === 0 ? 80 : 52);
       } else {
@@ -141,7 +174,7 @@ function useWelcomeIntro() {
   const isComplete = phase === "done";
   const isTyping = phase === "line1" || phase === "line2";
 
-  return { line1Count, line2Count, isComplete, isTyping };
+  return { line1Count, line2Count, isComplete, isTyping, speechFinished };
 }
 
 function WelcomeLine1({ count, dark, showCaret }) {
@@ -485,7 +518,7 @@ export default function Hero() {
   const { dark, introPopupOpen } = useTheme();
   const badgeText = useTyping(BADGE_MESSAGES);
   const roleText = useTyping(ROLE_LINES);
-  const { line1Count, line2Count, isComplete: welcomeComplete, isTyping: welcomeTyping } =
+  const { line1Count, line2Count, isComplete: welcomeComplete, isTyping: welcomeTyping, speechFinished } =
     useWelcomeIntro();
   const [contactOpen, setContactOpen] = useState(false);
   const [callbackOpen, setCallbackOpen] = useState(false);
@@ -958,7 +991,7 @@ export default function Hero() {
                       style={dark ? { boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)" } : undefined}
                     >
                       <div className="absolute inset-0 w-full h-full">
-                        <LaptopScreen />
+                        <LaptopScreen speechFinished={speechFinished} />
                       </div>
                       <div
                         className="absolute top-0 left-0 right-0 h-1/3 z-10 pointer-events-none"
