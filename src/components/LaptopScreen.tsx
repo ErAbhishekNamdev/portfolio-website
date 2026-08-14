@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaVolumeMute, FaVolumeUp, FaForward, FaPlay } from "react-icons/fa";
 import {
   SiReact,
   SiNextdotjs,
@@ -21,6 +22,12 @@ import {
 import type { IconType } from "react-icons";
 
 /* ─── Data ─── */
+
+const INTRO_VIDEOS = [
+  "/videos/good_generate_a_new_video_you.mp4",
+  "/videos/generate_second_part_of_that_v.mp4",
+  "/videos/i_need_it_only_one_more.mp4",
+];
 
 const CODE_LINES = [
   { text: "const ClientProject = ({ client, type }) => {", color: "#82aaff" },
@@ -350,10 +357,10 @@ function ProgressRail({ sceneIdx, onSelect, isMobile }: { sceneIdx: number; onSe
             >
               <span
                 className={`rounded-full transition-all duration-300 ${sceneIdx === i
-                    ? "h-2 w-2 max-md:h-2.5 max-md:w-2.5 bg-[#6366f1] shadow-[0_0_8px_rgba(99,102,241,0.8)]"
-                    : sceneIdx > i
-                      ? "h-1.5 w-1.5 max-md:h-2 max-md:w-2 bg-[#6366f1]/60"
-                      : "h-1.5 w-1.5 max-md:h-2 max-md:w-2 bg-white/25 group-hover:bg-white/40"
+                  ? "h-2 w-2 max-md:h-2.5 max-md:w-2.5 bg-[#6366f1] shadow-[0_0_8px_rgba(99,102,241,0.8)]"
+                  : sceneIdx > i
+                    ? "h-1.5 w-1.5 max-md:h-2 max-md:w-2 bg-[#6366f1]/60"
+                    : "h-1.5 w-1.5 max-md:h-2 max-md:w-2 bg-white/25 group-hover:bg-white/40"
                   }`}
               />
               <span className={`font-semibold uppercase tracking-wider ${isMobile ? "text-[5px]" : "text-[7px]"} ${sceneIdx === i ? "text-indigo-300" : "text-white/30"}`}>
@@ -1101,19 +1108,80 @@ function CtaScene({ isMobile, active }: { isMobile: boolean; active: boolean }) 
 
 /* ─── Main ─── */
 
-export default function LaptopScreen() {
+interface LaptopScreenProps {
+  speechFinished?: boolean;
+}
+
+export default function LaptopScreen({ speechFinished = false }: LaptopScreenProps) {
+  const [hasSpeechTriggered, setHasSpeechTriggered] = useState(false);
+  const [isPlayingVideos, setIsPlayingVideos] = useState(false);
+  const [videoIndex, setVideoIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
   const [sceneIdx, setSceneIdx] = useState(0);
   const [direction, setDirection] = useState(1);
   const isMobile = useIsMobile();
   const scene = SCENES[sceneIdx];
 
+  // Start intro videos automatically once welcome speech finishes
   useEffect(() => {
+    if (speechFinished && !hasSpeechTriggered) {
+      setHasSpeechTriggered(true);
+      setIsPlayingVideos(true);
+      setVideoIndex(0);
+    }
+  }, [speechFinished, hasSpeechTriggered]);
+
+  // Instantly play current video and pause/preload others for zero-lag switching
+  useEffect(() => {
+    if (!isPlayingVideos) return;
+    INTRO_VIDEOS.forEach((_, idx) => {
+      const v = videoRefs.current[idx];
+      if (!v) return;
+      v.muted = isMuted;
+      if (idx === videoIndex) {
+        v.currentTime = 0;
+        const playPromise = v.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            setIsMuted(true);
+            v.muted = true;
+            v.play().catch(() => { });
+          });
+        }
+      } else {
+        v.pause();
+      }
+    });
+  }, [videoIndex, isPlayingVideos, isMuted]);
+
+  // Auto transition scenes ONLY when not playing intro videos
+  useEffect(() => {
+    if (isPlayingVideos) return;
     const id = setTimeout(() => {
       setDirection(1);
       setSceneIdx((i) => (i + 1) % SCENES.length);
     }, DURATIONS[scene]);
     return () => clearTimeout(id);
-  }, [scene]);
+  }, [scene, isPlayingVideos]);
+
+  const handleNextVideo = () => {
+    if (videoIndex < INTRO_VIDEOS.length - 1) {
+      setVideoIndex((prev) => prev + 1);
+    } else {
+      setIsPlayingVideos(false);
+    }
+  };
+
+  const skipVideos = () => {
+    setIsPlayingVideos(false);
+  };
+
+  const replayVideos = () => {
+    setVideoIndex(0);
+    setIsPlayingVideos(true);
+  };
 
   const goToScene = (index: number) => {
     setDirection(index >= sceneIdx ? 1 : -1);
@@ -1138,12 +1206,103 @@ export default function LaptopScreen() {
     }
   };
 
+  // If intro videos are active, render the video player with preloaded videos
+  if (isPlayingVideos && INTRO_VIDEOS.length > 0) {
+    return (
+      <div
+        className="relative w-full h-full min-h-0 flex flex-col items-center justify-center bg-black overflow-hidden select-none"
+      >
+        {/* Header Overlay Controls */}
+        <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-between px-2 md:px-3 py-1.5 bg-gradient-to-b from-black/90 via-black/50 to-transparent">
+          <div className="flex items-center gap-1.5">
+            <span className="flex h-2 w-2 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+            </span>
+            <span className="text-[9px] md:text-[11px] font-semibold text-white/90 font-mono tracking-wide">
+              Intro {videoIndex + 1}/{INTRO_VIDEOS.length}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => setIsMuted(!isMuted)}
+              className="flex items-center gap-1 px-1.5 py-0.5 md:px-2 md:py-1 rounded bg-white/10 hover:bg-white/20 text-white text-[8px] md:text-[10px] font-medium backdrop-blur-md transition-colors"
+              title={isMuted ? "Unmute sound" : "Mute sound"}
+            >
+              {isMuted ? <FaVolumeMute className="text-red-400 text-[9px]" /> : <FaVolumeUp className="text-emerald-400 text-[9px]" />}
+              <span>{isMuted ? "Muted" : "Sound On"}</span>
+            </button>
+            <button
+              type="button"
+              onClick={skipVideos}
+              className="flex items-center gap-1 px-2 py-0.5 md:px-2.5 md:py-1 rounded bg-indigo-600/90 hover:bg-indigo-600 text-white text-[8px] md:text-[10px] font-semibold backdrop-blur-md transition-all hover:scale-105"
+            >
+              <span>Skip</span>
+              <FaForward className="text-[7px] md:text-[8px]" />
+            </button>
+          </div>
+        </div>
+
+        {/* Video Stage - All 3 videos preloaded in DOM for zero-lag instant switching */}
+        <div className="relative w-full h-full flex items-center justify-center bg-black overflow-hidden">
+          {INTRO_VIDEOS.map((src, idx) => (
+            <video
+              key={src}
+              ref={(el) => {
+                videoRefs.current[idx] = el;
+              }}
+              src={src}
+              preload="auto"
+              muted={isMuted}
+              playsInline
+              onEnded={() => {
+                if (idx === videoIndex) {
+                  handleNextVideo();
+                }
+              }}
+              onError={() => {
+                if (idx === videoIndex) {
+                  handleNextVideo();
+                }
+              }}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-100 ${idx === videoIndex ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+                }`}
+            />
+          ))}
+        </div>
+
+        {/* Progress Bar Indicator */}
+        <div className="absolute bottom-1.5 inset-x-3 z-20 flex items-center justify-center gap-1.5">
+          {INTRO_VIDEOS.map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => setVideoIndex(idx)}
+              className="focus:outline-none py-1"
+            >
+              <div
+                className={`h-1 rounded-full transition-all duration-300 ${idx === videoIndex
+                    ? "w-6 md:w-8 bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.9)]"
+                    : idx < videoIndex
+                      ? "w-2.5 md:w-3 bg-white/60"
+                      : "w-2.5 md:w-3 bg-white/20 hover:bg-white/40"
+                  }`}
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Standard dynamic laptop screen presentation
   return (
     <div
       className="relative w-full h-full min-h-0 flex flex-col overflow-hidden touch-manipulation select-none ring-1 ring-inset ring-white/[0.06]"
       style={{ background: "#0d1117" }}
     >
-
       {/* Scene area */}
       <div className="relative flex-1 min-h-0 w-full overflow-hidden">
         <AnimatePresence mode="wait" custom={direction}>
@@ -1166,27 +1325,39 @@ export default function LaptopScreen() {
         </AnimatePresence>
       </div>
 
-      {/* Minimal dot indicator */}
-      <div className="shrink-0 flex items-center justify-center gap-1.5 py-1 bg-[#0d1117]/90">
-        {SCENES.map((key, i) => (
-          <button
-            key={key}
-            type="button"
-            onClick={() => goToScene(i)}
-            aria-label={SCENE_LABELS[key]}
-            className="focus:outline-none"
-          >
-            <motion.span
-              animate={{
-                width: sceneIdx === i ? 16 : 5,
-                backgroundColor: sceneIdx === i ? "#6366f1" : "rgba(255,255,255,0.2)",
-              }}
-              transition={{ duration: 0.3 }}
-              className="block h-[5px] rounded-full"
-              style={{ display: "block" }}
-            />
-          </button>
-        ))}
+      {/* Minimal dot indicator & replay intro button */}
+      <div className="shrink-0 flex items-center justify-between px-3 py-1 bg-[#0d1117]/90 border-t border-white/5">
+        <button
+          type="button"
+          onClick={replayVideos}
+          className="flex items-center gap-1 text-[7px] md:text-[9px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+          title="Replay intro videos"
+        >
+          <FaPlay className="text-[6px] md:text-[7px]" />
+          <span>Intro Video</span>
+        </button>
+
+        <div className="flex items-center gap-1.5">
+          {SCENES.map((key, i) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => goToScene(i)}
+              aria-label={SCENE_LABELS[key]}
+              className="focus:outline-none"
+            >
+              <motion.span
+                animate={{
+                  width: sceneIdx === i ? 16 : 5,
+                  backgroundColor: sceneIdx === i ? "#6366f1" : "rgba(255,255,255,0.2)",
+                }}
+                transition={{ duration: 0.3 }}
+                className="block h-[5px] rounded-full"
+                style={{ display: "block" }}
+              />
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
