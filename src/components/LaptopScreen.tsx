@@ -26,7 +26,7 @@ import type { IconType } from "react-icons";
 const INTRO_VIDEOS = [
   "/videos/good_generate_a_new_video_you.mp4",
   "/videos/generate_second_part_of_that_v.mp4",
-  "/videos/i_need_it_only_one_more.mp4",
+  "/videos/good_but_in_bg_explane_using_w.mp4",
 ];
 
 const CODE_LINES = [
@@ -1284,10 +1284,10 @@ export default function LaptopScreen({ speechFinished = false }: LaptopScreenPro
             >
               <div
                 className={`h-1 rounded-full transition-all duration-300 ${idx === videoIndex
-                    ? "w-6 md:w-8 bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.9)]"
-                    : idx < videoIndex
-                      ? "w-2.5 md:w-3 bg-white/60"
-                      : "w-2.5 md:w-3 bg-white/20 hover:bg-white/40"
+                  ? "w-6 md:w-8 bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.9)]"
+                  : idx < videoIndex
+                    ? "w-2.5 md:w-3 bg-white/60"
+                    : "w-2.5 md:w-3 bg-white/20 hover:bg-white/40"
                   }`}
               />
             </button>
