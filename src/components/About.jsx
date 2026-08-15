@@ -64,72 +64,140 @@ const skillsMatrix = [
   { name: 'Machine Learning Basics', category: 'AI & Core CS', icon: <FaCubes className="text-pink-400" />, level: '78%' },
 ];
 
+const METRIC_ACCENTS = {
+  cyan: {
+    dark: {
+      icon: 'text-cyan-400',
+      badge: 'bg-cyan-500/12 border-cyan-500/25 text-cyan-400',
+      value: 'text-white',
+      title: 'text-cyan-400',
+      trend: 'bg-cyan-500/10 text-cyan-300 border-cyan-500/25',
+      topBar: 'bg-cyan-400',
+    },
+    light: {
+      icon: 'text-sky-600',
+      badge: 'bg-sky-50 border-sky-200/90 text-sky-600',
+      value: 'text-slate-900',
+      title: 'text-sky-700',
+      trend: 'bg-sky-50 text-sky-700 border-sky-200',
+      topBar: 'bg-sky-500',
+    },
+  },
+  blue: {
+    dark: {
+      icon: 'text-sky-400',
+      badge: 'bg-sky-500/12 border-sky-500/25 text-sky-400',
+      value: 'text-white',
+      title: 'text-sky-400',
+      trend: 'bg-sky-500/10 text-sky-300 border-sky-500/25',
+      topBar: 'bg-sky-400',
+    },
+    light: {
+      icon: 'text-blue-600',
+      badge: 'bg-blue-50 border-blue-200/90 text-blue-600',
+      value: 'text-slate-900',
+      title: 'text-blue-700',
+      trend: 'bg-blue-50 text-blue-700 border-blue-200',
+      topBar: 'bg-blue-500',
+    },
+  },
+  emerald: {
+    dark: {
+      icon: 'text-emerald-400',
+      badge: 'bg-emerald-500/12 border-emerald-500/25 text-emerald-400',
+      value: 'text-white',
+      title: 'text-emerald-400',
+      trend: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/25',
+      topBar: 'bg-emerald-400',
+    },
+    light: {
+      icon: 'text-emerald-600',
+      badge: 'bg-emerald-50 border-emerald-200/90 text-emerald-600',
+      value: 'text-slate-900',
+      title: 'text-emerald-700',
+      trend: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+      topBar: 'bg-emerald-500',
+    },
+  },
+  amber: {
+    dark: {
+      icon: 'text-amber-400',
+      badge: 'bg-amber-500/12 border-amber-500/25 text-amber-400',
+      value: 'text-white',
+      title: 'text-amber-400',
+      trend: 'bg-amber-500/10 text-amber-300 border-amber-500/25',
+      topBar: 'bg-amber-400',
+    },
+    light: {
+      icon: 'text-amber-600',
+      badge: 'bg-amber-50 border-amber-200/90 text-amber-600',
+      value: 'text-slate-900',
+      title: 'text-amber-700',
+      trend: 'bg-amber-50 text-amber-700 border-amber-200',
+      topBar: 'bg-amber-500',
+    },
+  },
+  violet: {
+    dark: {
+      icon: 'text-violet-400',
+      badge: 'bg-violet-500/12 border-violet-500/25 text-violet-400',
+      value: 'text-white',
+      title: 'text-violet-400',
+      trend: 'bg-violet-500/10 text-violet-300 border-violet-500/25',
+      topBar: 'bg-violet-400',
+    },
+    light: {
+      icon: 'text-violet-600',
+      badge: 'bg-violet-50 border-violet-200/90 text-violet-600',
+      value: 'text-slate-900',
+      title: 'text-violet-700',
+      trend: 'bg-violet-50 text-violet-700 border-violet-200',
+      topBar: 'bg-violet-500',
+    },
+  },
+};
+
 const coreMetrics = [
   {
-    icon: <FaBriefcase className="text-cyan-300" />,
+    icon: FaBriefcase,
+    accent: 'cyan',
     value: '1.5+ Yrs',
     title: 'Experience',
     sub: 'Full-Stack & UI',
     trend: 'Active',
-    cardBgDark: 'bg-gradient-to-br from-[#0e485b] via-[#092d3a] to-[#041a23] border-[#08334e] shadow-[0_4px_25px_rgba(6,182,212,0.35)]',
-    cardBgLight: 'bg-gradient-to-br from-cyan-100 via-white to-sky-100 border-cyan-400 text-cyan-950 shadow-md',
-    badgeBgDark: 'bg-cyan-500/35 text-cyan-300 border-cyan-400/70',
-    badgeBgLight: 'bg-cyan-200/90 text-cyan-800 border-cyan-400',
-    titleColorDark: 'text-cyan-300',
-    titleColorLight: 'text-cyan-700'
   },
   {
-    icon: <FaRocket className="text-sky-300" />,
+    icon: FaRocket,
+    accent: 'blue',
     value: '20+',
     title: 'Projects Done',
     sub: 'Web & AI Apps',
     trend: 'Production',
-    cardBgDark: 'bg-gradient-to-br from-[#08334e] via-[#082238] to-[#04192b] border-[#08334e] text-sky-100 shadow-[0_4px_25px_rgba(14,165,233,0.3)]',
-    cardBgLight: 'bg-gradient-to-br from-sky-100 via-white to-indigo-100 border-sky-400 text-sky-950 shadow-md',
-    badgeBgDark: 'bg-sky-500/30 text-sky-300 border-sky-400/60',
-    badgeBgLight: 'bg-sky-200/90 text-sky-800 border-sky-400',
-    titleColorDark: 'text-sky-300',
-    titleColorLight: 'text-sky-700'
   },
   {
-    icon: <FaHandshake className="text-emerald-300" />,
+    icon: FaHandshake,
+    accent: 'emerald',
     value: '15+',
     title: 'Happy Clients',
     sub: '100% Client Rating',
     trend: '5★ Rating',
-    cardBgDark: 'bg-gradient-to-br from-[#063829] via-[#05261c] to-[#021c14] border-[#063829] text-emerald-100 shadow-[0_4px_25px_rgba(16,185,129,0.3)]',
-    cardBgLight: 'bg-gradient-to-br from-emerald-100 via-white to-teal-100 border-emerald-400 text-emerald-950 shadow-md',
-    badgeBgDark: 'bg-emerald-500/30 text-emerald-300 border-emerald-400/60',
-    badgeBgLight: 'bg-emerald-200/90 text-emerald-800 border-emerald-400',
-    titleColorDark: 'text-emerald-300',
-    titleColorLight: 'text-emerald-700'
   },
   {
-    icon: <FaFire className="text-amber-300" />,
+    icon: FaFire,
+    accent: 'amber',
     value: '1,000+',
     title: 'LeetCode Solved',
     sub: 'Top 8% Worldwide',
     trend: 'Top 8%',
-    cardBgDark: 'bg-gradient-to-br from-[#422d06] via-[#2d1e04] to-[#1e1302] border-[#422d06] text-amber-100 shadow-[0_4px_25px_rgba(245,158,11,0.3)]',
-    cardBgLight: 'bg-gradient-to-br from-amber-100 via-white to-orange-100 border-amber-400 text-amber-950 shadow-md',
-    badgeBgDark: 'bg-amber-500/30 text-amber-300 border-amber-400/60',
-    badgeBgLight: 'bg-amber-200/90 text-amber-800 border-amber-400',
-    titleColorDark: 'text-amber-300',
-    titleColorLight: 'text-amber-700'
   },
   {
-    icon: <FaGraduationCap className="text-purple-300" />,
+    icon: FaGraduationCap,
+    accent: 'violet',
     value: '7.0 CGPA',
     title: 'B.Tech IT IGEC',
     sub: 'Class of 2024 (MP)',
     trend: 'Graduate',
-    cardBgDark: 'bg-gradient-to-br from-[#4c1d95] via-[#331266] to-[#1f0940] border-[#4c1d95] text-purple-100 shadow-[0_4px_25px_rgba(168,85,247,0.35)]',
-    cardBgLight: 'bg-gradient-to-br from-purple-100 via-white to-pink-100 border-purple-400 text-purple-950 shadow-md',
-    badgeBgDark: 'bg-purple-500/35 text-purple-300 border-purple-400/70',
-    badgeBgLight: 'bg-purple-200/90 text-purple-800 border-purple-400',
-    titleColorDark: 'text-purple-300',
-    titleColorLight: 'text-purple-700'
-  }
+  },
 ];
 
 function CircularProgress({ value, max, size = 100, stroke = 8, color = '#00D4FF', label, dark }) {
@@ -165,9 +233,14 @@ export default function About() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const subtext = dark ? 'text-slate-300' : 'text-slate-600';
+  const subtext = dark ? 'text-slate-400' : 'text-slate-500';
   const heading = dark ? 'text-white' : 'text-slate-900';
   const innerBg = dark ? 'bg-[#1E293B]/80 border-white/15 hover:border-cyan-400/50 shadow-sm' : 'bg-slate-50/90 border-slate-200 hover:border-sky-500/40';
+  const metricCardShell = dark
+    ? 'bg-[#0f1628]/90 border-white/10 hover:border-white/20 shadow-[0_8px_28px_rgba(0,0,0,0.35)] backdrop-blur-sm'
+    : 'bg-white border-slate-200/90 shadow-[0_4px_20px_rgba(148,163,184,0.12)] hover:shadow-md';
+
+  const getMetricTheme = (accent) => METRIC_ACCENTS[accent][dark ? 'dark' : 'light'];
 
   const skillCategories = ['All Stack', 'Frontend & UI', 'Backend & APIs', 'Cloud & DevOps', 'AI & Core CS'];
 
@@ -207,21 +280,23 @@ export default function About() {
           <div className={`absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l ${dark ? 'from-[#05070E]' : 'from-[#F4F6FB]'} to-transparent z-10 pointer-events-none`} />
 
           <div className="animate-marquee-horizontal flex gap-2.5">
-            {[...coreMetrics, ...coreMetrics].map((m, idx) => (
+            {[...coreMetrics, ...coreMetrics].map((m, idx) => {
+              const theme = getMetricTheme(m.accent);
+              const Icon = m.icon;
+              return (
               <div
                 key={idx}
-                className={`group rounded-xl p-2.5 flex items-center gap-2 text-left shrink-0 w-[155px] relative overflow-hidden transition-all duration-300 border ${dark ? m.cardBgDark : m.cardBgLight}`}
+                className={`group rounded-xl p-2.5 flex items-center gap-2 text-left shrink-0 w-[155px] relative overflow-hidden transition-all duration-300 border ${metricCardShell}`}
               >
-                <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border text-xs shadow-inner ${dark ? m.badgeBgDark : m.badgeBgLight}`}>
-                  {m.icon}
+                <div className={`absolute top-0 left-0 right-0 h-0.5 ${theme.topBar}`} />
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border text-xs ${theme.badge}`}>
+                  <Icon className={theme.icon} />
                 </div>
                 <div className="overflow-hidden">
-                  <div className="flex items-center gap-1">
-                    <span className={`text-sm font-extrabold font-mono tracking-tight block ${dark ? m.titleColorDark : m.titleColorLight}`}>
-                      {m.value}
-                    </span>
-                  </div>
-                  <span className={`text-[10px] font-semibold block truncate ${dark ? m.titleColorDark : m.titleColorLight}`}>
+                  <span className={`text-sm font-extrabold font-mono tracking-tight block ${theme.value}`}>
+                    {m.value}
+                  </span>
+                  <span className={`text-[10px] font-semibold block truncate ${theme.title}`}>
                     {m.title}
                   </span>
                   <span className={`text-[8.5px] block truncate ${subtext}`}>
@@ -229,7 +304,8 @@ export default function About() {
                   </span>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -412,170 +488,207 @@ export default function About() {
             className="w-full lg:w-1/2 bento-card rounded-3xl p-5 md:p-7 flex flex-col justify-between min-h-0 lg:min-h-[460px]"
           >
             <div>
-              {/* IDE Header Bar - Perfectly Visible on Mobile & Desktop */}
-              <div className="flex items-center justify-between gap-1.5 sm:gap-3 border-b pb-3 mb-4 border-slate-500/20 w-full">
-                <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                  <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-rose-500 inline-block" />
-                  <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-500 inline-block" />
-                  <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500 inline-block" />
-                  <span className={`text-[11px] sm:text-xs font-mono font-semibold ml-1 ${subtext}`}>
-                    <span className="sm:hidden">config.ts</span>
-                    <span className="hidden sm:inline">developer_config.ts</span>
-                  </span>
-                </div>
+              {/* Persistent IDE Card wrapper — tabs always visible */}
+              <div className={`rounded-2xl border overflow-hidden ${dark
+                ? 'bg-[#0D1117] border-[#21262D] shadow-[0_8px_32px_rgba(0,0,0,0.6)]'
+                : 'bg-[#FAFBFC] border-slate-200 shadow-lg'
+                }`}>
 
-                <div className={`flex items-center gap-1 p-1 rounded-xl shrink-0 ${dark ? 'bg-[#090D18] border border-slate-800' : 'bg-slate-200/70 border border-slate-300'}`}>
-                  {[
-                    { id: 'profile', label: 'Profile.json' },
-                    { id: 'architecture', label: 'Stack' },
-                    { id: 'philosophy', label: 'Focus' },
-                  ].map(t => (
-                    <button
-                      key={t.id}
-                      onClick={() => setTerminalTab(t.id)}
-                      className={`px-3 py-1 rounded-lg text-xs font-mono shrink-0 whitespace-nowrap transition-all duration-200 ${
-                        terminalTab === t.id
+                {/* Header: macOS dots + filename on left, Tabs on right */}
+                <div className={`flex items-center justify-between gap-1.5 sm:gap-3 px-2.5 sm:px-4 py-2 sm:py-2.5 border-b ${dark ? 'border-[#21262D] bg-[#161B22]' : 'border-slate-200 bg-slate-100'}`}>
+                  <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                    <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#FF5F56]" />
+                    <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#FEBC2E]" />
+                    <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#27C840]" />
+                    <span className={`ml-1 sm:ml-2 text-[10px] sm:text-[11px] font-mono ${dark ? 'text-[#8B949E]' : 'text-slate-500'}`}>
+                      <span className="sm:hidden">config.ts</span>
+                      <span className="hidden sm:inline">developer_config.ts</span>
+                    </span>
+                  </div>
+
+                  {/* Tab switcher on the right side */}
+                  <div className={`flex items-center gap-0.5 sm:gap-1 p-0.5 sm:p-1 rounded-lg sm:rounded-xl shrink-0 ${dark ? 'bg-[#0D1117] border border-[#30363D]' : 'bg-slate-200/70 border border-slate-300'}`}>
+                    {[
+                      { id: 'profile', label: 'Profile', fullLabel: 'Profile.json' },
+                      { id: 'architecture', label: 'Stack', fullLabel: 'Stack' },
+                      { id: 'philosophy', label: 'Focus', fullLabel: 'Focus' },
+                    ].map(t => (
+                      <button
+                        key={t.id}
+                        onClick={() => setTerminalTab(t.id)}
+                        className={`px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-mono whitespace-nowrap transition-all duration-200 ${terminalTab === t.id
                           ? dark
-                            ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-[0_0_14px_rgba(6,182,212,0.45)]'
+                            ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
                             : 'bg-white text-sky-700 font-bold shadow-sm border border-sky-200'
                           : dark
-                            ? 'text-slate-400 hover:text-white hover:bg-white/10 font-medium'
-                            : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 font-medium'
-                      }`}
-                    >
-                      {t.label}
-                    </button>
-                  ))}
+                            ? 'text-[#8B949E] hover:text-white font-medium'
+                            : 'text-slate-500 hover:text-slate-800 font-medium'
+                          }`}
+                      >
+                        <span className="sm:hidden">{t.label}</span>
+                        <span className="hidden sm:inline">{t.fullLabel}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
+
+                {/* Row 3: Tab content via AnimatePresence */}
+                <AnimatePresence mode="wait">
+                  {terminalTab === 'profile' && (
+                    <motion.div
+                      key="prof"
+                      initial="hidden"
+                      animate="visible"
+                      exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
+                      variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
+                    >
+                      {/* Code body */}
+                      <div className="flex overflow-hidden">
+                        {/* Line numbers */}
+                        <div className={`select-none font-mono text-[9px] sm:text-[11px] text-right pt-3 sm:pt-4 pb-3 sm:pb-4 px-1.5 sm:px-3 border-r leading-[1.5rem] sm:leading-[1.75rem] shrink-0 ${dark ? 'text-[#484F58] border-[#21262D]' : 'text-slate-300 border-slate-200'}`}>
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => <div key={n}>{n}</div>)}
+                        </div>
+
+                        {/* Animated code lines */}
+                        <div className={`font-mono text-[9px] sm:text-[13px] leading-[1.5rem] sm:leading-[1.75rem] pt-3 sm:pt-4 pb-3 sm:pb-4 pl-2 sm:pl-5 pr-1 sm:pr-4 w-full whitespace-nowrap overflow-hidden ${dark ? 'text-[#C9D1D9]' : 'text-slate-700'}`}>
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }}>
+                            <span className={dark ? 'text-[#FF7B72]' : 'text-pink-600'}>export const </span>
+                            <span className={dark ? 'text-[#79C0FF]' : 'text-blue-600'}>developer</span>
+                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-700'}> = {'{'}</span>
+                          </motion.div>
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6">
+                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>name</span>
+                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Abhishek Namdev"</span>
+                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                          </motion.div>
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6">
+                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>role</span>
+                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Specialist Frontend Developer"</span>
+                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                          </motion.div>
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6">
+                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>location</span>
+                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"India 🇮🇳  ·  Open to Global Remote"</span>
+                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                          </motion.div>
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6">
+                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>education</span>
+                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"B.Tech IT  ·  IGEC Sagar '24"</span>
+                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                          </motion.div>
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6">
+                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>experience</span>
+                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                            <span className={dark ? 'text-[#FFA657] font-semibold' : 'text-amber-600 font-semibold'}>"1.5+ Years  ·  20+ Projects Shipped"</span>
+                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                          </motion.div>
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6">
+                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>leetcode</span>
+                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                            <span className={dark ? 'text-[#FFA657] font-bold' : 'text-amber-600 font-bold'}>1000+</span>
+                            <span className={`ml-2 italic text-[11px] ${dark ? 'text-[#484F58]' : 'text-slate-400'}`}>{'//'} Top 8% Worldwide</span>
+                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                          </motion.div>
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6 flex items-center gap-2 flex-wrap">
+                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>status</span>
+                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>:</span>
+                            <span className={`inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-0.5 rounded-md border ${dark
+                              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                              : 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                              }`}>
+                              <span className="relative flex h-1.5 w-1.5">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                              </span>
+                              Open to New Opportunities
+                            </span>
+                          </motion.div>
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }}>
+                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-700'}>{'};'}</span>
+                          </motion.div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Stat cards — only under profile tab */}
+                  {terminalTab === 'profile' && (
+                    <motion.div key="stats" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="grid grid-cols-3 gap-2 sm:gap-3 mt-3">
+                      {[
+                        { icon: '⚡', label: 'Speed', value: '99+', sub: 'Lighthouse Score', darkBg: 'bg-amber-950/50 border-amber-800/60', lightBg: 'bg-amber-50 border-amber-200', darkIcon: 'bg-amber-500/20 text-amber-300 border-amber-600/40', lightIcon: 'bg-amber-100 text-amber-700', darkValue: 'text-amber-300', lightValue: 'text-amber-700', darkSub: 'text-amber-400/70', lightSub: 'text-amber-600/80' },
+                        { icon: '🛡️', label: 'Quality', value: '100%', sub: 'Typed & Tested', darkBg: 'bg-sky-950/50 border-sky-800/60', lightBg: 'bg-sky-50 border-sky-200', darkIcon: 'bg-sky-500/20 text-sky-300 border-sky-600/40', lightIcon: 'bg-sky-100 text-sky-700', darkValue: 'text-sky-300', lightValue: 'text-sky-700', darkSub: 'text-sky-400/70', lightSub: 'text-sky-600/80' },
+                        { icon: '🚀', label: 'Status', value: 'Open', sub: 'Freelance & FT', darkBg: 'bg-emerald-950/50 border-emerald-800/60', lightBg: 'bg-emerald-50 border-emerald-200', darkIcon: 'bg-emerald-500/20 text-emerald-300 border-emerald-600/40', lightIcon: 'bg-emerald-100 text-emerald-700', darkValue: 'text-emerald-300', lightValue: 'text-emerald-700', darkSub: 'text-emerald-400/70', lightSub: 'text-emerald-600/80' },
+                      ].map((c) => (
+                        <div key={c.label} className={`p-2.5 sm:p-3 rounded-xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${dark ? c.darkBg : c.lightBg}`}>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className={`text-[9px] sm:text-[10px] font-bold tracking-wider uppercase ${dark ? 'text-slate-400' : 'text-slate-500'}`}>{c.label}</span>
+                            <div className={`w-6 h-6 rounded-md flex items-center justify-center text-xs border ${dark ? c.darkIcon : c.lightIcon}`}>{c.icon}</div>
+                          </div>
+                          <span className={`font-extrabold text-sm sm:text-base font-mono block ${dark ? c.darkValue : c.lightValue}`}>{c.value}</span>
+                          <span className={`text-[9px] sm:text-[10px] block mt-0.5 ${dark ? c.darkSub : c.lightSub}`}>{c.sub}</span>
+                        </div>
+                      ))}
+                    </motion.div>
+                  )}
+
+                  {terminalTab === 'architecture' && (
+                    <motion.div key="arch" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-3 text-xs sm:text-sm mt-3">
+                      <div className="flex items-center justify-between">
+                        <h4 className={`font-bold font-syne text-sm sm:text-base ${heading}`}>Core Tech Stack</h4>
+                        <span className={`text-[11px] font-mono ${dark ? 'text-cyan-400' : 'text-sky-600'}`}>Production Ready</span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className={`p-3.5 rounded-2xl border ${innerBg}`}>
+                          <span className="font-bold inline-flex items-center gap-2 text-cyan-600 dark:text-cyan-400 mb-1 text-xs sm:text-sm"><FaReact /> Frontend Architecture</span>
+                          <span className={`block text-xs leading-relaxed ${subtext}`}>React 18, Next.js 14, TypeScript, Tailwind CSS, Framer Motion</span>
+                        </div>
+                        <div className={`p-3.5 rounded-2xl border ${innerBg}`}>
+                          <span className="font-bold inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 mb-1 text-xs sm:text-sm"><FaNodeJs /> Backend & APIs</span>
+                          <span className={`block text-xs leading-relaxed ${subtext}`}>Node.js, Express, REST APIs, MongoDB, PostgreSQL</span>
+                        </div>
+                        <div className={`p-3.5 rounded-2xl border ${innerBg}`}>
+                          <span className="font-bold inline-flex items-center gap-2 text-orange-600 dark:text-orange-400 mb-1 text-xs sm:text-sm"><FaAws /> Cloud & DevOps</span>
+                          <span className={`block text-xs leading-relaxed ${subtext}`}>AWS Services, Docker, Git, CI/CD pipelines, Vercel</span>
+                        </div>
+                        <div className={`p-3.5 rounded-2xl border ${innerBg}`}>
+                          <span className="font-bold inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 mb-1 text-xs sm:text-sm"><FaBrain /> Core CS & DSA</span>
+                          <span className={`block text-xs leading-relaxed ${subtext}`}>System Design, Data Structures, 1,000+ Algorithmic Solved</span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {terminalTab === 'philosophy' && (
+                    <motion.div key="phil" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-3 text-xs sm:text-sm mt-3">
+                      <h4 className={`font-bold font-syne text-sm sm:text-base ${heading}`}>Engineering Focus</h4>
+                      <ul className={`space-y-3 ${subtext}`}>
+                        <li className="flex items-start gap-2.5">
+                          <FaCheckCircle className="text-emerald-500 shrink-0 mt-1 text-sm" />
+                          <span><strong className={heading}>Performance-First UI</strong> — ultra-fast load times, fluid 60fps animations, mobile responsiveness.</span>
+                        </li>
+                        <li className="flex items-start gap-2.5">
+                          <FaCheckCircle className="text-cyan-500 shrink-0 mt-1 text-sm" />
+                          <span><strong className={heading}>Clean Architecture</strong> — typed, modular, maintainable codebases with reusable component design.</span>
+                        </li>
+                        <li className="flex items-start gap-2.5">
+                          <FaCheckCircle className="text-purple-500 shrink-0 mt-1 text-sm" />
+                          <span><strong className={heading}>Business Growth</strong> — conversion-focused web design with strong SEO & accessibility foundations.</span>
+                        </li>
+                        <li className="flex items-start gap-2.5">
+                          <FaLightbulb className="text-amber-500 shrink-0 mt-1 text-sm" />
+                          <span><strong className={heading}>End-to-End Delivery</strong> — seamless execution from wireframing to production cloud deployment.</span>
+                        </li>
+                      </ul>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-
-              {/* IDE Tab Contents */}
-              <AnimatePresence mode="wait">
-                {terminalTab === 'profile' && (
-                  <motion.div key="prof" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-3.5">
-                    {/* JSON Code View */}
-                    <div className={`font-mono text-xs sm:text-sm leading-relaxed space-y-1.5 p-4 rounded-2xl border shadow-inner overflow-x-auto ${dark ? 'bg-[#0b101c] border-white/10 text-slate-200' : 'bg-slate-100 border-slate-300 text-slate-800'}`}>
-                      <p className="text-purple-500 dark:text-purple-400"><span className="text-rose-500 dark:text-rose-400">export const</span> developer = &#123;</p>
-                      <p className="pl-4"><span className="text-cyan-600 dark:text-cyan-400">name</span>: <span className="text-emerald-600 dark:text-emerald-400">"Abhishek Namdev"</span>,</p>
-                      <p className="pl-4"><span className="text-cyan-600 dark:text-cyan-400">role</span>: <span className="text-emerald-600 dark:text-emerald-400">"Full-Stack Dev & Web Designer"</span>,</p>
-                      <p className="pl-4"><span className="text-cyan-600 dark:text-cyan-400">location</span>: <span className="text-emerald-600 dark:text-emerald-400">"India 🇮🇳"</span>,</p>
-                      <p className="pl-4"><span className="text-cyan-600 dark:text-cyan-400">education</span>: <span className="text-emerald-600 dark:text-emerald-400">"B.Tech IT • IGEC Sagar '24"</span>,</p>
-                      <p className="pl-4"><span className="text-cyan-600 dark:text-cyan-400">experience</span>: <span className="text-amber-600 dark:text-amber-400">"1.5+ years"</span>,</p>
-                      <p className="pl-4"><span className="text-cyan-600 dark:text-cyan-400">leetcode</span>: <span className="text-amber-600 dark:text-amber-400">1000+</span> <span className={subtext}>// top 8%</span>,</p>
-                      <p className="pl-4"><span className="text-cyan-600 dark:text-cyan-400">status</span>: <span className="text-emerald-600 dark:text-emerald-400">"Open for freelance & full-time 🚀"</span></p>
-                      <p className="text-purple-500 dark:text-purple-400">&#125;;</p>
-                    </div>
-
-                    {/* Bio Narrative Description */}
-                    <p className={`text-xs sm:text-sm leading-relaxed ${subtext}`}>
-                      Engineering fast, scalable, and SEO-optimized web applications with modern design patterns, crisp micro-animations, and clean code architecture.
-                    </p>
-
-                    {/* 3 Premium Engineering Highlight Cards (Side-by-Side 3-Col Grid on Mobile & Desktop) */}
-                    <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-1 font-mono">
-                      {/* Speed Card */}
-                      <div className={`p-2 sm:p-3 rounded-2xl border transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group ${dark
-                        ? 'bg-gradient-to-br from-[#422d06] via-[#2d1e04] to-[#1e1302] border-[#422d06] text-amber-100 shadow-[0_4px_20px_rgba(245,158,11,0.25)]'
-                        : 'bg-gradient-to-br from-amber-100 via-white to-orange-100 border-amber-300 text-amber-950 shadow-sm'
-                        }`}>
-                        <div className="flex items-center justify-between mb-1 sm:mb-1.5">
-                          <span className="text-[9px] sm:text-[10px] font-bold tracking-wider uppercase opacity-80">Speed</span>
-                          <div className={`w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-lg flex items-center justify-center text-[10px] sm:text-xs shrink-0 ${dark ? 'bg-amber-500/30 text-amber-300 border border-amber-400/60' : 'bg-amber-200/90 text-amber-800'}`}>
-                            ⚡
-                          </div>
-                        </div>
-                        <span className="font-extrabold text-xs sm:text-base block tracking-tight truncate">99+ Score</span>
-                        <span className={`text-[8px] sm:text-[10px] block font-sans mt-0.5 truncate ${dark ? 'text-amber-300/80' : 'text-amber-800'}`}>Lighthouse Audited</span>
-                      </div>
-
-                      {/* Quality Card */}
-                      <div className={`p-2 sm:p-3 rounded-2xl border transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group ${dark
-                        ? 'bg-gradient-to-br from-[#0e485b] via-[#092d3a] to-[#041a23] border-[#08334e] text-cyan-100 shadow-[0_4px_20px_rgba(6,182,212,0.25)]'
-                        : 'bg-gradient-to-br from-cyan-100 via-white to-sky-100 border-sky-300 text-sky-950 shadow-sm'
-                        }`}>
-                        <div className="flex items-center justify-between mb-1 sm:mb-1.5">
-                          <span className="text-[9px] sm:text-[10px] font-bold tracking-wider uppercase opacity-80">Quality</span>
-                          <div className={`w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-lg flex items-center justify-center text-[10px] sm:text-xs shrink-0 ${dark ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-400/60' : 'bg-sky-200/90 text-sky-800'}`}>
-                            🛡️
-                          </div>
-                        </div>
-                        <span className="font-extrabold text-xs sm:text-base block tracking-tight truncate">100% Safe</span>
-                        <span className={`text-[8px] sm:text-[10px] block font-sans mt-0.5 truncate ${dark ? 'text-cyan-300/80' : 'text-sky-800'}`}>Typed Clean Code</span>
-                      </div>
-
-                      {/* Availability Card */}
-                      <div className={`p-2 sm:p-3 rounded-2xl border transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group ${dark
-                        ? 'bg-gradient-to-br from-[#063829] via-[#05261c] to-[#021c14] border-[#063829] text-emerald-100 shadow-[0_4px_20px_rgba(16,185,129,0.25)]'
-                        : 'bg-gradient-to-br from-emerald-100 via-white to-teal-100 border-emerald-300 text-emerald-950 shadow-sm'
-                        }`}>
-                        <div className="flex items-center justify-between mb-1 sm:mb-1.5">
-                          <span className="text-[9px] sm:text-[10px] font-bold tracking-wider uppercase opacity-80">Status</span>
-                          <div className={`w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-lg flex items-center justify-center text-[10px] sm:text-xs shrink-0 ${dark ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-400/60' : 'bg-emerald-200/90 text-emerald-800'}`}>
-                            🚀
-                          </div>
-                        </div>
-                        <span className="font-extrabold text-xs sm:text-base block tracking-tight truncate">Open to Hire</span>
-                        <span className={`text-[8px] sm:text-[10px] block font-sans mt-0.5 truncate ${dark ? 'text-emerald-300/80' : 'text-emerald-800'}`}>Freelance & Fulltime</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {terminalTab === 'architecture' && (
-                  <motion.div key="arch" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-3.5 text-xs sm:text-sm">
-                    <div className="flex items-center justify-between">
-                      <h4 className={`font-bold font-syne text-sm sm:text-base ${heading}`}>Core Tech Stack</h4>
-                      <span className={`text-[11px] font-mono ${dark ? 'text-cyan-400' : 'text-sky-600'}`}>Production Ready</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <div className={`p-3.5 rounded-2xl border ${innerBg}`}>
-                        <span className="font-bold inline-flex items-center gap-2 text-cyan-600 dark:text-cyan-400 mb-1 text-xs sm:text-sm"><FaReact /> Frontend Architecture</span>
-                        <span className={`block text-xs leading-relaxed ${subtext}`}>React 18, Next.js 14, TypeScript, Tailwind CSS, Framer Motion</span>
-                      </div>
-                      <div className={`p-3.5 rounded-2xl border ${innerBg}`}>
-                        <span className="font-bold inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 mb-1 text-xs sm:text-sm"><FaNodeJs /> Backend & APIs</span>
-                        <span className={`block text-xs leading-relaxed ${subtext}`}>Node.js, Express, REST APIs, MongoDB, PostgreSQL</span>
-                      </div>
-                      <div className={`p-3.5 rounded-2xl border ${innerBg}`}>
-                        <span className="font-bold inline-flex items-center gap-2 text-orange-600 dark:text-orange-400 mb-1 text-xs sm:text-sm"><FaAws /> Cloud & DevOps</span>
-                        <span className={`block text-xs leading-relaxed ${subtext}`}>AWS Services, Docker, Git, CI/CD pipelines, Vercel</span>
-                      </div>
-                      <div className={`p-3.5 rounded-2xl border ${innerBg}`}>
-                        <span className="font-bold inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 mb-1 text-xs sm:text-sm"><FaBrain /> Core CS & DSA</span>
-                        <span className={`block text-xs leading-relaxed ${subtext}`}>System Design, Data Structures, 1,000+ Algorithmic Solved</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {terminalTab === 'philosophy' && (
-                  <motion.div key="phil" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-3.5 text-xs sm:text-sm">
-                    <h4 className={`font-bold font-syne text-sm sm:text-base ${heading}`}>Engineering Focus</h4>
-                    <ul className={`space-y-3 ${subtext}`}>
-                      <li className="flex items-start gap-2.5">
-                        <FaCheckCircle className="text-emerald-500 shrink-0 mt-1 text-sm" />
-                        <span><strong className={heading}>Performance-First UI</strong> — ultra-fast load times, fluid 60fps animations, mobile responsiveness.</span>
-                      </li>
-                      <li className="flex items-start gap-2.5">
-                        <FaCheckCircle className="text-cyan-500 shrink-0 mt-1 text-sm" />
-                        <span><strong className={heading}>Clean Architecture</strong> — typed, modular, maintainable codebases with reusable component design.</span>
-                      </li>
-                      <li className="flex items-start gap-2.5">
-                        <FaCheckCircle className="text-purple-500 shrink-0 mt-1 text-sm" />
-                        <span><strong className={heading}>Business Growth</strong> — conversion-focused web design with strong SEO & accessibility foundations.</span>
-                      </li>
-                      <li className="flex items-start gap-2.5">
-                        <FaLightbulb className="text-amber-500 shrink-0 mt-1 text-sm" />
-                        <span><strong className={heading}>End-to-End Delivery</strong> — seamless execution from wireframing to production cloud deployment.</span>
-                      </li>
-                    </ul>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
           </motion.div>
-
         </div>
 
         {/* 3. COMBINED BENTO GRID ROW: LEETCODE STATS (6 COLS) + GITHUB ACTIVITY (6 COLS) */}
