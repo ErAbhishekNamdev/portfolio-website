@@ -14,9 +14,11 @@ export default {
           surface: '#111118',
           mid: '#1A1A24',
         },
-        cyan: '#00D4FF',
-        purple: '#9B59FF',
-        pink: '#FF6EC7',
+        brand: {
+          cyan: '#00D4FF',
+          purple: '#9B59FF',
+          pink: '#FF6EC7',
+        },
         success: '#00E5A0',
         warning: '#F5C842',
         lightBg: {

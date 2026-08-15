@@ -11,7 +11,6 @@ import {
   FaGithub,
   FaGraduationCap,
   FaCode,
-  FaCheckCircle,
   FaRocket,
   FaBrain,
   FaTerminal,
@@ -64,141 +63,203 @@ const skillsMatrix = [
   { name: 'Machine Learning Basics', category: 'AI & Core CS', icon: <FaCubes className="text-pink-400" />, level: '78%' },
 ];
 
-const METRIC_ACCENTS = {
+const stackItems = [
+  {
+    icon: FaReact,
+    title: 'Frontend Architecture',
+    color: 'text-cyan-600 dark:text-cyan-400',
+    tech: 'React 18, Next.js 14, TypeScript, Tailwind CSS, Framer Motion, Vite',
+  },
+  {
+    icon: FaNodeJs,
+    title: 'Backend & APIs',
+    color: 'text-emerald-600 dark:text-emerald-400',
+    tech: 'Node.js, Express, FastAPI, Python, REST APIs, JWT Auth',
+  },
+  {
+    icon: FaDatabase,
+    title: 'Databases & Storage',
+    color: 'text-green-600 dark:text-green-400',
+    tech: 'MongoDB, PostgreSQL, Redis, Mongoose, indexing & query tuning',
+  },
+  {
+    icon: FaAws,
+    title: 'Cloud & DevOps',
+    color: 'text-orange-600 dark:text-orange-400',
+    tech: 'AWS EC2/S3, Docker, Git, GitHub Actions, CI/CD, Vercel, Nginx',
+  },
+  {
+    icon: FaBrain,
+    title: 'Core CS & DSA',
+    color: 'text-purple-600 dark:text-purple-400',
+    tech: 'System Design, Data Structures, 1,000+ problems, OOP, patterns',
+  },
+  {
+    icon: FaCubes,
+    title: 'AI & Automation',
+    color: 'text-pink-600 dark:text-pink-400',
+    tech: 'ML basics, OpenAI APIs, automation scripts, data workflows',
+  },
+];
+
+const engineeringFocusItems = [
+  {
+    icon: FaRocket,
+    iconColor: 'text-emerald-500',
+    title: 'Performance-First UI',
+    desc: 'Ultra-fast load times, fluid 60fps animations, and mobile-first responsive layouts.',
+  },
+  {
+    icon: FaCodeBranch,
+    iconColor: 'text-cyan-500',
+    title: 'Clean Architecture',
+    desc: 'Typed, modular, maintainable code with reusable components and clear folder structure.',
+  },
+  {
+    icon: FaChartLine,
+    iconColor: 'text-purple-500',
+    title: 'Business Growth',
+    desc: 'Conversion-focused design with strong SEO, accessibility, and analytics integration.',
+  },
+  {
+    icon: FaLightbulb,
+    iconColor: 'text-amber-500',
+    title: 'End-to-End Delivery',
+    desc: 'Wireframes to production — design, build, deploy, monitor, and iterate with clarity.',
+  },
+  {
+    icon: FaServer,
+    iconColor: 'text-sky-500',
+    title: 'Scalable Systems',
+    desc: 'APIs and apps built to handle growth — caching, pagination, and efficient data flow.',
+  },
+  {
+    icon: FaUserCheck,
+    iconColor: 'text-indigo-500',
+    title: 'Security & Quality',
+    desc: 'Input validation, auth best practices, error handling, and production-ready testing.',
+  },
+];
+
+const METRIC_THEMES = {
   cyan: {
     dark: {
-      icon: 'text-cyan-400',
-      badge: 'bg-cyan-500/12 border-cyan-500/25 text-cyan-400',
-      value: 'text-white',
-      title: 'text-cyan-400',
-      trend: 'bg-cyan-500/10 text-cyan-300 border-cyan-500/25',
-      topBar: 'bg-cyan-400',
+      shell: 'border-sky-500/50 hover:border-sky-400/75 bg-gradient-to-br from-sky-950/55 via-[#101929] to-[#0a101c] shadow-[0_8px_32px_rgba(14,165,233,0.18)] hover:shadow-[0_12px_40px_rgba(14,165,233,0.28)]',
+      accentBar: 'bg-gradient-to-b from-sky-300 via-sky-400 to-cyan-500 shadow-[0_0_14px_rgba(14,165,233,0.75)]',
+      glow: 'from-sky-400/25 via-sky-500/10 to-transparent',
+      icon: 'bg-gradient-to-br from-sky-500/35 to-cyan-600/10 border-sky-400/55 text-sky-300 shadow-[0_0_24px_rgba(14,165,233,0.35)]',
+      title: 'text-sky-400',
     },
     light: {
-      icon: 'text-sky-600',
-      badge: 'bg-sky-50 border-sky-200/90 text-sky-600',
-      value: 'text-slate-900',
+      shell: 'border-sky-300/90 hover:border-sky-400 bg-gradient-to-br from-sky-50 via-white to-cyan-50 shadow-[0_6px_28px_rgba(14,165,233,0.14)] hover:shadow-[0_10px_36px_rgba(14,165,233,0.2)]',
+      accentBar: 'bg-gradient-to-b from-sky-400 to-cyan-500 shadow-[0_0_8px_rgba(14,165,233,0.45)]',
+      glow: 'from-sky-100/90 via-cyan-50/50 to-transparent',
+      icon: 'bg-gradient-to-br from-sky-100 to-cyan-100 border-sky-300 text-sky-600 shadow-sm',
       title: 'text-sky-700',
-      trend: 'bg-sky-50 text-sky-700 border-sky-200',
-      topBar: 'bg-sky-500',
     },
   },
-  blue: {
+  indigo: {
     dark: {
-      icon: 'text-sky-400',
-      badge: 'bg-sky-500/12 border-sky-500/25 text-sky-400',
-      value: 'text-white',
-      title: 'text-sky-400',
-      trend: 'bg-sky-500/10 text-sky-300 border-sky-500/25',
-      topBar: 'bg-sky-400',
+      shell: 'border-indigo-500/45 hover:border-indigo-400/70 bg-gradient-to-br from-indigo-950/50 via-[#101929] to-[#0a101c] shadow-[0_8px_32px_rgba(99,102,241,0.12)] hover:shadow-[0_12px_40px_rgba(99,102,241,0.22)]',
+      accentBar: 'bg-gradient-to-b from-indigo-300 via-indigo-400 to-blue-500 shadow-[0_0_12px_rgba(99,102,241,0.6)]',
+      glow: 'from-indigo-400/20 via-indigo-500/8 to-transparent',
+      icon: 'bg-gradient-to-br from-indigo-500/30 to-indigo-600/10 border-indigo-400/50 text-indigo-300 shadow-[0_0_24px_rgba(99,102,241,0.3)]',
+      title: 'text-indigo-300',
     },
     light: {
-      icon: 'text-blue-600',
-      badge: 'bg-blue-50 border-blue-200/90 text-blue-600',
-      value: 'text-slate-900',
-      title: 'text-blue-700',
-      trend: 'bg-blue-50 text-blue-700 border-blue-200',
-      topBar: 'bg-blue-500',
+      shell: 'border-indigo-300/90 hover:border-indigo-400 bg-gradient-to-br from-indigo-50 via-white to-blue-50 shadow-[0_6px_28px_rgba(99,102,241,0.1)]',
+      accentBar: 'bg-gradient-to-b from-indigo-400 to-blue-500',
+      glow: 'from-indigo-100/90 via-blue-50/50 to-transparent',
+      icon: 'bg-gradient-to-br from-indigo-100 to-blue-100 border-indigo-300 text-indigo-600 shadow-sm',
+      title: 'text-indigo-700',
     },
   },
   emerald: {
     dark: {
-      icon: 'text-emerald-400',
-      badge: 'bg-emerald-500/12 border-emerald-500/25 text-emerald-400',
-      value: 'text-white',
-      title: 'text-emerald-400',
-      trend: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/25',
-      topBar: 'bg-emerald-400',
+      shell: 'border-emerald-500/45 hover:border-emerald-400/70 bg-gradient-to-br from-emerald-950/50 via-[#101929] to-[#0a101c] shadow-[0_8px_32px_rgba(16,185,129,0.12)] hover:shadow-[0_12px_40px_rgba(16,185,129,0.22)]',
+      accentBar: 'bg-gradient-to-b from-emerald-300 via-emerald-400 to-teal-500 shadow-[0_0_12px_rgba(16,185,129,0.6)]',
+      glow: 'from-emerald-400/20 via-emerald-500/8 to-transparent',
+      icon: 'bg-gradient-to-br from-emerald-500/30 to-emerald-600/10 border-emerald-400/50 text-emerald-300 shadow-[0_0_24px_rgba(16,185,129,0.3)]',
+      title: 'text-emerald-300',
     },
     light: {
-      icon: 'text-emerald-600',
-      badge: 'bg-emerald-50 border-emerald-200/90 text-emerald-600',
-      value: 'text-slate-900',
+      shell: 'border-emerald-300/90 hover:border-emerald-400 bg-gradient-to-br from-emerald-50 via-white to-teal-50 shadow-[0_6px_28px_rgba(16,185,129,0.1)]',
+      accentBar: 'bg-gradient-to-b from-emerald-400 to-teal-500',
+      glow: 'from-emerald-100/90 via-teal-50/50 to-transparent',
+      icon: 'bg-gradient-to-br from-emerald-100 to-teal-100 border-emerald-300 text-emerald-600 shadow-sm',
       title: 'text-emerald-700',
-      trend: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-      topBar: 'bg-emerald-500',
     },
   },
   amber: {
     dark: {
-      icon: 'text-amber-400',
-      badge: 'bg-amber-500/12 border-amber-500/25 text-amber-400',
-      value: 'text-white',
-      title: 'text-amber-400',
-      trend: 'bg-amber-500/10 text-amber-300 border-amber-500/25',
-      topBar: 'bg-amber-400',
+      shell: 'border-amber-500/45 hover:border-amber-400/70 bg-gradient-to-br from-amber-950/40 via-[#101929] to-[#0a101c] shadow-[0_8px_32px_rgba(245,158,11,0.12)] hover:shadow-[0_12px_40px_rgba(245,158,11,0.22)]',
+      accentBar: 'bg-gradient-to-b from-amber-300 via-amber-400 to-orange-500 shadow-[0_0_12px_rgba(245,158,11,0.6)]',
+      glow: 'from-amber-400/20 via-amber-500/8 to-transparent',
+      icon: 'bg-gradient-to-br from-amber-500/30 to-amber-600/10 border-amber-400/50 text-amber-300 shadow-[0_0_24px_rgba(245,158,11,0.3)]',
+      title: 'text-amber-300',
     },
     light: {
-      icon: 'text-amber-600',
-      badge: 'bg-amber-50 border-amber-200/90 text-amber-600',
-      value: 'text-slate-900',
+      shell: 'border-amber-300/90 hover:border-amber-400 bg-gradient-to-br from-amber-50 via-white to-orange-50 shadow-[0_6px_28px_rgba(245,158,11,0.1)]',
+      accentBar: 'bg-gradient-to-b from-amber-400 to-orange-500',
+      glow: 'from-amber-100/90 via-orange-50/50 to-transparent',
+      icon: 'bg-gradient-to-br from-amber-100 to-orange-100 border-amber-300 text-amber-600 shadow-sm',
       title: 'text-amber-700',
-      trend: 'bg-amber-50 text-amber-700 border-amber-200',
-      topBar: 'bg-amber-500',
     },
   },
   violet: {
     dark: {
-      icon: 'text-violet-400',
-      badge: 'bg-violet-500/12 border-violet-500/25 text-violet-400',
-      value: 'text-white',
-      title: 'text-violet-400',
-      trend: 'bg-violet-500/10 text-violet-300 border-violet-500/25',
-      topBar: 'bg-violet-400',
+      shell: 'border-violet-500/45 hover:border-violet-400/70 bg-gradient-to-br from-violet-950/50 via-[#101929] to-[#0a101c] shadow-[0_8px_32px_rgba(139,92,246,0.12)] hover:shadow-[0_12px_40px_rgba(139,92,246,0.22)]',
+      accentBar: 'bg-gradient-to-b from-violet-300 via-violet-400 to-purple-500 shadow-[0_0_12px_rgba(139,92,246,0.6)]',
+      glow: 'from-violet-400/20 via-violet-500/8 to-transparent',
+      icon: 'bg-gradient-to-br from-violet-500/30 to-violet-600/10 border-violet-400/50 text-violet-300 shadow-[0_0_24px_rgba(139,92,246,0.3)]',
+      title: 'text-violet-300',
     },
     light: {
-      icon: 'text-violet-600',
-      badge: 'bg-violet-50 border-violet-200/90 text-violet-600',
-      value: 'text-slate-900',
+      shell: 'border-violet-300/90 hover:border-violet-400 bg-gradient-to-br from-violet-50 via-white to-purple-50 shadow-[0_6px_28px_rgba(139,92,246,0.1)]',
+      accentBar: 'bg-gradient-to-b from-violet-400 to-purple-500',
+      glow: 'from-violet-100/90 via-purple-50/50 to-transparent',
+      icon: 'bg-gradient-to-br from-violet-100 to-purple-100 border-violet-300 text-violet-600 shadow-sm',
       title: 'text-violet-700',
-      trend: 'bg-violet-50 text-violet-700 border-violet-200',
-      topBar: 'bg-violet-500',
     },
   },
 };
 
 const coreMetrics = [
-  {
-    icon: FaBriefcase,
-    accent: 'cyan',
-    value: '1.5+ Yrs',
-    title: 'Experience',
-    sub: 'Full-Stack & UI',
-    trend: 'Active',
-  },
-  {
-    icon: FaRocket,
-    accent: 'blue',
-    value: '20+',
-    title: 'Projects Done',
-    sub: 'Web & AI Apps',
-    trend: 'Production',
-  },
-  {
-    icon: FaHandshake,
-    accent: 'emerald',
-    value: '15+',
-    title: 'Happy Clients',
-    sub: '100% Client Rating',
-    trend: '5★ Rating',
-  },
-  {
-    icon: FaFire,
-    accent: 'amber',
-    value: '1,000+',
-    title: 'LeetCode Solved',
-    sub: 'Top 8% Worldwide',
-    trend: 'Top 8%',
-  },
-  {
-    icon: FaGraduationCap,
-    accent: 'violet',
-    value: '7.0 CGPA',
-    title: 'B.Tech IT IGEC',
-    sub: 'Class of 2024 (MP)',
-    trend: 'Graduate',
-  },
+  { icon: FaBriefcase, theme: 'cyan', value: '1.5+ Yrs', title: 'Experience', sub: 'Full-Stack & UI' },
+  { icon: FaRocket, theme: 'indigo', value: '20+', title: 'Projects Done', sub: 'Web & AI Apps' },
+  { icon: FaHandshake, theme: 'emerald', value: '15+', title: 'Happy Clients', sub: '100% Client Rating' },
+  { icon: FaFire, theme: 'amber', value: '1,000+', title: 'LeetCode Solved', sub: 'Top 8% Worldwide' },
+  { icon: FaGraduationCap, theme: 'violet', value: '7.0 CGPA', title: 'B.Tech IT IGEC', sub: 'Class of 2024 (MP)' },
 ];
+
+function MetricCard({ metric, dark, compact = false }) {
+  const Icon = metric.icon;
+  const t = METRIC_THEMES[metric.theme][dark ? 'dark' : 'light'];
+
+  return (
+    <div
+      className={`group rounded-2xl flex items-center text-left transition-all duration-300 relative overflow-hidden border backdrop-blur-md hover:-translate-y-1 ${t.shell} ${compact ? 'p-3 gap-2.5 w-[172px] shrink-0' : 'p-4 md:p-5 gap-3.5 pl-4 md:pl-5'}`}
+    >
+      <div className={`absolute left-0 top-2.5 bottom-2.5 w-[4px] rounded-r-full z-[2] ${t.accentBar}`} />
+      <div className={`absolute inset-0 bg-gradient-to-br ${t.glow} pointer-events-none rounded-2xl z-[1]`} />
+
+      <div className={`relative z-[3] rounded-xl flex items-center justify-center shrink-0 border transition-transform duration-300 group-hover:scale-110 ${t.icon} ${compact ? 'w-9 h-9' : 'w-11 h-11'}`}>
+        <Icon className={compact ? 'text-sm' : 'text-lg'} />
+      </div>
+      <div className="relative z-[3] min-w-0 flex-1">
+        <span className={`font-extrabold font-mono tracking-tight block leading-none ${compact ? 'text-base' : 'text-xl md:text-2xl'} ${dark ? 'text-white' : 'text-slate-900'}`}>
+          {metric.value}
+        </span>
+        <span className={`font-bold block truncate mt-1 ${compact ? 'text-[10px]' : 'text-xs md:text-sm'} ${t.title}`}>
+          {metric.title}
+        </span>
+        <span className={`block truncate mt-0.5 ${compact ? 'text-[9px]' : 'text-[10px] md:text-xs'} ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
+          {metric.sub}
+        </span>
+      </div>
+    </div>
+  );
+}
 
 function CircularProgress({ value, max, size = 100, stroke = 8, color = '#00D4FF', label, dark }) {
   const radius = (size - stroke) / 2;
@@ -236,11 +297,6 @@ export default function About() {
   const subtext = dark ? 'text-slate-400' : 'text-slate-500';
   const heading = dark ? 'text-white' : 'text-slate-900';
   const innerBg = dark ? 'bg-[#1E293B]/80 border-white/15 hover:border-cyan-400/50 shadow-sm' : 'bg-slate-50/90 border-slate-200 hover:border-sky-500/40';
-  const metricCardShell = dark
-    ? 'bg-[#0f1628]/90 border-white/10 hover:border-white/20 shadow-[0_8px_28px_rgba(0,0,0,0.35)] backdrop-blur-sm'
-    : 'bg-white border-slate-200/90 shadow-[0_4px_20px_rgba(148,163,184,0.12)] hover:shadow-md';
-
-  const getMetricTheme = (accent) => METRIC_ACCENTS[accent][dark ? 'dark' : 'light'];
 
   const skillCategories = ['All Stack', 'Frontend & UI', 'Backend & APIs', 'Cloud & DevOps', 'AI & Core CS'];
 
@@ -273,73 +329,28 @@ export default function About() {
           </p>
         </motion.div>
 
-        {/* 1. TOP 5 REDESIGNED METRIC CARDS WITH INDIVIDUAL THEMED GRADIENT BACKGROUNDS */}
-        {/* Mobile View: Smooth Horizontal Infinite Marquee */}
+        {/* Metric cards — bento style */}
         <div className="sm:hidden relative w-full overflow-hidden py-1">
           <div className={`absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r ${dark ? 'from-[#05070E]' : 'from-[#F4F6FB]'} to-transparent z-10 pointer-events-none`} />
           <div className={`absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l ${dark ? 'from-[#05070E]' : 'from-[#F4F6FB]'} to-transparent z-10 pointer-events-none`} />
 
-          <div className="animate-marquee-horizontal flex gap-2.5">
-            {[...coreMetrics, ...coreMetrics].map((m, idx) => {
-              const theme = getMetricTheme(m.accent);
-              const Icon = m.icon;
-              return (
-              <div
-                key={idx}
-                className={`group rounded-xl p-2.5 flex items-center gap-2 text-left shrink-0 w-[155px] relative overflow-hidden transition-all duration-300 border ${metricCardShell}`}
-              >
-                <div className={`absolute top-0 left-0 right-0 h-0.5 ${theme.topBar}`} />
-                <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border text-xs ${theme.badge}`}>
-                  <Icon className={theme.icon} />
-                </div>
-                <div className="overflow-hidden">
-                  <span className={`text-sm font-extrabold font-mono tracking-tight block ${theme.value}`}>
-                    {m.value}
-                  </span>
-                  <span className={`text-[10px] font-semibold block truncate ${theme.title}`}>
-                    {m.title}
-                  </span>
-                  <span className={`text-[8.5px] block truncate ${subtext}`}>
-                    {m.sub}
-                  </span>
-                </div>
-              </div>
-              );
-            })}
+          <div className="animate-marquee-horizontal flex gap-3">
+            {[...coreMetrics, ...coreMetrics].map((m, idx) => (
+              <MetricCard key={idx} metric={m} dark={dark} compact />
+            ))}
           </div>
         </div>
 
-        {/* Desktop & Tablet: Compact Premium 5-Column Grid with Individual Gradient Theme Backgrounds */}
-        <div className="hidden sm:grid grid-cols-2 lg:grid-cols-5 gap-3.5 md:gap-4">
+        <div className="hidden sm:grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5">
           {coreMetrics.map((m, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.06 }}
-              className={`group rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between text-left transition-all duration-300 hover:-translate-y-1 relative overflow-hidden border ${dark ? m.cardBgDark : m.cardBgLight}`}
+              transition={{ duration: 0.45, delay: idx * 0.07 }}
             >
-              <div className="flex items-center justify-between mb-2.5">
-                <div className={`w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 border text-sm sm:text-base transition-transform group-hover:scale-110 shadow-inner ${dark ? m.badgeBgDark : m.badgeBgLight}`}>
-                  {m.icon}
-                </div>
-                <span className={`text-[9px] font-bold font-mono px-2 py-0.5 rounded-full border ${dark ? m.badgeBgDark : m.badgeBgLight}`}>
-                  {m.trend}
-                </span>
-              </div>
-
-              <div>
-                <span className={`text-lg sm:text-xl font-extrabold font-mono tracking-tight block leading-tight ${dark ? m.titleColorDark : m.titleColorLight}`}>
-                  {m.value}
-                </span>
-                <span className={`text-xs font-semibold block truncate mt-0.5 ${dark ? m.titleColorDark : m.titleColorLight}`}>
-                  {m.title}
-                </span>
-                <span className={`text-[10px] block truncate mt-0.5 ${subtext}`}>
-                  {m.sub}
-                </span>
-              </div>
+              <MetricCard metric={m} dark={dark} />
             </motion.div>
           ))}
         </div>
@@ -637,27 +648,25 @@ export default function About() {
 
                   {terminalTab === 'architecture' && (
                     <motion.div key="arch" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-3 text-xs sm:text-sm mt-3">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between gap-2">
                         <h4 className={`font-bold font-syne text-sm sm:text-base ${heading}`}>Core Tech Stack</h4>
-                        <span className={`text-[11px] font-mono ${dark ? 'text-cyan-400' : 'text-sky-600'}`}>Production Ready</span>
+                        <span className={`text-[10px] sm:text-[11px] font-mono shrink-0 ${dark ? 'text-cyan-400' : 'text-sky-600'}`}>Production Ready</span>
                       </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div className={`p-3.5 rounded-2xl border ${innerBg}`}>
-                          <span className="font-bold inline-flex items-center gap-2 text-cyan-600 dark:text-cyan-400 mb-1 text-xs sm:text-sm"><FaReact /> Frontend Architecture</span>
-                          <span className={`block text-xs leading-relaxed ${subtext}`}>React 18, Next.js 14, TypeScript, Tailwind CSS, Framer Motion</span>
-                        </div>
-                        <div className={`p-3.5 rounded-2xl border ${innerBg}`}>
-                          <span className="font-bold inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400 mb-1 text-xs sm:text-sm"><FaNodeJs /> Backend & APIs</span>
-                          <span className={`block text-xs leading-relaxed ${subtext}`}>Node.js, Express, REST APIs, MongoDB, PostgreSQL</span>
-                        </div>
-                        <div className={`p-3.5 rounded-2xl border ${innerBg}`}>
-                          <span className="font-bold inline-flex items-center gap-2 text-orange-600 dark:text-orange-400 mb-1 text-xs sm:text-sm"><FaAws /> Cloud & DevOps</span>
-                          <span className={`block text-xs leading-relaxed ${subtext}`}>AWS Services, Docker, Git, CI/CD pipelines, Vercel</span>
-                        </div>
-                        <div className={`p-3.5 rounded-2xl border ${innerBg}`}>
-                          <span className="font-bold inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 mb-1 text-xs sm:text-sm"><FaBrain /> Core CS & DSA</span>
-                          <span className={`block text-xs leading-relaxed ${subtext}`}>System Design, Data Structures, 1,000+ Algorithmic Solved</span>
-                        </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                        {stackItems.map((item, idx) => {
+                          const StackIcon = item.icon;
+                          return (
+                            <div
+                              key={idx}
+                              className={`p-3 sm:p-3.5 rounded-2xl border transition-colors duration-200 hover:border-cyan-400/30 ${innerBg}`}
+                            >
+                              <span className={`font-bold inline-flex items-center gap-2 mb-1 text-xs sm:text-sm ${item.color}`}>
+                                <StackIcon className="shrink-0" /> {item.title}
+                              </span>
+                              <span className={`block text-[11px] sm:text-xs leading-relaxed ${subtext}`}>{item.tech}</span>
+                            </div>
+                          );
+                        })}
                       </div>
                     </motion.div>
                   )}
@@ -665,23 +674,19 @@ export default function About() {
                   {terminalTab === 'philosophy' && (
                     <motion.div key="phil" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-3 text-xs sm:text-sm mt-3">
                       <h4 className={`font-bold font-syne text-sm sm:text-base ${heading}`}>Engineering Focus</h4>
-                      <ul className={`space-y-3 ${subtext}`}>
-                        <li className="flex items-start gap-2.5">
-                          <FaCheckCircle className="text-emerald-500 shrink-0 mt-1 text-sm" />
-                          <span><strong className={heading}>Performance-First UI</strong> — ultra-fast load times, fluid 60fps animations, mobile responsiveness.</span>
-                        </li>
-                        <li className="flex items-start gap-2.5">
-                          <FaCheckCircle className="text-cyan-500 shrink-0 mt-1 text-sm" />
-                          <span><strong className={heading}>Clean Architecture</strong> — typed, modular, maintainable codebases with reusable component design.</span>
-                        </li>
-                        <li className="flex items-start gap-2.5">
-                          <FaCheckCircle className="text-purple-500 shrink-0 mt-1 text-sm" />
-                          <span><strong className={heading}>Business Growth</strong> — conversion-focused web design with strong SEO & accessibility foundations.</span>
-                        </li>
-                        <li className="flex items-start gap-2.5">
-                          <FaLightbulb className="text-amber-500 shrink-0 mt-1 text-sm" />
-                          <span><strong className={heading}>End-to-End Delivery</strong> — seamless execution from wireframing to production cloud deployment.</span>
-                        </li>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                        {engineeringFocusItems.map((item, idx) => {
+                          const FocusIcon = item.icon;
+                          return (
+                            <li key={idx} className={`flex items-start gap-2.5 p-2.5 sm:p-3 rounded-xl border ${innerBg}`}>
+                              <FocusIcon className={`${item.iconColor} shrink-0 mt-0.5 text-sm`} />
+                              <span className={subtext}>
+                                <strong className={`block mb-0.5 ${heading}`}>{item.title}</strong>
+                                {item.desc}
+                              </span>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </motion.div>
                   )}
