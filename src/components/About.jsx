@@ -895,20 +895,24 @@ export default function About() {
                 <p className={`text-xs ${subtext}`}>Explore Abhishek's technical toolkit filtered by specialization</p>
               </div>
 
-              {/* Filter Pills */}
-              <div className="flex flex-wrap gap-2">
+              {/* Filter Pills — styled to match the IDE card tab switcher */}
+              <div className={`flex items-center gap-0.5 sm:gap-1 p-0.5 sm:p-1 rounded-lg sm:rounded-xl shrink-0 ${dark ? 'bg-[#0D1117] border border-[#30363D]' : 'bg-slate-200/70 border border-slate-300'}`}>
                 {skillCategories.map(cat => (
                   <button
                     key={cat}
+                    type="button"
                     onClick={() => setSelectedSkillCategory(cat)}
-                    className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${selectedSkillCategory === cat
-                      ? dark
-                        ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-lg shadow-cyan-500/10'
-                        : 'bg-sky-500/20 text-sky-700 border border-sky-400 shadow-sm'
-                      : `${subtext} hover:bg-slate-500/10`
-                      }`}
+                    className={`px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-mono whitespace-nowrap transition-all duration-200 ${
+                      selectedSkillCategory === cat
+                        ? dark
+                          ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+                          : 'bg-white text-sky-700 font-bold shadow-sm border border-sky-200'
+                        : dark
+                          ? 'text-[#8B949E] hover:text-white font-medium'
+                          : 'text-slate-500 hover:text-slate-800 font-medium'
+                    }`}
                   >
-                    {cat}
+                    <span>{cat}</span>
                   </button>
                 ))}
               </div>
