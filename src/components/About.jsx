@@ -424,7 +424,7 @@ export default function About() {
                   </span>
                 </div>
 
-                <div className="flex items-center gap-0.5 sm:gap-1 bg-slate-500/10 p-0.5 sm:p-1 rounded-xl border border-slate-500/20 shrink-0">
+                <div className={`flex items-center gap-1 p-1 rounded-xl shrink-0 ${dark ? 'bg-[#090D18] border border-slate-800' : 'bg-slate-200/70 border border-slate-300'}`}>
                   {[
                     { id: 'profile', label: 'Profile.json' },
                     { id: 'architecture', label: 'Stack' },
@@ -433,10 +433,15 @@ export default function About() {
                     <button
                       key={t.id}
                       onClick={() => setTerminalTab(t.id)}
-                      className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-lg text-[10px] sm:text-[11px] font-mono shrink-0 whitespace-nowrap transition-all ${terminalTab === t.id
-                        ? dark ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm' : 'bg-white text-sky-600 shadow-sm border border-sky-200'
-                        : subtext + ' hover:text-slate-900 dark:hover:text-white'
-                        }`}
+                      className={`px-3 py-1 rounded-lg text-xs font-mono shrink-0 whitespace-nowrap transition-all duration-200 ${
+                        terminalTab === t.id
+                          ? dark
+                            ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-[0_0_14px_rgba(6,182,212,0.45)]'
+                            : 'bg-white text-sky-700 font-bold shadow-sm border border-sky-200'
+                          : dark
+                            ? 'text-slate-400 hover:text-white hover:bg-white/10 font-medium'
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-white/60 font-medium'
+                      }`}
                     >
                       {t.label}
                     </button>
