@@ -11,6 +11,7 @@ import {
   FaCommentDots,
   FaTimes,
   FaRobot,
+  FaEnvelope,
 } from "react-icons/fa";
 import { useTheme } from "../ThemeContext";
 import LaptopScreen from "./LaptopScreen";
@@ -266,10 +267,10 @@ const SOCIALS = [
     icon: <FaTwitter />,
     href: "https://x.com/Abhishekna78501",
     label: "Twitter / X",
-    bg: "#000000",
-    border: "rgba(255,255,255,0.12)",
-    hoverBorder: "rgba(255,255,255,0.35)",
-    glow: "rgba(255,255,255,0.15)",
+    bg: "#1DA1F2",
+    border: "rgba(29,161,242,0.45)",
+    hoverBorder: "rgba(29,161,242,0.9)",
+    glow: "rgba(29,161,242,0.45)",
   },
   {
     icon: <FaWhatsapp />,
@@ -279,6 +280,15 @@ const SOCIALS = [
     border: "rgba(37,211,102,0.45)",
     hoverBorder: "rgba(37,211,102,0.9)",
     glow: "rgba(37,211,102,0.45)",
+  },
+  {
+    icon: <FaEnvelope />,
+    href: "mailto:abhisheknamdev9171@gmail.com",
+    label: "Email",
+    bg: "#EA4335",
+    border: "rgba(234,67,53,0.45)",
+    hoverBorder: "rgba(234,67,53,0.9)",
+    glow: "rgba(234,67,53,0.45)",
   },
   {
     icon: <img src={naukriIcon} alt="Naukri" className="w-full h-full object-cover rounded-xl" />,
@@ -510,7 +520,7 @@ function Hero3DCanvas({ dark }) {
     <canvas
       ref={canvasRef}
       className={`absolute inset-0 w-full h-full pointer-events-none z-0 ${dark ? 'opacity-60 md:opacity-85' : 'opacity-40 md:opacity-55'}`}
-  />
+    />
   );
 }
 
@@ -676,9 +686,8 @@ export default function Hero() {
 
                 {(line1Count >= WELCOME_LINE1.length || line2Count > 0) && (
                   <p
-                    className={`mt-1.5 text-[12px] md:text-[15px] font-normal leading-[1.55] min-h-[1.55em] ${
-                      dark ? "text-white" : "text-slate-500"
-                    }`}
+                    className={`mt-1.5 text-[12px] md:text-[15px] font-normal leading-[1.55] min-h-[1.55em] ${dark ? "text-white" : "text-slate-500"
+                      }`}
                     style={{ fontFamily: "'Syne',sans-serif" }}
                   >
                     {WELCOME_LINE2.slice(0, line2Count)}
@@ -954,11 +963,10 @@ export default function Hero() {
                 >
                   {/* Lid */}
                   <div
-                    className={`relative w-full rounded-[18px] overflow-hidden max-md:rounded-[12px] p-[6px] pb-0 max-md:p-[3px] max-md:pb-0 ${
-                      dark
-                        ? "border border-white/[0.16] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_0_40px_rgba(99,102,241,0.22),0_24px_64px_rgba(0,0,0,0.55)]"
-                        : ""
-                    }`}
+                    className={`relative w-full rounded-[18px] overflow-hidden max-md:rounded-[12px] p-[6px] pb-0 max-md:p-[3px] max-md:pb-0 ${dark
+                      ? "border border-white/[0.16] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_0_40px_rgba(99,102,241,0.22),0_24px_64px_rgba(0,0,0,0.55)]"
+                      : ""
+                      }`}
                     style={{
                       background: dark
                         ? "linear-gradient(to bottom,#4a5168 0%,#3a4058 40%,#2f354a 75%,#262b3d 100%)"
@@ -985,9 +993,8 @@ export default function Hero() {
 
                     {/* Screen */}
                     <div
-                      className={`w-full rounded-t-xl overflow-hidden max-md:rounded-lg relative aspect-[16/10] ${
-                        dark ? "ring-1 ring-inset ring-white/[0.12] shadow-inner" : ""
-                      }`}
+                      className={`w-full rounded-t-xl overflow-hidden max-md:rounded-lg relative aspect-[16/10] ${dark ? "ring-1 ring-inset ring-white/[0.12] shadow-inner" : ""
+                        }`}
                       style={dark ? { boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)" } : undefined}
                     >
                       <div className="absolute inset-0 w-full h-full">
@@ -1131,28 +1138,26 @@ export default function Hero() {
       {callbackOpen && (
         <div className="fixed right-4 bottom-24 z-[10000] sm:right-6 sm:bottom-24">
           <div
-            className={`w-[300px] rounded-[28px] border p-3 shadow-xl backdrop-blur-xl ${
-              dark
-                ? "border-white/10 bg-[#2A2A3C] text-white shadow-[0_12px_48px_rgba(0,0,0,0.55)]"
-                : "border-slate-200 bg-white text-slate-900"
-            }`}
+            className={`w-[300px] rounded-[28px] border p-3 shadow-xl backdrop-blur-xl ${dark
+              ? "border-white/10 bg-[#2A2A3C] text-white shadow-[0_12px_48px_rgba(0,0,0,0.55)]"
+              : "border-slate-200 bg-white text-slate-900"
+              }`}
           >
-            <div className={`rounded-[10px] p-3.5 ${ dark ? "border border-[#F7C948]/20 bg-[#F7C948]/10" : "bg-[#F7C948]/10" }`}>
+            <div className={`rounded-[10px] p-3.5 ${dark ? "border border-[#F7C948]/20 bg-[#F7C948]/10" : "bg-[#F7C948]/10"}`}>
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <p className="text-sm font-semibold">Request a Callback</p>
-                  <p className={`mt-1 text-[11px] ${ dark ? "text-slate-400" : "text-slate-600" }`}>
+                  <p className={`mt-1 text-[11px] ${dark ? "text-slate-400" : "text-slate-600"}`}>
                     Enter details and we'll call you shortly.
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => { setCallbackOpen(false); setCbSuccess(false); setCbError(""); }}
-                  className={`flex h-9 w-9 items-center justify-center rounded-full border transition ${
-                    dark
-                      ? "border-white/10 bg-white/[0.06] text-slate-300 hover:bg-white/10"
-                      : "border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
-                  }`}
+                  className={`flex h-9 w-9 items-center justify-center rounded-full border transition ${dark
+                    ? "border-white/10 bg-white/[0.06] text-slate-300 hover:bg-white/10"
+                    : "border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
+                    }`}
                 >
                   <FaTimes />
                 </button>
@@ -1164,7 +1169,7 @@ export default function Hero() {
               <div className="mt-4 flex flex-col items-center gap-2 py-4 text-center">
                 <span className="text-3xl">✅</span>
                 <p className="text-sm font-semibold text-emerald-500">Request Sent!</p>
-                <p className={`text-[11px] ${ dark ? "text-slate-400" : "text-slate-500" }`}>
+                <p className={`text-[11px] ${dark ? "text-slate-400" : "text-slate-500"}`}>
                   We'll call you back shortly.
                 </p>
               </div>
@@ -1177,43 +1182,39 @@ export default function Hero() {
                   name="name"
                   required
                   placeholder="Name"
-                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${
-                    dark
-                      ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                      : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                  }`}
+                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
+                    ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                    : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                    }`}
                 />
                 <input
                   name="phone"
                   type="tel"
                   required
                   placeholder="Phone No"
-                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${
-                    dark
-                      ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                      : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                  }`}
+                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
+                    ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                    : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                    }`}
                 />
                 <input
                   name="email"
                   type="email"
                   required
                   placeholder="Email"
-                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${
-                    dark
-                      ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                      : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                  }`}
+                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
+                    ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                    : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                    }`}
                 />
                 <textarea
                   name="message"
                   rows={2}
                   placeholder="Your Message (optional)"
-                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${
-                    dark
-                      ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                      : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                  }`}
+                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
+                    ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                    : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                    }`}
                 />
 
                 {/* Error message */}
