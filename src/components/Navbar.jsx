@@ -100,10 +100,17 @@ function useCroppedLogo(imageSrc) {
 
 function NavTagline() {
   const taglineText = useNavTyping(TAGLINES);
+  const { dark } = useTheme();
   return (
     <span className="inline-flex items-center gap-[2px]">
-      {taglineText}
-      <span className="inline-block w-[1.5px] h-[0.8em] rounded-full bg-current animate-pulse ml-[1px]" />
+      <span className={`font-semibold tracking-wide transition-colors ${
+        dark ? 'text-slate-200/90' : 'text-slate-700'
+      }`}>
+        {taglineText}
+      </span>
+      <span className={`inline-block w-[1.5px] h-[0.85em] rounded-full animate-pulse ml-[1px] ${
+        dark ? 'bg-sky-400' : 'bg-slate-700'
+      }`} />
     </span>
   );
 }
@@ -189,8 +196,7 @@ export default function Navbar() {
                 }`}>
                 Code Craft Journey
               </span>
-              <span className={`text-[13px] md:text-[11px] font-semibold leading-tight whitespace-nowrap flex items-center gap-[2px] ${dark ? 'text-slate-400' : 'text-slate-600'
-                }`}>
+              <span className="text-[13px] md:text-[11px] font-semibold leading-tight whitespace-nowrap flex items-center gap-[2px]">
                 <NavTagline />
               </span>
             </div>
