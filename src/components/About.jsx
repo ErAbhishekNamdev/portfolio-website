@@ -557,57 +557,82 @@ export default function About() {
                       <div className="flex overflow-hidden">
                         {/* Line numbers */}
                         <div className={`select-none font-mono text-[9px] sm:text-[11px] text-right pt-3 sm:pt-4 pb-3 sm:pb-4 px-1.5 sm:px-3 border-r leading-[1.5rem] sm:leading-[1.75rem] shrink-0 ${dark ? 'text-[#484F58] border-[#21262D]' : 'text-slate-300 border-slate-200'}`}>
-                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => <div key={n}>{n}</div>)}
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(n => <div key={n}>{n}</div>)}
                         </div>
 
                         {/* Animated code lines */}
-                        <div className={`font-mono text-[9px] sm:text-[13px] leading-[1.5rem] sm:leading-[1.75rem] pt-3 sm:pt-4 pb-3 sm:pb-4 pl-2 sm:pl-5 pr-1 sm:pr-4 w-full whitespace-nowrap overflow-hidden ${dark ? 'text-[#C9D1D9]' : 'text-slate-700'}`}>
+                        <div className={`font-mono text-[9px] sm:text-[13px] leading-[1.4rem] sm:leading-[1.75rem] pt-2.5 sm:pt-4 pb-2.5 sm:pb-4 pl-2 sm:pl-5 pr-2 sm:pr-4 w-full break-words whitespace-normal sm:whitespace-pre ${dark ? 'text-[#C9D1D9]' : 'text-slate-700'}`}>
                           <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }}>
                             <span className={dark ? 'text-[#FF7B72]' : 'text-pink-600'}>export const </span>
                             <span className={dark ? 'text-[#79C0FF]' : 'text-blue-600'}>developer</span>
                             <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-700'}> = {'{'}</span>
                           </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6">
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
                             <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>name</span>
                             <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
                             <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Abhishek Namdev"</span>
                             <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
                           </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6">
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
                             <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>role</span>
                             <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
                             <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Specialist Frontend Developer"</span>
                             <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
                           </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6">
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
                             <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>location</span>
                             <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
-                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"India 🇮🇳  ·  Open to Global Remote"</span>
+                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"India 🇮🇳 · Open to Global Remote Work"</span>
                             <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
                           </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6">
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
                             <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>education</span>
                             <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
-                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"B.Tech IT  ·  IGEC Sagar '24"</span>
+                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"B.Tech IT · IGEC Sagar '24"</span>
                             <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
                           </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6">
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
                             <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>experience</span>
                             <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
-                            <span className={dark ? 'text-[#FFA657] font-semibold' : 'text-amber-600 font-semibold'}>"1.5+ Years  ·  20+ Projects Shipped"</span>
+                            <span className={dark ? 'text-[#FFA657] font-semibold' : 'text-amber-600 font-semibold'}>"1.5+ Years · 20+ Projects Shipped"</span>
                             <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
                           </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6">
+
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>specialties</span>
+                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>["Interactive Web Apps","Website Designing"]</span>
+                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                          </motion.div>
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
                             <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>leetcode</span>
                             <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
                             <span className={dark ? 'text-[#FFA657] font-bold' : 'text-amber-600 font-bold'}>1000+</span>
-                            <span className={`ml-2 italic text-[11px] ${dark ? 'text-[#484F58]' : 'text-slate-400'}`}>{'//'} Top 8% Worldwide</span>
+                            <span className={`ml-1.5 italic text-[9px] sm:text-[11px] ${dark ? 'text-[#484F58]' : 'text-slate-400'}`}>{'//'} Top 8% Worldwide Ranking</span>
                             <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
                           </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-6 flex items-center gap-2 flex-wrap">
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>coreFocus</span>
+                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"High-Performance Web Apps & Pixel-Perfect UI/UX"</span>
+                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                          </motion.div>
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>architecture</span>
+                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Modular Component Design & State Management"</span>
+                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                          </motion.div>
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>commitment</span>
+                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Delivering Production-Ready Applications On Time"</span>
+                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                          </motion.div>
+                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6 flex items-center gap-1.5 flex-wrap">
                             <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>status</span>
                             <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>:</span>
-                            <span className={`inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-0.5 rounded-md border ${dark
+                            <span className={`inline-flex items-center gap-1.5 text-[9px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-md border ${dark
                               ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
                               : 'bg-emerald-50 text-emerald-700 border-emerald-300'
                               }`}>
@@ -627,7 +652,7 @@ export default function About() {
                   )}
 
                   {/* Stat cards — only under profile tab */}
-                  {terminalTab === 'profile' && (
+                  {/* {terminalTab === 'profile' && (
                     <motion.div key="stats" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="grid grid-cols-3 gap-2 sm:gap-3 mt-3">
                       {[
                         { icon: '⚡', label: 'Speed', value: '99+', sub: 'Lighthouse Score', darkBg: 'bg-amber-950/50 border-amber-800/60', lightBg: 'bg-amber-50 border-amber-200', darkIcon: 'bg-amber-500/20 text-amber-300 border-amber-600/40', lightIcon: 'bg-amber-100 text-amber-700', darkValue: 'text-amber-300', lightValue: 'text-amber-700', darkSub: 'text-amber-400/70', lightSub: 'text-amber-600/80' },
@@ -644,7 +669,7 @@ export default function About() {
                         </div>
                       ))}
                     </motion.div>
-                  )}
+                  )} */}
 
                   {terminalTab === 'architecture' && (
                     <motion.div key="arch" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-3 text-xs sm:text-sm mt-3">
@@ -902,15 +927,14 @@ export default function About() {
                     key={cat}
                     type="button"
                     onClick={() => setSelectedSkillCategory(cat)}
-                    className={`px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-mono whitespace-nowrap transition-all duration-200 ${
-                      selectedSkillCategory === cat
-                        ? dark
-                          ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
-                          : 'bg-white text-sky-700 font-bold shadow-sm border border-sky-200'
-                        : dark
-                          ? 'text-[#8B949E] hover:text-white font-medium'
-                          : 'text-slate-500 hover:text-slate-800 font-medium'
-                    }`}
+                    className={`px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-mono whitespace-nowrap transition-all duration-200 ${selectedSkillCategory === cat
+                      ? dark
+                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+                        : 'bg-white text-sky-700 font-bold shadow-sm border border-sky-200'
+                      : dark
+                        ? 'text-[#8B949E] hover:text-white font-medium'
+                        : 'text-slate-500 hover:text-slate-800 font-medium'
+                      }`}
                   >
                     <span>{cat}</span>
                   </button>
