@@ -672,10 +672,10 @@ export default function About() {
                   )} */}
 
                   {terminalTab === 'architecture' && (
-                    <motion.div key="arch" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-3 text-xs sm:text-sm mt-3">
+                    <motion.div key="arch" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-3 text-xs sm:text-sm p-2 mt-3">
                       <div className="flex items-center justify-between gap-2">
-                        <h4 className={`font-bold font-syne text-sm sm:text-base ${heading}`}>Core Tech Stack</h4>
-                        <span className={`text-[10px] sm:text-[11px] font-mono shrink-0 ${dark ? 'text-cyan-400' : 'text-sky-600'}`}>Production Ready</span>
+                        <h4 className={`font-bold font-syne text-sml  sm:text-base ${heading}`}>Core Tech Stack</h4>
+                        {/* <span className={`text-[10px] sm:text-[11px] font-mono shrink-0 ${dark ? 'text-cyan-400' : 'text-sky-600'}`}>Production Ready</span> */}
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                         {stackItems.map((item, idx) => {
@@ -697,7 +697,7 @@ export default function About() {
                   )}
 
                   {terminalTab === 'philosophy' && (
-                    <motion.div key="phil" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-3 text-xs sm:text-sm mt-3">
+                    <motion.div key="phil" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-3 text-xs sm:text-sm p-2 mt-3">
                       <h4 className={`font-bold font-syne text-sm sm:text-base ${heading}`}>Engineering Focus</h4>
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                         {engineeringFocusItems.map((item, idx) => {
