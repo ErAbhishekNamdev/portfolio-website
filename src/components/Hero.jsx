@@ -141,7 +141,7 @@ function speakWelcomeText(onEnd) {
   }, 400);
 }
 
-function useWelcomeIntro() {
+function useWelcomeIntro(enabled = true) {
   const [line1Count, setLine1Count] = useState(0);
   const [line2Count, setLine2Count] = useState(0);
   const [phase, setPhase] = useState("line1");
@@ -152,6 +152,12 @@ function useWelcomeIntro() {
   }, []);
 
   useEffect(() => {
+    if (!enabled) {
+      if (typeof window !== "undefined" && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+      return undefined;
+    }
     if (phase !== "line1" && phase !== "line2") return undefined;
 
     let id;
@@ -170,7 +176,7 @@ function useWelcomeIntro() {
       setPhase("done");
     }
     return () => clearTimeout(id);
-  }, [phase, line1Count, line2Count]);
+  }, [phase, line1Count, line2Count, enabled]);
 
   const isComplete = phase === "done";
   const isTyping = phase === "line1" || phase === "line2";
@@ -214,12 +220,13 @@ function WelcomeLine1({ count, dark, showCaret }) {
   );
 }
 
-function useTyping(lines) {
+function useTyping(lines, enabled = true) {
   const [text, setText] = useState("");
   const [index, setIndex] = useState(0);
   const [stage, setStage] = useState("typing");
 
   useEffect(() => {
+    if (!enabled) return undefined;
     let id;
     const current = lines[index];
     if (stage === "typing") {
@@ -237,7 +244,7 @@ function useTyping(lines) {
       }
     }
     return () => clearTimeout(id);
-  }, [text, index, stage, lines]);
+  }, [text, index, stage, lines, enabled]);
 
   return text;
 }
@@ -526,10 +533,10 @@ function Hero3DCanvas({ dark }) {
 
 export default function Hero() {
   const { dark, introPopupOpen } = useTheme();
-  const badgeText = useTyping(BADGE_MESSAGES);
-  const roleText = useTyping(ROLE_LINES);
+  const badgeText = useTyping(BADGE_MESSAGES, !introPopupOpen);
+  const roleText = useTyping(ROLE_LINES, !introPopupOpen);
   const { line1Count, line2Count, isComplete: welcomeComplete, isTyping: welcomeTyping, speechFinished } =
-    useWelcomeIntro();
+    useWelcomeIntro(!introPopupOpen);
   const [contactOpen, setContactOpen] = useState(false);
   const [callbackOpen, setCallbackOpen] = useState(false);
   const [cbLoading, setCbLoading] = useState(false);

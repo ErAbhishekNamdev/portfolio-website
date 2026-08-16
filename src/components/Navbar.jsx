@@ -388,12 +388,22 @@ export default function Navbar() {
               </div>
 
               <div className="space-y-1.5">
-                <h2 className={`text-[19px] font-semibold tracking-tight ${dark ? 'text-white' : 'text-slate-950'}`}>
+                <motion.h2
+                  initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+                  className={`text-[19px] font-semibold tracking-tight ${dark ? 'text-white' : 'text-slate-950'}`}
+                >
                   Welcome to Code Craft Journey
-                </h2>
-                <p className={`mx-auto max-w-[90%] text-xs leading-5 ${dark ? 'text-slate-400' : 'text-slate-600'}`}>
+                </motion.h2>
+                <motion.p
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, delay: 0.25 }}
+                  className={`mx-auto max-w-[90%] text-xs leading-5 ${dark ? 'text-slate-400' : 'text-slate-600'}`}
+                >
                   Grow your business with us. Let’s connect and build a strategy that turns your ideas into revenue.
-                </p>
+                </motion.p>
               </div>
             </div>
 

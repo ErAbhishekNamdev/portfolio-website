@@ -13,7 +13,7 @@ export function ThemeProvider({ children }) {
     }
     return true;
   });
-  const [introPopupOpen, setIntroPopupOpen] = useState(false);
+  const [introPopupOpen, setIntroPopupOpen] = useState(true);
 
   useEffect(() => {
     const root = document.documentElement;
