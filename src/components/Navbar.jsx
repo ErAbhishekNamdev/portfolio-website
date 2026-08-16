@@ -222,9 +222,9 @@ export default function Navbar() {
             {/* Theme Toggle Button */}
             <button
               onClick={toggle}
-              className={`p-1.5 transition-all duration-300 hover:scale-110 flex items-center justify-center ${dark
-                  ? 'text-amber-400 hover:text-amber-300 hover:drop-shadow-[0_0_10px_rgba(251,191,36,0.6)]'
-                  : 'text-indigo-600 hover:text-indigo-500 hover:drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]'
+              className={`p-2 rounded-full border backdrop-blur-xl transition-all duration-300 flex items-center justify-center ${dark
+                ? 'bg-white/10 border-white/20 text-amber-400 hover:border-amber-400/60 hover:scale-110 shadow-[0_0_15px_rgba(251,191,36,0.3)]'
+                : 'bg-slate-100 border-slate-300 text-indigo-600 hover:border-indigo-400 hover:scale-110 shadow-sm'
                 }`}
               title={dark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               aria-label="Toggle Theme"
@@ -235,7 +235,7 @@ export default function Navbar() {
                 animate={{ rotate: 0, scale: 1 }}
                 transition={{ duration: 0.3 }}
               >
-                {dark ? <FaSun size={20} /> : <FaMoon size={18} />}
+                {dark ? <FaSun size={18} /> : <FaMoon size={16} />}
               </motion.div>
             </button>
 
