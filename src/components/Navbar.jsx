@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
-import { FaSun, FaMoon, FaArrowRight } from 'react-icons/fa';
+import { FaSun, FaMoon, FaArrowRight, FaWhatsapp } from 'react-icons/fa';
 import { useTheme } from '../ThemeContext';
 
 import logoicons from '../assets/logo.jpeg';
@@ -103,14 +103,12 @@ function NavTagline() {
   const { dark } = useTheme();
   return (
     <span className="inline-flex items-center gap-[2px]">
-      <span className={`font-semibold tracking-wide transition-colors ${
-        dark ? 'text-slate-200/90' : 'text-slate-700'
-      }`}>
+      <span className={`font-semibold tracking-wide transition-colors ${dark ? 'text-slate-200/90' : 'text-slate-700'
+        }`}>
         {taglineText}
       </span>
-      <span className={`inline-block w-[1.5px] h-[0.85em] rounded-full animate-pulse ml-[1px] ${
-        dark ? 'bg-sky-400' : 'bg-slate-700'
-      }`} />
+      <span className={`inline-block w-[1.5px] h-[0.85em] rounded-full animate-pulse ml-[1px] ${dark ? 'bg-sky-400' : 'bg-slate-700'
+        }`} />
     </span>
   );
 }
@@ -181,9 +179,8 @@ export default function Navbar() {
                 <img
                   src={autoCroppedLogo}
                   alt="Code Craft Journey Logo"
-                  className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${
-                    dark ? 'brightness-110' : 'brightness-105'
-                  }`}
+                  className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${dark ? 'brightness-110' : 'brightness-105'
+                    }`}
                 />
                 {/* 3D Glass Light Beam Shimmer */}
                 <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-700 ease-out pointer-events-none" />
@@ -225,9 +222,9 @@ export default function Navbar() {
             {/* Theme Toggle Button */}
             <button
               onClick={toggle}
-              className={`relative p-2.5 rounded-full flex items-center justify-center transition-all duration-300 border ${dark
-                ? 'bg-[#121824] border-white/10 text-amber-400 hover:border-amber-400/50 hover:shadow-[0_0_15px_rgba(251,191,36,0.25)]'
-                : 'bg-slate-100 border-slate-300 text-indigo-600 hover:border-indigo-500/50 hover:shadow-[0_0_15px_rgba(99,102,241,0.2)]'
+              className={`p-2 rounded-full border backdrop-blur-xl transition-all duration-300 flex items-center justify-center ${dark
+                ? 'bg-white/10 border-white/20 text-amber-400 hover:border-amber-400/60 hover:scale-110 shadow-[0_0_15px_rgba(251,191,36,0.3)]'
+                : 'bg-slate-100 border-slate-300 text-indigo-600 hover:border-indigo-400 hover:scale-110 shadow-sm'
                 }`}
               title={dark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               aria-label="Toggle Theme"
@@ -238,31 +235,49 @@ export default function Navbar() {
                 animate={{ rotate: 0, scale: 1 }}
                 transition={{ duration: 0.3 }}
               >
-                {dark ? <FaSun size={17} /> : <FaMoon size={15} />}
+                {dark ? <FaSun size={18} /> : <FaMoon size={16} />}
               </motion.div>
             </button>
 
-            {/* Let's Talk CTA */}
-            <a
-              href="#contact"
-              className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${dark
-                ? 'bg-gradient-to-r from-[#00D4FF]/20 via-[#9B59FF]/20 to-[#FF6EC7]/20 border border-[#00D4FF]/40 text-white hover:border-[#00D4FF] hover:shadow-[0_0_25px_rgba(0,212,255,0.35)] hover:scale-105'
-                : 'bg-gradient-to-r from-[#0284C7] to-[#7C3AED] text-white shadow-md hover:shadow-indigo-500/25 hover:opacity-95 hover:scale-105'
-                }`}
-            >
-              Let's Talk <span className="text-base">→</span>
-            </a>
+            {/* Let's Talk CTA & WhatsApp (Desktop Only) */}
+            <div className="flex items-center gap-3">
+
+
+              <a
+                href="#contact"
+                className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${dark
+                  ? 'bg-gradient-to-r from-[#00D4FF]/20 via-[#9B59FF]/20 to-[#FF6EC7]/20 border border-[#00D4FF]/40 text-white hover:border-[#00D4FF] hover:shadow-[0_0_25px_rgba(0,212,255,0.35)] hover:scale-105'
+                  : 'bg-gradient-to-r from-[#0284C7] to-[#7C3AED] text-white shadow-md hover:shadow-indigo-500/25 hover:opacity-95 hover:scale-105'
+                  }`}
+              >
+                Let's Talk <span className="text-base">→</span>
+              </a>
+
+              <a
+                href="https://wa.me/917024073871"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Chat on WhatsApp"
+                className="hidden md:inline-flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-110"
+              >
+                <svg className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl shadow-md hover:shadow-emerald-500/30" viewBox="0 0 48 48" fill="none">
+                  <rect width="48" height="48" rx="12" fill="#25D366" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M24 10C16.268 10 10 16.268 10 24C10 26.832 10.842 29.467 12.294 31.67L10.748 37.314L16.541 35.795C18.667 37.086 21.246 37.842 24 37.842C31.732 37.842 38 31.574 38 23.842C38 16.11 31.732 10 24 10ZM24 35.263C21.656 35.263 19.467 34.582 17.618 33.407L13.791 34.41L14.814 30.672C13.504 28.755 12.737 26.46 12.737 23.99C12.737 17.776 17.786 12.727 24 12.727C30.214 12.727 35.263 17.776 35.263 23.99C35.263 30.204 30.214 35.263 24 35.263ZM30.932 27.272C30.552 27.082 28.686 26.164 28.339 26.037C27.992 25.91 27.739 25.847 27.486 26.227C27.233 26.607 26.505 27.462 26.284 27.715C26.063 27.968 25.842 27.999 25.462 27.809C25.082 27.619 23.856 27.217 22.404 25.922C21.272 24.913 20.507 23.668 20.286 23.288C20.065 22.908 20.263 22.702 20.453 22.513C20.624 22.343 20.833 22.07 21.023 21.849C21.213 21.628 21.276 21.469 21.403 21.216C21.53 20.963 21.467 20.742 21.372 20.552C21.277 20.362 20.517 18.495 20.201 17.735C19.893 16.995 19.58 17.095 19.349 17.083C19.127 17.072 18.874 17.072 18.621 17.072C18.368 17.072 17.957 17.167 17.609 17.547C17.261 17.927 16.28 18.845 16.28 20.712C16.28 22.579 17.64 24.383 17.83 24.636C18.02 24.889 20.504 28.71 24.307 30.35C25.211 30.741 25.918 30.975 26.469 31.15C27.377 31.439 28.204 31.398 28.86 31.3C29.592 31.191 31.111 30.381 31.427 29.495C31.743 28.609 31.743 27.849 31.648 27.691C31.553 27.533 31.312 27.462 30.932 27.272Z" fill="white" />
+                </svg>
+              </a>
+            </div>
           </div>
 
           {/* Mobile controls */}
           <div className="flex items-center gap-3 md:hidden">
+
             <button
               onClick={toggle}
-              className={`p-2 rounded-full border ${dark ? 'bg-[#121824] border-white/10 text-amber-400' : 'bg-slate-100 border-slate-300 text-indigo-600'
+              className={`p-1 transition-all duration-300 hover:scale-110 flex items-center justify-center ${dark ? 'text-amber-400' : 'text-indigo-600'
                 }`}
               aria-label="Toggle Theme"
             >
-              {dark ? <FaSun size={15} /> : <FaMoon size={14} />}
+              {dark ? <FaSun size={18} /> : <FaMoon size={16} />}
             </button>
             <button
               className={`text-2xl p-1 ${dark ? 'text-white' : 'text-slate-800'}`}
@@ -363,9 +378,8 @@ export default function Navbar() {
                     <img
                       src={autoCroppedLogo}
                       alt="Code Craft Journey Logo"
-                      className={`w-full h-full object-cover transition-transform duration-500 hover:scale-110 ${
-                        dark ? 'brightness-110' : 'brightness-105'
-                      }`}
+                      className={`w-full h-full object-cover transition-transform duration-500 hover:scale-110 ${dark ? 'brightness-110' : 'brightness-105'
+                        }`}
                     />
                     {/* 3D Glass Light Beam Shimmer */}
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/35 to-transparent translate-x-[-120%] hover:translate-x-[120%] transition-transform duration-700 ease-out pointer-events-none" />
@@ -374,12 +388,22 @@ export default function Navbar() {
               </div>
 
               <div className="space-y-1.5">
-                <h2 className={`text-[19px] font-semibold tracking-tight ${dark ? 'text-white' : 'text-slate-950'}`}>
+                <motion.h2
+                  initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+                  className={`text-[19px] font-semibold tracking-tight ${dark ? 'text-white' : 'text-slate-950'}`}
+                >
                   Welcome to Code Craft Journey
-                </h2>
-                <p className={`mx-auto max-w-[90%] text-xs leading-5 ${dark ? 'text-slate-400' : 'text-slate-600'}`}>
+                </motion.h2>
+                <motion.p
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, delay: 0.25 }}
+                  className={`mx-auto max-w-[90%] text-xs leading-5 ${dark ? 'text-slate-400' : 'text-slate-600'}`}
+                >
                   Grow your business with us. Let’s connect and build a strategy that turns your ideas into revenue.
-                </p>
+                </motion.p>
               </div>
             </div>
 

@@ -11,6 +11,7 @@ import {
   FaCommentDots,
   FaTimes,
   FaRobot,
+  FaEnvelope,
 } from "react-icons/fa";
 import { useTheme } from "../ThemeContext";
 import LaptopScreen from "./LaptopScreen";
@@ -140,7 +141,7 @@ function speakWelcomeText(onEnd) {
   }, 400);
 }
 
-function useWelcomeIntro() {
+function useWelcomeIntro(enabled = true) {
   const [line1Count, setLine1Count] = useState(0);
   const [line2Count, setLine2Count] = useState(0);
   const [phase, setPhase] = useState("line1");
@@ -151,6 +152,12 @@ function useWelcomeIntro() {
   }, []);
 
   useEffect(() => {
+    if (!enabled) {
+      if (typeof window !== "undefined" && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+      return undefined;
+    }
     if (phase !== "line1" && phase !== "line2") return undefined;
 
     let id;
@@ -169,7 +176,7 @@ function useWelcomeIntro() {
       setPhase("done");
     }
     return () => clearTimeout(id);
-  }, [phase, line1Count, line2Count]);
+  }, [phase, line1Count, line2Count, enabled]);
 
   const isComplete = phase === "done";
   const isTyping = phase === "line1" || phase === "line2";
@@ -213,12 +220,13 @@ function WelcomeLine1({ count, dark, showCaret }) {
   );
 }
 
-function useTyping(lines) {
+function useTyping(lines, enabled = true) {
   const [text, setText] = useState("");
   const [index, setIndex] = useState(0);
   const [stage, setStage] = useState("typing");
 
   useEffect(() => {
+    if (!enabled) return undefined;
     let id;
     const current = lines[index];
     if (stage === "typing") {
@@ -236,7 +244,7 @@ function useTyping(lines) {
       }
     }
     return () => clearTimeout(id);
-  }, [text, index, stage, lines]);
+  }, [text, index, stage, lines, enabled]);
 
   return text;
 }
@@ -266,10 +274,10 @@ const SOCIALS = [
     icon: <FaTwitter />,
     href: "https://x.com/Abhishekna78501",
     label: "Twitter / X",
-    bg: "#000000",
-    border: "rgba(255,255,255,0.12)",
-    hoverBorder: "rgba(255,255,255,0.35)",
-    glow: "rgba(255,255,255,0.15)",
+    bg: "#1DA1F2",
+    border: "rgba(29,161,242,0.45)",
+    hoverBorder: "rgba(29,161,242,0.9)",
+    glow: "rgba(29,161,242,0.45)",
   },
   {
     icon: <FaWhatsapp />,
@@ -279,6 +287,15 @@ const SOCIALS = [
     border: "rgba(37,211,102,0.45)",
     hoverBorder: "rgba(37,211,102,0.9)",
     glow: "rgba(37,211,102,0.45)",
+  },
+  {
+    icon: <FaEnvelope />,
+    href: "mailto:abhisheknamdev9171@gmail.com",
+    label: "Email",
+    bg: "#EA4335",
+    border: "rgba(234,67,53,0.45)",
+    hoverBorder: "rgba(234,67,53,0.9)",
+    glow: "rgba(234,67,53,0.45)",
   },
   {
     icon: <img src={naukriIcon} alt="Naukri" className="w-full h-full object-cover rounded-xl" />,
@@ -340,31 +357,25 @@ function Hero3DCanvas({ dark }) {
     window.addEventListener("resize", handleResize);
 
     const isDesktop = width >= 768;
-    const numPoints = isDesktop ? 130 : 70;
-    const radius = Math.min(width, height) * (isDesktop ? 0.46 : 0.38);
+    const count = isDesktop ? 65 : 35;
+    const particles = [];
+    const colors = dark
+      ? ["rgba(0, 212, 255, 0.7)", "rgba(124, 58, 237, 0.7)", "rgba(244, 114, 182, 0.7)", "rgba(56, 189, 248, 0.7)"]
+      : ["rgba(2, 132, 199, 0.6)", "rgba(124, 58, 237, 0.6)", "rgba(192, 38, 211, 0.6)", "rgba(14, 165, 233, 0.6)"];
 
-    const points = [];
-    const colorPaletteDark = ["#00D4FF", "#7C3AED", "#F472B6", "#38BDF8"];
-    const colorPaletteLight = ["#0284C7", "#7C3AED", "#2563EB", "#D946EF"];
-    const colors = dark ? colorPaletteDark : colorPaletteLight;
-
-    for (let i = 0; i < numPoints; i++) {
-      const theta = Math.acos(2 * Math.random() - 1);
-      const phi = 2 * Math.PI * Math.random();
-      const r = radius * (0.6 + Math.random() * 0.4);
-      points.push({
-        x: r * Math.sin(theta) * Math.cos(phi),
-        y: r * Math.sin(theta) * Math.sin(phi),
-        z: r * Math.cos(theta),
-        size: Math.random() * 2.8 + 1.4,
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 3.5 + 1.5,
         color: colors[i % colors.length],
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        pulseSpeed: Math.random() * 0.02 + 0.008,
+        pulse: Math.random() * Math.PI,
       });
     }
 
-    let rotX = 0;
-    let rotY = 0;
-    let targetRotX = 0;
-    let targetRotY = 0;
     let mouseX = -9999;
     let mouseY = -9999;
 
@@ -372,123 +383,41 @@ function Hero3DCanvas({ dark }) {
       const rect = canvas.getBoundingClientRect();
       mouseX = e.clientX - rect.left;
       mouseY = e.clientY - rect.top;
-      const mx = (mouseX - width / 2) / (width / 2);
-      const my = (mouseY - height / 2) / (height / 2);
-      targetRotY = mx * 0.9;
-      targetRotX = -my * 0.9;
     };
     window.addEventListener("mousemove", handleMouseMove);
-
-    // Mobile & Desktop Scroll-Linked 3D Rotation Physics
-    let lastScrollY = window.scrollY;
-    const handleScroll = () => {
-      const dy = window.scrollY - lastScrollY;
-      lastScrollY = window.scrollY;
-      targetRotX += dy * 0.004;
-      targetRotY += dy * 0.003;
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    // Touch Drag Rotation for Mobile Devices
-    let touchStartX = 0;
-    let touchStartY = 0;
-    const handleTouchMove = (e) => {
-      if (!e.touches[0]) return;
-      const touch = e.touches[0];
-      const dx = touch.clientX - touchStartX;
-      const dy = touch.clientY - touchStartY;
-      touchStartX = touch.clientX;
-      touchStartY = touch.clientY;
-      targetRotY += dx * 0.008;
-      targetRotX -= dy * 0.008;
-    };
-    const handleTouchStart = (e) => {
-      if (!e.touches[0]) return;
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-    };
-    window.addEventListener("touchstart", handleTouchStart, { passive: true });
-    window.addEventListener("touchmove", handleTouchMove, { passive: true });
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
-      rotX += (targetRotX - rotX) * 0.045 + 0.002;
-      rotY += (targetRotY - rotY) * 0.045 + 0.003;
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.pulse += p.pulseSpeed;
 
-      const cosX = Math.cos(rotX);
-      const sinX = Math.sin(rotX);
-      const cosY = Math.cos(rotY);
-      const sinY = Math.sin(rotY);
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
 
-      const centerX = isDesktop ? width * 0.42 : width / 2;
-      const centerY = height / 2;
-      const projected = [];
-
-      for (let i = 0; i < points.length; i++) {
-        const p = points[i];
-        let x1 = p.x * cosY - p.z * sinY;
-        let z1 = p.x * sinY + p.z * cosY;
-        let y1 = p.y * cosX - z1 * sinX;
-        let z2 = p.y * sinX + z1 * cosX;
-
-        const fov = 420;
-        const scale = fov / (fov + z2 + 320);
-        let px = centerX + x1 * scale;
-        let py = centerY + y1 * scale;
-
-        if (mouseX > 0 && mouseY > 0) {
-          const mdx = px - mouseX;
-          const mdy = py - mouseY;
-          const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-          if (mdist < 140) {
-            const force = (1 - mdist / 140) * 24;
-            px += (mdx / (mdist || 1)) * force;
-            py += (mdy / (mdist || 1)) * force;
-          }
+        let dx = p.x - mouseX;
+        let dy = p.y - mouseY;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          let force = (120 - dist) / 120;
+          p.x += (dx / (dist || 1)) * force * 1.5;
+          p.y += (dy / (dist || 1)) * force * 1.5;
         }
 
-        const alpha = Math.max(0.15, Math.min(1, (z2 + 320) / 520));
-        projected.push({ px, py, scale, z: z2, color: p.color, size: p.size, alpha });
-      }
-
-      const lineDistLimit = isDesktop ? 115 : 90;
-      for (let i = 0; i < projected.length; i++) {
-        for (let j = i + 1; j < projected.length; j++) {
-          const p1 = projected[i];
-          const p2 = projected[j];
-          const dx = p1.px - p2.px;
-          const dy = p1.py - p2.py;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < lineDistLimit) {
-            const lineAlpha = (1 - dist / lineDistLimit) * (dark ? 0.30 : 0.22) * Math.min(p1.alpha, p2.alpha);
-            ctx.beginPath();
-            ctx.moveTo(p1.px, p1.py);
-            ctx.lineTo(p2.px, p2.py);
-            ctx.strokeStyle = dark
-              ? `rgba(0, 212, 255, ${lineAlpha})`
-              : `rgba(2, 132, 199, ${lineAlpha})`;
-            ctx.lineWidth = isDesktop ? 0.9 : 0.75;
-            ctx.stroke();
-          }
-        }
-      }
-
-      for (let i = 0; i < projected.length; i++) {
-        const p = projected[i];
-        if (p.scale <= 0) continue;
+        const currentRadius = p.radius + Math.sin(p.pulse) * 1.2;
 
         ctx.beginPath();
-        const r = Math.max(1.2, p.size * p.scale);
-        ctx.arc(p.px, p.py, r, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, Math.max(0.5, currentRadius), 0, Math.PI * 2);
         ctx.fillStyle = p.color;
-        ctx.globalAlpha = dark ? p.alpha : Math.min(1, p.alpha * 1.1);
-        ctx.shadowBlur = dark ? 16 * p.scale : 6 * p.scale;
+        ctx.shadowBlur = dark ? 12 : 6;
         ctx.shadowColor = p.color;
         ctx.fill();
         ctx.shadowBlur = 0;
-        ctx.globalAlpha = 1;
       }
 
       animId = requestAnimationFrame(render);
@@ -500,26 +429,23 @@ function Hero3DCanvas({ dark }) {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
     };
   }, [dark]);
 
   return (
     <canvas
       ref={canvasRef}
-      className={`absolute inset-0 w-full h-full pointer-events-none z-0 ${dark ? 'opacity-60 md:opacity-85' : 'opacity-40 md:opacity-55'}`}
-  />
+      className={`absolute inset-0 w-full h-full pointer-events-none z-0 ${dark ? 'opacity-70' : 'opacity-45'}`}
+    />
   );
 }
 
 export default function Hero() {
   const { dark, introPopupOpen } = useTheme();
-  const badgeText = useTyping(BADGE_MESSAGES);
-  const roleText = useTyping(ROLE_LINES);
+  const badgeText = useTyping(BADGE_MESSAGES, !introPopupOpen);
+  const roleText = useTyping(ROLE_LINES, !introPopupOpen);
   const { line1Count, line2Count, isComplete: welcomeComplete, isTyping: welcomeTyping, speechFinished } =
-    useWelcomeIntro();
+    useWelcomeIntro(!introPopupOpen);
   const [contactOpen, setContactOpen] = useState(false);
   const [callbackOpen, setCallbackOpen] = useState(false);
   const [cbLoading, setCbLoading] = useState(false);
@@ -596,7 +522,7 @@ export default function Hero() {
         style={{
           backgroundImage: dark
             ? `linear-gradient(rgba(99,102,241,0.06) 1px,transparent 1px), linear-gradient(90deg,rgba(99,102,241,0.06) 1px,transparent 1px)`
-            : `linear-gradient(rgba(2,132,199,0.04) 1px,transparent 1px), linear-gradient(90deg,rgba(2,132,199,0.04) 1px,transparent 1px)`,
+            : `none`,
           backgroundSize: "44px 44px",
         }}
       />
@@ -676,15 +602,14 @@ export default function Hero() {
 
                 {(line1Count >= WELCOME_LINE1.length || line2Count > 0) && (
                   <p
-                    className={`mt-1.5 text-[12px] md:text-[15px] font-normal leading-[1.55] min-h-[1.55em] ${
-                      dark ? "text-white" : "text-slate-500"
-                    }`}
+                    className={`mt-1.5 text-[12px] md:text-[15px] font-medium leading-[1.55] min-h-[1.55em] ${dark ? "text-white" : "text-slate-700"
+                      }`}
                     style={{ fontFamily: "'Syne',sans-serif" }}
                   >
                     {WELCOME_LINE2.slice(0, line2Count)}
                     {welcomeTyping && line1Count >= WELCOME_LINE1.length && line2Count < WELCOME_LINE2.length && (
                       <span
-                        className={`caret-blink ml-0.5 inline-block h-[1em] w-[2px] shrink-0 rounded-sm align-[-0.05em] ${dark ? "bg-white" : "bg-slate-500"}`}
+                        className={`caret-blink ml-0.5 inline-block h-[1em] w-[2px] shrink-0 rounded-sm align-[-0.05em] ${dark ? "bg-white" : "bg-slate-700"}`}
                         aria-hidden="true"
                       />
                     )}
@@ -707,7 +632,7 @@ export default function Hero() {
                 className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 text-base md:text-lg font-bold max-md:text-sm w-full"
                 style={{ fontFamily: "'Syne',sans-serif" }}
               >
-                <span className={`shrink-0 ${dark ? "text-slate-400" : "text-slate-500"}`}>
+                <span className={`shrink-0 ${dark ? "text-slate-400" : "text-slate-600"}`}>
                   I am a
                 </span>
                 <span className="relative hidden md:inline-grid [grid-template-areas:'stack'] font-bold">
@@ -718,21 +643,21 @@ export default function Hero() {
                     {LONGEST_ROLE}
                   </span>
                   <span className="[grid-area:stack] inline-flex items-baseline whitespace-nowrap">
-                    <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,212,255,0.3)]">
+                    <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,212,255,0.3)] font-bold">
                       {roleText}
                     </span>
                     <span
-                      className={`caret-blink ml-0.5 inline-block h-[1.05em] w-[2px] shrink-0 rounded-sm ${dark ? "bg-[#00D4FF]" : "bg-[#7C3AED]"}`}
+                      className="caret-blink ml-0.5 inline-block h-[1.05em] w-[2px] shrink-0 rounded-sm bg-[#00D4FF]"
                       aria-hidden="true"
                     />
                   </span>
                 </span>
                 <span className="inline-flex items-baseline md:hidden font-bold">
-                  <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,212,255,0.3)]">
+                  <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,212,255,0.3)] font-bold">
                     {roleText}
                   </span>
                   <span
-                    className={`caret-blink ml-0.5 inline-block h-[1.05em] w-[2px] shrink-0 rounded-sm ${dark ? "bg-[#00D4FF]" : "bg-[#7C3AED]"}`}
+                    className="caret-blink ml-0.5 inline-block h-[1.05em] w-[2px] shrink-0 rounded-sm bg-[#00D4FF]"
                     aria-hidden="true"
                   />
                 </span>
@@ -820,9 +745,14 @@ export default function Hero() {
                   whileHover={{ y: -5, scale: 1.05, rotateX: -5, rotateY: 5 }}
                   whileTap={{ y: 1, scale: 0.96 }}
                   transition={{ type: "spring", stiffness: 350, damping: 15 }}
-                  className="group relative inline-flex items-center gap-2.5 px-6 py-3 md:px-6 md:py-3 rounded-full font-bold text-sm text-white transition-all duration-300 shadow-[0_10px_28px_rgba(99,102,241,0.55)] hover:shadow-[0_20px_45px_rgba(0,212,255,0.75)] max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-2.5 max-md:text-xs overflow-hidden border border-white/20"
+                  className={`group relative inline-flex items-center gap-2.5 px-6 py-3 md:px-6 md:py-3 rounded-full font-bold text-sm text-white transition-all duration-300 max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-2.5 max-md:text-xs overflow-hidden border ${dark
+                    ? "border-white/20 shadow-[0_8px_28px_rgba(0,212,255,0.45)] hover:shadow-[0_15px_42px_rgba(124,58,237,0.7)]"
+                    : "border-transparent shadow-[0_8px_25px_rgba(2,132,199,0.35)] hover:shadow-[0_12px_35px_rgba(37,99,235,0.5)]"
+                    }`}
                   style={{
-                    background: "linear-gradient(135deg, #6366F1 0%, #7C3AED 50%, #C026D3 100%)",
+                    background: dark
+                      ? "linear-gradient(135deg, #00D4FF 0%, #7C3AED 50%, #F472B6 100%)"
+                      : "linear-gradient(135deg, #0284C7 0%, #2563EB 50%, #7C3AED 100%)",
                   }}
                 >
                   {/* 3D Laser Beam Sweep */}
@@ -839,8 +769,8 @@ export default function Hero() {
                   whileTap={{ y: 1, scale: 0.96 }}
                   transition={{ type: "spring", stiffness: 350, damping: 15 }}
                   className={`group relative inline-flex items-center gap-2.5 px-6 py-3 md:px-6 md:py-3 rounded-full font-bold text-sm transition-all duration-300 border max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-2.5 max-md:text-xs max-md:whitespace-nowrap overflow-hidden ${dark
-                    ? "border-white/20 text-white bg-[#1E2538]/90 hover:border-cyan-400/80 hover:bg-cyan-500/15 shadow-[0_10px_25px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_35px_rgba(0,212,255,0.35)]"
-                    : "border-slate-300 text-slate-800 bg-white/95 hover:border-indigo-500 hover:bg-indigo-50/80 shadow-md hover:shadow-xl"
+                    ? "border-cyan-400/40 text-cyan-300 bg-[#141B2D]/90 hover:border-cyan-400 hover:bg-cyan-500/20 shadow-[0_8px_25px_rgba(0,0,0,0.5)] hover:shadow-[0_12px_32px_rgba(0,212,255,0.35)]"
+                    : "border-slate-300 text-slate-800 bg-white hover:border-blue-600 hover:bg-blue-50/90 shadow-md hover:shadow-xl font-bold"
                     }`}
                 >
                   <span className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-1000 ease-out pointer-events-none" />
@@ -954,11 +884,10 @@ export default function Hero() {
                 >
                   {/* Lid */}
                   <div
-                    className={`relative w-full rounded-[18px] overflow-hidden max-md:rounded-[12px] p-[6px] pb-0 max-md:p-[3px] max-md:pb-0 ${
-                      dark
-                        ? "border border-white/[0.16] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_0_40px_rgba(99,102,241,0.22),0_24px_64px_rgba(0,0,0,0.55)]"
-                        : ""
-                    }`}
+                    className={`relative w-full rounded-[18px] overflow-hidden max-md:rounded-[12px] p-[6px] pb-0 max-md:p-[3px] max-md:pb-0 ${dark
+                      ? "border border-white/[0.16] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_0_40px_rgba(99,102,241,0.22),0_24px_64px_rgba(0,0,0,0.55)]"
+                      : ""
+                      }`}
                     style={{
                       background: dark
                         ? "linear-gradient(to bottom,#4a5168 0%,#3a4058 40%,#2f354a 75%,#262b3d 100%)"
@@ -985,9 +914,8 @@ export default function Hero() {
 
                     {/* Screen */}
                     <div
-                      className={`w-full rounded-t-xl overflow-hidden max-md:rounded-lg relative aspect-[16/10] ${
-                        dark ? "ring-1 ring-inset ring-white/[0.12] shadow-inner" : ""
-                      }`}
+                      className={`w-full rounded-t-xl overflow-hidden max-md:rounded-lg relative aspect-[16/10] ${dark ? "ring-1 ring-inset ring-white/[0.12] shadow-inner" : ""
+                        }`}
                       style={dark ? { boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)" } : undefined}
                     >
                       <div className="absolute inset-0 w-full h-full">
@@ -1131,28 +1059,26 @@ export default function Hero() {
       {callbackOpen && (
         <div className="fixed right-4 bottom-24 z-[10000] sm:right-6 sm:bottom-24">
           <div
-            className={`w-[300px] rounded-[28px] border p-3 shadow-xl backdrop-blur-xl ${
-              dark
-                ? "border-white/10 bg-[#2A2A3C] text-white shadow-[0_12px_48px_rgba(0,0,0,0.55)]"
-                : "border-slate-200 bg-white text-slate-900"
-            }`}
+            className={`w-[300px] rounded-[28px] border p-3 shadow-xl backdrop-blur-xl ${dark
+              ? "border-white/10 bg-[#2A2A3C] text-white shadow-[0_12px_48px_rgba(0,0,0,0.55)]"
+              : "border-slate-200 bg-white text-slate-900"
+              }`}
           >
-            <div className={`rounded-[10px] p-3.5 ${ dark ? "border border-[#F7C948]/20 bg-[#F7C948]/10" : "bg-[#F7C948]/10" }`}>
+            <div className={`rounded-[10px] p-3.5 ${dark ? "border border-[#F7C948]/20 bg-[#F7C948]/10" : "bg-[#F7C948]/10"}`}>
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <p className="text-sm font-semibold">Request a Callback</p>
-                  <p className={`mt-1 text-[11px] ${ dark ? "text-slate-400" : "text-slate-600" }`}>
+                  <p className={`mt-1 text-[11px] ${dark ? "text-slate-400" : "text-slate-600"}`}>
                     Enter details and we'll call you shortly.
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => { setCallbackOpen(false); setCbSuccess(false); setCbError(""); }}
-                  className={`flex h-9 w-9 items-center justify-center rounded-full border transition ${
-                    dark
-                      ? "border-white/10 bg-white/[0.06] text-slate-300 hover:bg-white/10"
-                      : "border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
-                  }`}
+                  className={`flex h-9 w-9 items-center justify-center rounded-full border transition ${dark
+                    ? "border-white/10 bg-white/[0.06] text-slate-300 hover:bg-white/10"
+                    : "border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
+                    }`}
                 >
                   <FaTimes />
                 </button>
@@ -1164,7 +1090,7 @@ export default function Hero() {
               <div className="mt-4 flex flex-col items-center gap-2 py-4 text-center">
                 <span className="text-3xl">✅</span>
                 <p className="text-sm font-semibold text-emerald-500">Request Sent!</p>
-                <p className={`text-[11px] ${ dark ? "text-slate-400" : "text-slate-500" }`}>
+                <p className={`text-[11px] ${dark ? "text-slate-400" : "text-slate-500"}`}>
                   We'll call you back shortly.
                 </p>
               </div>
@@ -1177,43 +1103,39 @@ export default function Hero() {
                   name="name"
                   required
                   placeholder="Name"
-                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${
-                    dark
-                      ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                      : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                  }`}
+                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
+                    ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                    : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                    }`}
                 />
                 <input
                   name="phone"
                   type="tel"
                   required
                   placeholder="Phone No"
-                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${
-                    dark
-                      ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                      : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                  }`}
+                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
+                    ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                    : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                    }`}
                 />
                 <input
                   name="email"
                   type="email"
                   required
                   placeholder="Email"
-                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${
-                    dark
-                      ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                      : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                  }`}
+                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
+                    ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                    : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                    }`}
                 />
                 <textarea
                   name="message"
                   rows={2}
                   placeholder="Your Message (optional)"
-                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${
-                    dark
-                      ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                      : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                  }`}
+                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
+                    ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
+                    : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
+                    }`}
                 />
 
                 {/* Error message */}

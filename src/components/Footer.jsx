@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { 
-  FaArrowRight, 
-  FaBriefcase, 
-  FaGithub, 
-  FaLinkedin, 
-  FaTwitter, 
+import {
+  FaArrowRight,
+  FaBriefcase,
+  FaGithub,
+  FaLinkedin,
+  FaTwitter,
   FaWhatsapp,
   FaCheckCircle,
   FaChevronRight
@@ -26,7 +26,7 @@ const Footer = () => {
         `Hi Abhishek,\n\nI visited your portfolio and would like to connect with you regarding a project.\n\nMy Email Address: ${email}\n\nLooking forward to hearing from you!`
       );
       window.location.href = `mailto:abhisheknamdev9171@gmail.com?subject=${subject}&body=${body}`;
-      
+
       setTimeout(() => {
         setSubmitted(false);
         setEmail('');
@@ -82,7 +82,7 @@ const Footer = () => {
       </div>
 
       <div className="relative z-10 mx-auto max-w-[1272px] px-4 pt-[50px] pb-[72px] sm:px-6 lg:px-8">
-        
+
         {/* Call To Action Glass Card */}
         <div className="mb-[46px] flex flex-col gap-4 rounded-[18px] bg-white/14 border border-white/10 px-5 py-6 shadow-2xl shadow-black/20 backdrop-blur-xl sm:px-6 sm:py-8 lg:flex-row lg:items-center lg:justify-between lg:px-8 lg:py-8 text-center sm:text-left">
           <div className="max-w-2xl text-center sm:text-left mx-auto sm:mx-0">
@@ -128,18 +128,18 @@ const Footer = () => {
 
         {/* Main Footer Links Grid */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
-          
+
           {/* Column 1 & 2: Brand Profile & Bios */}
           <div className="lg:col-span-2 text-center sm:text-left flex flex-col items-center sm:items-start">
             <div className="flex items-center justify-center sm:justify-start gap-3 mb-5">
-              <div 
+              <div
                 className="relative w-11 h-11 shrink-0 rounded-xl overflow-hidden p-[2px] shadow-[0_4px_20px_rgba(0,212,255,0.4)]"
                 style={{ background: "linear-gradient(135deg, #00D4FF 0%, #7C3AED 50%, #F472B6 100%)" }}
               >
-                <img 
-                  src={logoicons} 
-                  alt="Abhishek Namdev" 
-                  className="h-full w-full object-cover rounded-[10px]" 
+                <img
+                  src={logoicons}
+                  alt="Abhishek Namdev"
+                  className="h-full w-full object-cover rounded-[10px]"
                 />
               </div>
               <div className="text-center sm:text-left">
@@ -194,8 +194,8 @@ const Footer = () => {
             <ul className="space-y-[16px] text-[15px] leading-[24px] text-white/70 flex flex-col items-center sm:items-start">
               {whatIBuild.map((item, idx) => (
                 <li key={idx} className="w-full text-center sm:text-left">
-                  <a 
-                    href={item.href} 
+                  <a
+                    href={item.href}
                     className="group inline-flex sm:flex items-center sm:items-start justify-center sm:justify-start gap-2 transition-all duration-200 hover:text-white hover:translate-x-1"
                   >
                     <FaChevronRight className="mt-[3px] h-2.5 w-2.5 shrink-0 text-white/50 group-hover:text-white transition-colors" />
@@ -214,8 +214,8 @@ const Footer = () => {
             <ul className="space-y-[16px] text-[15px] leading-[24px] text-white/70 flex flex-col items-center sm:items-start">
               {companyLinks.map((item, idx) => (
                 <li key={idx} className="w-full text-center sm:text-left">
-                  <a 
-                    href={item.href} 
+                  <a
+                    href={item.href}
                     className="group inline-flex sm:flex items-center sm:items-start justify-center sm:justify-start gap-2 transition-all duration-200 hover:text-white hover:translate-x-1"
                   >
                     <FaChevronRight className="mt-[3px] h-2.5 w-2.5 shrink-0 text-white/50 group-hover:text-white transition-colors" />
@@ -234,8 +234,8 @@ const Footer = () => {
             <ul className="space-y-[16px] text-[15px] leading-[24px] text-white/70 flex flex-col items-center sm:items-start">
               {supportLinks.map((item, idx) => (
                 <li key={idx} className="w-full text-center sm:text-left">
-                  <a 
-                    href={item.href} 
+                  <a
+                    href={item.href}
                     className="group inline-flex sm:flex items-center sm:items-start justify-center sm:justify-start gap-2 transition-all duration-200 hover:text-white hover:translate-x-1"
                   >
                     <FaChevronRight className="mt-[3px] h-2.5 w-2.5 shrink-0 text-white/50 group-hover:text-white transition-colors" />
@@ -268,4 +268,4 @@ const Footer = () => {
 
 export default Footer;
 
-
+
