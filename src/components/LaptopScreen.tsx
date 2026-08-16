@@ -388,50 +388,236 @@ function ProgressRail({ sceneIdx, onSelect, isMobile }: { sceneIdx: number; onSe
 
 function LivePreview({ isMobile }: { isMobile: boolean }) {
   const previews = [
-    { label: "Startup MVP", emoji: "🚀", sub: "Launch in weeks" },
-    { label: "Company Site", emoji: "🏢", sub: "Brand & trust" },
-    { label: "HR Portfolio", emoji: "👔", sub: "Hire with confidence" },
+    {
+      id: "startup",
+      url: "https://startup-mvp.io/preview",
+      badge: "Startup MVP",
+      tagline: "AI SaaS Dashboard",
+      accent: "from-cyan-500 via-indigo-500 to-purple-600",
+      content: (
+        <div className="w-full h-full flex flex-col justify-between gap-1 md:gap-1.5 p-1 md:p-2 text-left min-h-0">
+          {/* Mini Web Header */}
+          <div className="flex items-center justify-between border-b border-white/15 pb-1 shrink-0">
+            <span className="text-[7px] sm:text-[8.5px] md:text-[10px] font-black text-cyan-400 font-mono flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_6px_rgba(34,211,238,0.9)]" />
+              ⚡ NexusAI
+            </span>
+            <div className="flex gap-1.5 text-[5.5px] sm:text-[7px] md:text-[8px] text-slate-200 font-semibold">
+              <span className="hover:text-white transition-colors cursor-pointer">Features</span>
+              <span className="hover:text-white transition-colors cursor-pointer">Pricing</span>
+              <span className="text-white px-1.5 py-0.5 rounded bg-cyan-500/30 text-cyan-200 font-extrabold border border-cyan-400/50 shadow-sm">
+                Demo
+              </span>
+            </div>
+          </div>
+
+          {/* Hero Banner with Crisp White Glassmorphic Border */}
+          <div className="rounded-lg bg-gradient-to-r from-slate-900/90 via-indigo-950/90 to-slate-900/90 p-1.5 md:p-2.5 border border-white/25 shadow-lg backdrop-blur-md shrink-0">
+            <h4 className="text-[8px] sm:text-[9.5px] md:text-[11.5px] font-black text-white leading-tight tracking-tight">
+              Next-Gen AI SaaS Platform
+            </h4>
+            <p className="text-[5.5px] sm:text-[7px] md:text-[8px] text-slate-300 mt-0.5 leading-tight font-medium line-clamp-1">
+              Build & scale your startup product in record time with typed APIs.
+            </p>
+            <div className="flex items-center gap-1.5 mt-1 md:mt-1.5">
+              <button
+                type="button"
+                className="text-[5.5px] sm:text-[7px] md:text-[8px] font-black px-2 py-0.5 rounded bg-cyan-400 text-slate-950 shadow-sm hover:bg-cyan-300 transition-all cursor-pointer shrink-0"
+              >
+                Launch App →
+              </button>
+              <span className="text-[5.5px] sm:text-[7px] md:text-[8px] text-emerald-400 font-mono font-extrabold truncate">
+                14.2k Active Users
+              </span>
+            </div>
+          </div>
+
+          {/* Mini Dashboard Cards with Crisp White Borders */}
+          <div className="grid grid-cols-2 gap-1 md:gap-1.5 shrink-0">
+            <div className="p-1 md:p-2 rounded-lg bg-white/[0.04] border border-white/20 backdrop-blur-md flex flex-col justify-between hover:border-white/40 transition-colors shadow-sm">
+              <span className="text-[5.5px] sm:text-[6.5px] md:text-[7.5px] font-bold text-slate-300 uppercase tracking-wider truncate">
+                Monthly Revenue
+              </span>
+              <span className="text-[8.5px] sm:text-[10.5px] md:text-[12.5px] font-black text-emerald-400 font-mono mt-0.5">
+                $48,250
+              </span>
+              <div className="w-full bg-emerald-500/20 h-1 md:h-1.5 rounded-full mt-1 overflow-hidden border border-emerald-400/30">
+                <div className="bg-emerald-400 h-full w-[82%] shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
+              </div>
+            </div>
+            <div className="p-1 md:p-2 rounded-lg bg-white/[0.04] border border-white/20 backdrop-blur-md flex flex-col justify-between hover:border-white/40 transition-colors shadow-sm">
+              <span className="text-[5.5px] sm:text-[6.5px] md:text-[7.5px] font-bold text-slate-300 uppercase tracking-wider truncate">
+                Conversion Rate
+              </span>
+              <span className="text-[8.5px] sm:text-[10.5px] md:text-[12.5px] font-black text-cyan-400 font-mono mt-0.5">
+                14.8%
+              </span>
+              <div className="w-full bg-cyan-500/20 h-1 md:h-1.5 rounded-full mt-1 overflow-hidden border border-cyan-400/30">
+                <div className="bg-cyan-400 h-full w-[88%] shadow-[0_0_6px_rgba(34,211,238,0.8)]" />
+              </div>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: "company",
+      url: "https://company-brand.com/app",
+      badge: "Company Site",
+      tagline: "E-Commerce Platform",
+      accent: "from-emerald-500 via-teal-500 to-sky-600",
+      content: (
+        <div className="w-full h-full flex flex-col justify-between gap-1 md:gap-1.5 p-1 md:p-2 text-left min-h-0">
+          {/* Mini Web Header */}
+          <div className="flex items-center justify-between border-b border-white/15 pb-1 shrink-0">
+            <span className="text-[7px] sm:text-[8.5px] md:text-[10px] font-black text-emerald-400 font-mono flex items-center gap-1">
+              🛍️ StoreX Brand
+            </span>
+            <span className="text-[5.5px] sm:text-[7px] md:text-[8px] text-emerald-300 font-extrabold bg-emerald-500/30 px-1.5 py-0.5 rounded border border-emerald-400/50 shadow-sm">
+              Cart (3 items)
+            </span>
+          </div>
+
+          {/* Product Showcase with White Glassmorphic Border */}
+          <div className="rounded-lg bg-gradient-to-r from-slate-900/90 via-teal-950/90 to-slate-900/90 p-1.5 md:p-2.5 border border-white/25 shadow-lg backdrop-blur-md shrink-0">
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="text-[8px] sm:text-[9.5px] md:text-[11.5px] font-black text-white leading-tight">
+                  Premium Tech Gear
+                </h4>
+                <span className="text-[5.5px] sm:text-[7px] md:text-[8px] text-amber-400 font-mono font-bold">
+                  ★★★★★ 4.9/5 Rating
+                </span>
+              </div>
+              <span className="text-[9px] sm:text-[11px] md:text-[13px] font-black text-emerald-400 font-mono">
+                $199
+              </span>
+            </div>
+            <div className="flex gap-1.5 mt-1.5">
+              <div className="flex-1 p-1 md:p-1.5 rounded-md bg-white/[0.06] border border-white/20 text-[5.5px] sm:text-[7px] md:text-[8px] text-slate-100 font-bold flex items-center gap-1 truncate">
+                <span>🎧 Headphones</span>
+              </div>
+              <div className="flex-1 p-1 md:p-1.5 rounded-md bg-white/[0.06] border border-white/20 text-[5.5px] sm:text-[7px] md:text-[8px] text-slate-100 font-bold flex items-center gap-1 truncate">
+                <span>⌚ Smart Watch</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Checkout Feature Pills */}
+          <div className="flex items-center justify-between text-[5.5px] sm:text-[7px] md:text-[8px] text-slate-200 px-0.5 font-bold shrink-0">
+            <span>🚚 Free Shipping</span>
+            <span>🛡️ 2-Yr Warranty</span>
+            <span>⚡ Instant Checkout</span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: "portfolio",
+      url: "https://enterprise-app.dev/portal",
+      badge: "Enterprise App",
+      tagline: "Corporate Portal",
+      accent: "from-purple-500 via-indigo-500 to-blue-600",
+      content: (
+        <div className="w-full h-full flex flex-col justify-between gap-1 md:gap-1.5 p-1 md:p-2 text-left min-h-0">
+          {/* Mini Web Header */}
+          <div className="flex items-center justify-between border-b border-white/15 pb-1 shrink-0">
+            <span className="text-[7px] sm:text-[8.5px] md:text-[10px] font-black text-purple-400 font-mono flex items-center gap-1">
+              💼 CodeCraft Portal
+            </span>
+            <span className="text-[5.5px] sm:text-[7px] md:text-[8px] text-purple-300 font-mono font-extrabold bg-purple-500/30 px-1.5 py-0.5 rounded border border-purple-400/50 shadow-sm">
+              Production Ready
+            </span>
+          </div>
+
+          {/* Enterprise Hero with White Glassmorphic Border */}
+          <div className="rounded-lg bg-gradient-to-r from-slate-900/90 via-indigo-950/90 to-slate-900/90 p-1.5 md:p-2.5 border border-white/25 shadow-lg backdrop-blur-md shrink-0">
+            <h4 className="text-[8px] sm:text-[9.5px] md:text-[11.5px] font-black text-white leading-tight">
+              Engineering Excellence
+            </h4>
+            <p className="text-[5.5px] sm:text-[7px] md:text-[8px] text-purple-200 mt-0.5 font-medium line-clamp-1">
+              High-performance web apps built for startup & enterprise scale.
+            </p>
+            <div className="grid grid-cols-3 gap-1 mt-1.5 text-center">
+              <div className="p-1 rounded-md bg-white/[0.06] border border-white/20">
+                <span className="text-[8px] sm:text-[10px] md:text-[11px] font-black text-cyan-300 block font-mono">30+</span>
+                <span className="text-[5px] sm:text-[6.5px] md:text-[7.5px] text-slate-200 font-semibold">Shipped</span>
+              </div>
+              <div className="p-1 rounded-md bg-white/[0.06] border border-white/20">
+                <span className="text-[8px] sm:text-[10px] md:text-[11px] font-black text-emerald-300 block font-mono">100%</span>
+                <span className="text-[5px] sm:text-[6.5px] md:text-[7.5px] text-slate-200 font-semibold">On-Time</span>
+              </div>
+              <div className="p-1 rounded-md bg-white/[0.06] border border-white/20">
+                <span className="text-[8px] sm:text-[10px] md:text-[11px] font-black text-purple-300 block font-mono">1000+</span>
+                <span className="text-[5px] sm:text-[6.5px] md:text-[7.5px] text-slate-200 font-semibold">DSA Solved</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ),
+    },
   ];
+
   const [idx, setIdx] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(() => setIdx((i) => (i + 1) % previews.length), 2200);
+    const id = setInterval(() => setIdx((i) => (i + 1) % previews.length), 3200);
     return () => clearInterval(id);
-  }, []);
+  }, [previews.length]);
 
   const current = previews[idx];
 
   return (
     <div
-      className="flex flex-col rounded-md border border-white/10 overflow-hidden h-full m-0.5 ml-0 mr-1 my-0.5 md:m-2 md:ml-0"
-      style={{ background: "linear-gradient(160deg,#0f172a,#1e1b4b)" }}
+      className="flex flex-col rounded-xl md:rounded-2xl border border-white/20 overflow-hidden h-full m-0.5 ml-0 mr-1 my-0.5 md:m-2 md:ml-0 shadow-2xl min-h-0"
+      style={{ background: "linear-gradient(160deg,#070b16,#0e1526)" }}
     >
-      <div className="flex items-center gap-1 px-2 py-1 border-b border-white/10 bg-black/30 shrink-0">
-        <span className="text-[6px] max-md:text-[7px] text-slate-400 font-mono">Client Preview</span>
-        <span className="ml-auto text-[6px] max-md:text-[7px] text-emerald-400">● Live</span>
+      {/* Browser Chrome Bar */}
+      <div className="flex items-center gap-1.5 px-2 py-1 md:px-3 md:py-1.5 border-b border-white/20 bg-[#0b1021]/90 shrink-0">
+        <div className="flex gap-1 shrink-0">
+          <span className="w-2 h-2 rounded-full bg-red-500 shadow-sm" />
+          <span className="w-2 h-2 rounded-full bg-amber-500 shadow-sm" />
+          <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-sm" />
+        </div>
+        <div className="flex-1 flex items-center gap-1 bg-white/10 px-1.5 py-0.5 rounded text-[6px] sm:text-[7.5px] md:text-[9px] text-slate-100 font-mono truncate mx-1 border border-white/20 shadow-inner">
+          <span className="text-emerald-400">🔒</span>
+          <span className="truncate">{current.url}</span>
+        </div>
+        <span className="text-[6px] sm:text-[7.5px] md:text-[9px] text-emerald-400 font-mono font-black shrink-0 flex items-center gap-1">
+          ● Live
+        </span>
       </div>
-      <div className="flex-1 p-1 md:p-2 flex flex-col items-center justify-center gap-0.5 md:gap-1 min-h-0">
+
+      {/* Dynamic Website UI Preview Card */}
+      <div className="flex-1 p-1 md:p-1.5 flex flex-col justify-between min-h-0 relative overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
-            key={current.label}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col items-center gap-1"
+            key={current.id}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.35 }}
+            className="w-full h-full flex flex-col justify-between min-h-0"
           >
-            <div className="text-sm md:text-lg">{current.emoji}</div>
-            <div className="text-[6px] md:text-[8px] font-bold text-white text-center">{current.label}</div>
-            <div className="text-[5px] md:text-[7px] text-indigo-300">{current.sub}</div>
+            {current.content}
           </motion.div>
         </AnimatePresence>
-        <div className="flex gap-1 mt-1">
-          {previews.map((p, i) => (
-            <span
-              key={p.label}
-              className={`h-1 rounded-full transition-all ${i === idx ? "w-3 bg-indigo-400" : "w-1 bg-white/20"}`}
-            />
-          ))}
+
+        {/* Carousel Pill Selector */}
+        <div className="flex items-center justify-between border-t border-white/15 pt-1 mt-0.5 px-1 md:px-2 shrink-0">
+          <span className="text-[6px] sm:text-[7.5px] md:text-[9px] text-slate-200 font-mono font-bold">
+            {current.badge}
+          </span>
+          <div className="flex gap-1">
+            {previews.map((p, i) => (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => setIdx(i)}
+                className={`h-1 md:h-1.5 rounded-full transition-all ${i === idx ? "w-3.5 md:w-5 bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" : "w-1 md:w-1.5 bg-white/30"}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -519,7 +705,7 @@ function CodeScene({ isMobile, active }: { isMobile: boolean; active: boolean })
               <span className="inline-block w-[4px] h-[10px] md:w-[5px] md:h-[12px] bg-[#58a6ff] animate-pulse" />
             )}
           </div>
-          <div className="flex-1 min-w-0 max-md:max-w-[42%]">
+          <div className="flex-1 min-w-0">
             <LivePreview isMobile={isMobile} />
           </div>
         </div>
@@ -886,33 +1072,33 @@ function HireStepCard({
         initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: active ? 1 : 0, y: active ? 0 : 6 }}
         transition={{ delay: 0.08 + index * 0.07, duration: 0.4 }}
-        className="flex flex-col items-center flex-1 min-w-0 gap-0.5 md:gap-1"
+        className="flex flex-col items-center flex-1 min-w-0 gap-1"
       >
         {/* Icon circle */}
         <div className="relative flex items-center justify-center">
           <div
-            className="flex h-5 w-5 md:h-9 md:w-9 items-center justify-center rounded-full border border-indigo-400/40 bg-indigo-500/10"
-            style={{ boxShadow: "0 0 12px rgba(99,102,241,0.3)" }}
+            className="flex h-6 w-6 md:h-10 md:w-10 items-center justify-center rounded-full border border-indigo-400/50 bg-indigo-500/15"
+            style={{ boxShadow: "0 0 16px rgba(99,102,241,0.4)" }}
           >
-            <span className="text-[8px] md:text-base leading-none">{step.icon}</span>
+            <span className="text-[10px] md:text-lg leading-none">{step.icon}</span>
           </div>
           <span
-            className="absolute -top-0.5 -right-0.5 md:-top-1 md:-right-1 flex h-2.5 w-2.5 md:h-4 md:w-4 items-center justify-center rounded-full bg-[#6366f1] text-[4px] md:text-[7px] font-extrabold text-white"
-            style={{ boxShadow: "0 0 6px rgba(99,102,241,0.7)" }}
+            className="absolute -top-0.5 -right-0.5 md:-top-1 md:-right-1 flex h-3 w-3 md:h-4.5 md:w-4.5 items-center justify-center rounded-full bg-[#6366f1] text-[5px] md:text-[8px] font-black text-white border border-white/20"
+            style={{ boxShadow: "0 0 8px rgba(99,102,241,0.8)" }}
           >
             {step.step}
           </span>
         </div>
-        <span className="text-[5px] md:text-[8px] font-bold text-white leading-tight text-center">{step.title}</span>
-        <span className="hidden md:block text-[6px] text-slate-400 text-center leading-tight">{step.desc}</span>
+        <span className="text-[6px] md:text-[10px] font-black text-white leading-tight text-center">{step.title}</span>
+        <span className="hidden md:block text-[7px] text-slate-300 text-center leading-tight font-medium">{step.desc}</span>
       </motion.div>
       {!isLast && (
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: active ? 1 : 0 }}
           transition={{ delay: 0.2 + index * 0.07, duration: 0.4 }}
-          className="h-px flex-1 min-w-[6px] md:min-w-[10px] mx-0.5 origin-left"
-          style={{ background: "linear-gradient(90deg,#6366f1,#7c3aed40)" }}
+          className="h-[2px] flex-1 min-w-[8px] md:min-w-[14px] mx-0.5 origin-left rounded-full"
+          style={{ background: "linear-gradient(90deg,#6366f1,#7c3aed80)" }}
         />
       )}
     </div>
@@ -934,34 +1120,34 @@ function HirePathCard({
     <>
       {/* Top color bar */}
       <div
-        className="absolute inset-x-0 top-0 h-[2px] md:h-[3px] rounded-t-md"
+        className="absolute inset-x-0 top-0 h-[3px] md:h-[4px] rounded-t-xl"
         style={{ background: `linear-gradient(90deg, transparent, ${path.accent}, transparent)` }}
       />
       {/* Glow bg */}
       <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md md:rounded-lg"
-        style={{ background: `radial-gradient(circle at 50% 0%, ${path.accent}20, transparent 70%)` }}
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"
+        style={{ background: `radial-gradient(circle at 50% 0%, ${path.accent}25, transparent 70%)` }}
       />
-      <span className="text-lg md:text-2xl leading-none mb-0.5 md:mb-1 relative z-10">{path.icon}</span>
-      <span className="text-[7px] md:text-[11px] font-extrabold text-white leading-tight relative z-10">{path.label}</span>
+      <span className="text-xl md:text-3xl leading-none mb-1 relative z-10">{path.icon}</span>
+      <span className="text-[8px] md:text-[13px] font-black text-white leading-tight relative z-10">{path.label}</span>
       <span
-        className="text-[5px] md:text-[8px] font-semibold mt-0.5 relative z-10"
+        className="text-[6px] md:text-[9px] font-bold mt-0.5 relative z-10"
         style={{ color: path.accent }}
       >
         {path.tagline}
       </span>
-      <div className="flex flex-col gap-px mt-0.5 md:mt-1 relative z-10">
+      <div className="flex flex-col gap-0.5 mt-1 relative z-10">
         {path.perks.map((perk) => (
-          <span key={perk} className="text-[4px] md:text-[7px] text-slate-400 flex items-center gap-0.5 justify-center">
-            <span className="text-[4px] md:text-[6px]" style={{ color: path.accent }}>✓</span> {perk}
+          <span key={perk} className="text-[5px] md:text-[8px] text-slate-200 font-medium flex items-center gap-1 justify-center">
+            <span className="text-[6px] md:text-[8px] font-extrabold" style={{ color: path.accent }}>✓</span> {perk}
           </span>
         ))}
       </div>
     </>
   );
 
-  const cls = `group relative flex flex-col items-center justify-center text-center rounded-md md:rounded-xl border ${path.border} p-1.5 md:p-3 overflow-hidden cursor-pointer transition-all duration-300 hover:border-white/20`;
-  const style = { background: `linear-gradient(160deg, ${path.accent}12, rgba(13,17,23,0.8))` };
+  const cls = `group relative flex flex-col items-center justify-center text-center rounded-lg md:rounded-2xl border ${path.border} p-2 md:p-3.5 overflow-hidden cursor-pointer transition-all duration-300 hover:border-white/40 shadow-lg`;
+  const style = { background: `linear-gradient(160deg, ${path.accent}18, rgba(10,14,28,0.9))` };
 
   if (isMobile) {
     return (
@@ -990,26 +1176,26 @@ function CtaScene({ isMobile, active }: { isMobile: boolean; active: boolean }) 
   return (
     <SceneShell>
       <div
-        className="h-full w-full flex flex-col gap-1 md:gap-2 px-2 md:px-4 py-1.5 md:py-3 min-h-0 overflow-hidden"
-        style={{ background: "linear-gradient(145deg,#080612 0%,#110e2a 50%,#1a1040 100%)" }}
+        className="h-full w-full flex flex-col gap-1.5 md:gap-3 px-3 md:px-5 py-2 md:py-4 min-h-0 overflow-hidden justify-between"
+        style={{ background: "linear-gradient(145deg,#06040d 0%,#0c0924 50%,#150c33 100%)" }}
       >
         {/* Header */}
         <motion.div
           initial={isMobile ? false : { opacity: 0, y: -8 }}
           animate={{ opacity: active ? 1 : 0, y: active ? 0 : -8 }}
           transition={{ duration: 0.4 }}
-          className="shrink-0 flex flex-col items-center gap-0.5 md:gap-1"
+          className="shrink-0 flex flex-col items-center gap-1"
         >
-          <div className="inline-flex items-center gap-1 px-2 md:px-3 py-0.5 md:py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+          <div className="inline-flex items-center gap-1.5 px-2.5 md:px-3.5 py-0.5 md:py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 shadow-[0_0_12px_rgba(52,211,153,0.2)]">
             <span
-              className="h-1 w-1 md:h-1.5 md:w-1.5 rounded-full bg-emerald-400 animate-pulse"
-              style={{ boxShadow: "0 0 6px rgba(52,211,153,0.9)" }}
+              className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"
+              style={{ boxShadow: "0 0 8px rgba(52,211,153,0.9)" }}
             />
-            <span className="text-[5px] md:text-[8px] font-bold text-emerald-300 uppercase tracking-widest">
+            <span className="text-[6px] md:text-[9px] font-black text-emerald-300 uppercase tracking-widest">
               Open for Projects
             </span>
           </div>
-          <h2 className="text-white font-extrabold text-[9px] md:text-[15px] leading-tight text-center">
+          <h2 className="text-white font-black text-[11px] md:text-[17px] leading-tight text-center tracking-tight">
             Ready to{" "}
             <span
               className="bg-clip-text text-transparent"
@@ -1021,7 +1207,7 @@ function CtaScene({ isMobile, active }: { isMobile: boolean; active: boolean }) 
         </motion.div>
 
         {/* Steps */}
-        <div className="shrink-0 flex items-start w-full px-0.5 md:px-2">
+        <div className="shrink-0 flex items-start w-full px-1 md:px-3">
           {HIRE_STEPS.map((s, i) => (
             <HireStepCard
               key={s.step}
@@ -1035,7 +1221,7 @@ function CtaScene({ isMobile, active }: { isMobile: boolean; active: boolean }) 
         </div>
 
         {/* Path cards */}
-        <div className="shrink-0 grid grid-cols-3 gap-1 md:gap-2 w-full">
+        <div className="shrink-0 grid grid-cols-3 gap-1.5 md:gap-3 w-full">
           {HIRE_PATHS.map((path, i) => (
             <HirePathCard key={path.label} path={path} index={i} active={active} isMobile={isMobile} />
           ))}
@@ -1046,14 +1232,14 @@ function CtaScene({ isMobile, active }: { isMobile: boolean; active: boolean }) 
           initial={isMobile ? false : { opacity: 0 }}
           animate={{ opacity: active ? 1 : 0 }}
           transition={{ delay: 0.45 }}
-          className="shrink-0 flex flex-wrap justify-center gap-0.5 md:gap-1"
+          className="shrink-0 flex flex-wrap justify-center gap-1 md:gap-1.5"
         >
           {HIRE_TRUST.map((t) => (
             <span
               key={t.label}
-              className="inline-flex items-center gap-0.5 md:gap-1 px-1.5 md:px-2 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-[4px] md:text-[7px] font-semibold text-slate-300"
+              className="inline-flex items-center gap-1 px-2 md:px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-[5px] md:text-[8px] font-bold text-slate-200 shadow-sm"
             >
-              <span className="text-[6px] md:text-[9px]">{t.icon}</span>
+              <span className="text-[7px] md:text-[10px]">{t.icon}</span>
               {t.label}
             </span>
           ))}
@@ -1064,37 +1250,37 @@ function CtaScene({ isMobile, active }: { isMobile: boolean; active: boolean }) 
           initial={isMobile ? false : { opacity: 0, y: 6 }}
           animate={{ opacity: active ? 1 : 0, y: active ? 0 : 6 }}
           transition={{ delay: 0.5 }}
-          className="shrink-0 flex flex-col gap-0.5 md:gap-1.5"
+          className="shrink-0 flex flex-col gap-1 md:gap-2"
         >
           <button
             type="button"
             onClick={scrollToContact}
-            className="relative w-full rounded-md md:rounded-xl py-1 md:py-2.5 text-center cursor-pointer overflow-hidden group"
+            className="relative w-full rounded-lg md:rounded-xl py-1.5 md:py-3 text-center cursor-pointer overflow-hidden group shadow-lg"
             style={{
-              background: "linear-gradient(90deg,#4f46e5,#7c3aed,#9333ea)",
-              boxShadow: "0 4px 20px rgba(99,102,241,0.45)",
+              background: "linear-gradient(90deg,#00D4FF,#6366f1,#a855f7)",
+              boxShadow: "0 4px 25px rgba(6,182,212,0.45)",
             }}
           >
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              style={{ background: "linear-gradient(90deg,#6366f1,#8b5cf6,#a855f7)" }}
+              style={{ background: "linear-gradient(90deg,#38bdf8,#818cf8,#c084fc)" }}
             />
-            <span className="relative text-white font-extrabold text-[7px] md:text-[11px] tracking-wide">
+            <span className="relative text-slate-950 font-black text-[8px] md:text-[13px] tracking-wide uppercase">
               Start Your Project →
             </span>
           </button>
-          <div className="grid grid-cols-2 gap-0.5 md:gap-1.5">
+          <div className="grid grid-cols-2 gap-1 md:gap-2">
             <button
               type="button"
               onClick={scrollToContact}
-              className="text-[5px] md:text-[8px] font-semibold text-slate-300 py-0.5 md:py-1.5 rounded-md md:rounded-lg bg-white/[0.05] border border-white/10 hover:bg-white/[0.1] hover:border-white/20 transition-all cursor-pointer"
+              className="text-[6px] md:text-[9px] font-bold text-slate-200 py-1 md:py-2 rounded-md md:rounded-lg bg-white/10 border border-white/15 hover:bg-white/20 transition-all cursor-pointer"
             >
-              📩 Contact
+              📩 Contact Me
             </button>
             <button
               type="button"
               onClick={scrollToContact}
-              className="text-[5px] md:text-[8px] font-semibold text-emerald-300 py-0.5 md:py-1.5 rounded-md md:rounded-lg bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 transition-all cursor-pointer"
-              style={{ boxShadow: "0 0 12px rgba(52,211,153,0.15)" }}
+              className="text-[6px] md:text-[9px] font-bold text-emerald-300 py-1 md:py-2 rounded-md md:rounded-lg bg-emerald-500/20 border border-emerald-400/40 hover:bg-emerald-500/30 transition-all cursor-pointer"
+              style={{ boxShadow: "0 0 15px rgba(52,211,153,0.25)" }}
             >
               ⚡ Hire Now
             </button>
