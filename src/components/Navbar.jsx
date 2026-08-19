@@ -6,7 +6,7 @@ import { useTheme } from '../ThemeContext';
 
 import logoicons from '../assets/logo.jpeg';
 
-const navLinks = ['About', 'Projects', 'Experience', 'Skills', 'Certificates', 'Contact'];
+const navLinks = ['About', 'Projects', 'Experience', 'Skills', 'Services'];
 
 const TAGLINES = [
   'From Concept to Creation',
@@ -128,12 +128,32 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Show popup on every page load to track all visits
   useEffect(() => {
     setShowIntroPopup(true);
     setIntroPopupOpen(true);
   }, [setIntroPopupOpen]);
 
-  const closeIntroPopup = () => {
+  // Silently log visitor data to Netlify Function (production only)
+  const logVisitorEvent = async (action) => {
+    // Skip on localhost — function only works on Netlify
+    if (window.location.hostname === 'localhost') return;
+    try {
+      await fetch('/.netlify/functions/log-visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action,
+          page: window.location.pathname,
+          time: new Date().toISOString(),
+          referrer: document.referrer || 'direct',
+        }),
+      });
+    } catch (_) { /* silently fail */ }
+  };
+
+  const closeIntroPopup = (action = 'closed') => {
+    logVisitorEvent(action);
     setShowIntroPopup(false);
     setIntroPopupOpen(false);
   };
@@ -333,7 +353,7 @@ export default function Navbar() {
             exit={{ opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.35, ease: 'easeOut' }}
             className={`relative w-full max-w-[350px] overflow-hidden rounded-[24px] border p-5 transition-all duration-300 ${dark
-              ? 'border-white/10 dark:bg-[#1E1E2E] text-white'
+              ? 'border-white/10 bg-[#1E1E2E] text-white'
               : 'border-slate-200 bg-white text-slate-950'
               }`}
             style={{
@@ -344,7 +364,7 @@ export default function Navbar() {
           >
             <button
               type="button"
-              onClick={closeIntroPopup}
+              onClick={() => closeIntroPopup('dismissed_x')}
               aria-label="Close"
               className={`absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full text-base transition-colors ${dark
                 ? 'text-slate-400 hover:text-white hover:bg-white/10'
@@ -366,22 +386,15 @@ export default function Navbar() {
                     rotateX: { type: "spring", stiffness: 300, damping: 15 },
                   }}
                   className="relative w-14 h-14 flex items-center justify-center shrink-0 rounded-2xl p-[2.5px] transform-gpu shadow-[0_4px_22px_rgba(0,212,255,0.4)] hover:shadow-[0_0_35px_rgba(0,212,255,0.75)] transition-shadow duration-300"
-                  style={{
-                    background: "linear-gradient(135deg, #00D4FF 0%, #7C3AED 50%, #F472B6 100%)",
-                  }}
+                  style={{ background: "linear-gradient(135deg, #00D4FF 0%, #7C3AED 50%, #F472B6 100%)" }}
                 >
-                  {/* 3D Rotating Glowing Aura Ring */}
-                  <span className="absolute -inset-[3px] rounded-2xl bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] opacity-60 group-hover:opacity-100 blur-md transition-opacity duration-300 animate-pulse" />
-
-                  {/* Inner Logo Wrapper */}
+                  <span className="absolute -inset-[3px] rounded-2xl bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] opacity-60 blur-md animate-pulse" />
                   <div className="relative z-10 w-full h-full rounded-xl overflow-hidden bg-[#0A0D14] flex items-center justify-center">
                     <img
                       src={autoCroppedLogo}
                       alt="Code Craft Journey Logo"
-                      className={`w-full h-full object-cover transition-transform duration-500 hover:scale-110 ${dark ? 'brightness-110' : 'brightness-105'
-                        }`}
+                      className={`w-full h-full object-cover transition-transform duration-500 hover:scale-110 ${dark ? 'brightness-110' : 'brightness-105'}`}
                     />
-                    {/* 3D Glass Light Beam Shimmer */}
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/35 to-transparent translate-x-[-120%] hover:translate-x-[120%] transition-transform duration-700 ease-out pointer-events-none" />
                   </div>
                 </motion.div>
@@ -402,7 +415,7 @@ export default function Navbar() {
                   transition={{ duration: 0.45, delay: 0.25 }}
                   className={`mx-auto max-w-[90%] text-xs leading-5 ${dark ? 'text-slate-400' : 'text-slate-600'}`}
                 >
-                  Grow your business with us. Let’s connect and build a strategy that turns your ideas into revenue.
+                  Grow your business with us. Let's connect and build a strategy that turns your ideas into revenue.
                 </motion.p>
               </div>
             </div>
@@ -410,7 +423,7 @@ export default function Navbar() {
             <div className="mt-5">
               <a
                 href="#contact"
-                onClick={closeIntroPopup}
+                onClick={() => closeIntroPopup('book_appointment')}
                 className="inline-flex w-full items-center justify-center rounded-full bg-[#F97316] px-5 py-2.5 text-xs font-semibold text-white shadow-[0_12px_30px_rgba(249,115,22,0.25)] transition hover:bg-[#fb8b3a]"
               >
                 Book Appointment
