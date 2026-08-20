@@ -322,7 +322,7 @@ export default function About() {
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-syne tracking-tight">
             <span className={heading}>About </span>
-            <span className="gradient-text-cyan-purple">Me</span>
+            {/* <span className="gradient-text-cyan-purple">Me</span> */}
           </h2>
           <p className={`max-w-2xl mx-auto mt-4 text-sm md:text-base font-medium ${subtext}`}>
             Driven Software Engineer specializing in scalable full-stack web applications, interactive UI components, microservices, and algorithmic problem solving.
