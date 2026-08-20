@@ -156,6 +156,7 @@ export default function Navbar() {
     logVisitorEvent(action);
     setShowIntroPopup(false);
     setIntroPopupOpen(false);
+    // new message part 
   };
 
   return (
