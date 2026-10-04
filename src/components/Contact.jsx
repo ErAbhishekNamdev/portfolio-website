@@ -24,17 +24,17 @@ export default function Contact() {
         dark ? 'bg-[#9B59FF]/[0.08]' : 'bg-[#7C3AED]/10'
       }`} />
 
-      <div className="max-w-container mx-auto relative z-10">
+      <div className="max-w-container mx-auto px-4 md:px-6 2xl:px-12 relative z-10">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="text-center mb-14">
           <span className={`text-xs tracking-[3px] uppercase font-semibold ${dark ? 'text-[#00D4FF]' : 'text-[#0284C7]'}`}>Get In Touch</span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-2 font-syne">
+          <h2 className="text-4xl md:text-5xl 2xl:text-6xl font-bold mt-2 font-syne">
             <span className={heading}>Let's </span>
             <span className="gradient-text-cyan-purple">Connect</span>
           </h2>
-          <p className={`mt-3 max-w-xl mx-auto text-sm ${subtext}`}>Have a project in mind, an open role, or want to collaborate? Send a message and let's talk.</p>
+          <p className={`mt-3 max-w-xl 2xl:max-w-2xl mx-auto text-sm 2xl:text-base ${subtext}`}>Have a project in mind, an open role, or want to collaborate? Send a message and let's talk.</p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-10">
+        <div className="grid lg:grid-cols-2 gap-10 2xl:gap-16">
           {/* Info Side */}
           <div className="space-y-6">
             <div className={`flex items-center gap-4 rounded-2xl p-6 border card-glow ${cardBg}`}>

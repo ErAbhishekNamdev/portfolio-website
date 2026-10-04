@@ -204,7 +204,7 @@ export default function Skills() {
 
   return (
     <section id="skills" className={`py-24 px-4 section-spotlight transition-colors duration-300 ${dark ? 'bg-[#0E131F]' : 'bg-[#F4F6FB]'}`}>
-      <div className="max-w-container mx-auto">
+      <div className="max-w-container mx-auto px-4 md:px-6 2xl:px-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -213,11 +213,11 @@ export default function Skills() {
           className="text-center mb-12"
         >
           <span className={`text-xs tracking-[3px] uppercase font-semibold ${dark ? 'text-[#00D4FF]' : 'text-[#0284C7]'}`}>Interactive</span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-2 font-syne">
+          <h2 className="text-4xl md:text-5xl 2xl:text-6xl font-bold mt-2 font-syne">
             <span className={dark ? 'text-white' : 'text-slate-900'}>Skills </span>
             <span className="gradient-text-cyan-purple">Playground</span>
           </h2>
-          <p className={`mt-3 text-sm ${dark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`mt-3 text-sm 2xl:text-base ${dark ? 'text-slate-400' : 'text-slate-600'}`}>
             Drag, throw, and interact with technology tiles in real time.
           </p>
         </motion.div>
@@ -235,7 +235,7 @@ export default function Skills() {
           ))}
 
           <div
-            className="relative z-10 grid grid-cols-4  lg:grid-cols-9 justify-items-center gap-4 max-w-5xl mx-auto"
+            className="relative z-10 grid grid-cols-4 lg:grid-cols-9 justify-items-center gap-4 2xl:gap-6 max-w-5xl 2xl:max-w-7xl mx-auto"
           >
             {skills.map((skill, i) => (
               <SkillTile key={skill.name} skill={skill} index={i} dark={dark} />
