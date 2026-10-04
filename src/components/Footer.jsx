@@ -82,15 +82,15 @@ const Footer = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-purple-950/20 via-slate-950/10 to-indigo-950/30 pointer-events-none" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-[1280px] px-4 pt-12 pb-12 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-[1280px] 2xl:max-w-[1720px] px-4 pt-12 pb-12 sm:px-6 lg:px-8 2xl:px-12">
 
         {/* Call To Action Glass Card */}
-        <div className="mb-12 flex flex-col gap-4 rounded-[18px] bg-white/14 border border-white/10 px-5 py-6 shadow-2xl shadow-black/20 backdrop-blur-xl sm:px-6 sm:py-8 lg:flex-row lg:items-center lg:justify-between lg:px-8 lg:py-8">
-          <div className="max-w-2xl text-center sm:text-left mx-auto sm:mx-0">
-            <h2 className="text-[20px] leading-[26px] tracking-[-1%] mb-[10px] font-black italic text-white md:text-[22px]">
+        <div className="mb-12 flex flex-col gap-4 rounded-[18px] bg-white/14 border border-white/10 px-5 py-6 shadow-2xl shadow-black/20 backdrop-blur-xl sm:px-6 sm:py-8 lg:flex-row lg:items-center lg:justify-between lg:px-8 lg:py-8 2xl:px-12 2xl:py-10">
+          <div className="max-w-2xl 2xl:max-w-3xl text-center sm:text-left mx-auto sm:mx-0">
+            <h2 className="text-[20px] leading-[26px] tracking-[-1%] mb-[10px] font-black italic text-white md:text-[22px] 2xl:text-[26px] 2xl:leading-[32px]">
               Let's build high-converting, world-class web products together
             </h2>
-            <p className="max-w-full text-[14px] leading-[22px] tracking-[-0.4%] text-white/80 md:max-w-[550px]">
+            <p className="max-w-full text-[14px] leading-[22px] tracking-[-0.4%] text-white/80 md:max-w-[550px] 2xl:max-w-[650px] 2xl:text-[15px]">
               Drop your email below to connect directly with me. I'll get back to you within 24 hours with a custom project proposal, timeline, and strategy.
             </p>
           </div>

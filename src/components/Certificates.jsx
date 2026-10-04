@@ -148,14 +148,14 @@ export default function Certificates() {
 
   return (
     <section id="certificates" className={`py-24 px-4 section-spotlight transition-colors duration-300 ${dark ? 'bg-[#0A0D14]' : 'bg-[#F4F6FB]'}`}>
-      <div className="max-w-container mx-auto">
+      <div className="max-w-container mx-auto px-4 md:px-6 2xl:px-12">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="text-center mb-14">
           <span className={`text-xs tracking-[3px] uppercase font-semibold ${dark ? 'text-[#00D4FF]' : 'text-[#0284C7]'}`}>Credentials</span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-2 font-syne">
+          <h2 className="text-4xl md:text-5xl 2xl:text-6xl font-bold mt-2 font-syne">
             <span className={heading}>Verified </span>
             <span className="gradient-text-cyan-purple">Certificates</span>
           </h2>
-          <p className={`mt-3 max-w-xl mx-auto text-sm ${subtext}`}>Professional certifications and specialized training credentials. Hover to reveal certificate detail.</p>
+          <p className={`mt-3 max-w-xl 2xl:max-w-2xl mx-auto text-sm 2xl:text-base ${subtext}`}>Professional certifications and specialized training credentials. Hover to reveal certificate detail.</p>
         </motion.div>
 
         <div className="relative">

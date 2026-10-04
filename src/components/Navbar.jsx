@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiMenuAlt3, HiX } from 'react-icons/hi';
 import { FaSun, FaMoon, FaArrowRight, FaWhatsapp } from 'react-icons/fa';
@@ -174,9 +175,9 @@ export default function Navbar() {
             : 'bg-transparent border-b border-transparent'
           }`}
       >
-        <div className="max-w-container mx-auto px-6 py-2 flex items-center justify-between min-h-[64px]">
+        <div className="max-w-container mx-auto px-4 sm:px-6 2xl:px-12 py-2 flex items-center justify-between min-h-[64px] 2xl:min-h-[76px]">
           {/* Brand Logo Container with World-Class 3D Animation */}
-          <a href="#" className="flex items-center gap-3 group py-1 min-w-0 perspective-[1000px]">
+          <a href="#" className="flex items-center gap-3 group py-1 min-w-0 shrink-0 perspective-[1000px]">
             {/* 3D Floating & Rotating Logo Badge */}
             <motion.div
               whileHover={{ rotateY: 18, rotateX: -12, scale: 1.12, y: -2 }}
@@ -187,7 +188,7 @@ export default function Navbar() {
                 rotateY: { type: "spring", stiffness: 300, damping: 15 },
                 rotateX: { type: "spring", stiffness: 300, damping: 15 },
               }}
-              className="relative w-10 h-10 md:w-11 md:h-11 flex items-center justify-center shrink-0 rounded-xl p-[2px] transform-gpu shadow-[0_4px_20px_rgba(0,212,255,0.4)] group-hover:shadow-[0_0_30px_rgba(0,212,255,0.7)] transition-shadow duration-300"
+              className="relative w-10 h-10 md:w-11 md:h-11 2xl:w-13 2xl:h-13 flex items-center justify-center shrink-0 rounded-xl 2xl:rounded-2xl p-[2px] transform-gpu shadow-[0_4px_20px_rgba(0,212,255,0.4)] group-hover:shadow-[0_0_30px_rgba(0,212,255,0.7)] transition-shadow duration-300"
               style={{
                 background: "linear-gradient(135deg, #00D4FF 0%, #7C3AED 50%, #F472B6 100%)",
               }}
@@ -196,7 +197,7 @@ export default function Navbar() {
               <span className="absolute -inset-[3px] rounded-2xl bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] opacity-60 group-hover:opacity-100 blur-sm transition-opacity duration-300 animate-pulse" />
 
               {/* Inner Logo Image Wrapper */}
-              <div className="relative z-10 w-full h-full rounded-[10px] overflow-hidden bg-[#0A0D14] flex items-center justify-center">
+              <div className="relative z-10 w-full h-full rounded-[10px] 2xl:rounded-[12px] overflow-hidden bg-[#0A0D14] flex items-center justify-center">
                 <img
                   src={autoCroppedLogo}
                   alt="Code Craft Journey Logo"
@@ -209,41 +210,57 @@ export default function Navbar() {
             </motion.div>
 
             {/* Logo Text Block */}
-            <div className="flex flex-col gap-0.5 text-left min-w-0 overflow-hidden">
-              <span className={`text-[18px] md:text-[18px] font-bold leading-tight truncate whitespace-nowrap ${dark ? 'text-white' : 'text-slate-900'
+            <div className="flex flex-col gap-0.5 text-left shrink-0">
+              <span className={`text-[16px] sm:text-[18px] 2xl:text-[22px] font-bold leading-tight whitespace-nowrap ${dark ? 'text-white' : 'text-slate-900'
                 }`}>
                 Code Craft Journey
               </span>
-              <span className="text-[13px] md:text-[11px] font-semibold leading-tight whitespace-nowrap flex items-center gap-[2px]">
+              <span className="text-[11px] sm:text-[11px] 2xl:text-[13px] font-semibold leading-tight whitespace-nowrap flex items-center gap-[2px]">
                 <NavTagline />
               </span>
             </div>
           </a>
 
-          {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className={`text-[15px] font-inter font-medium tracking-[0.3px] transition-colors relative py-1 group ${dark
-                  ? 'text-slate-300 hover:text-[#00D4FF]'
-                  : 'text-slate-700 hover:text-[#0284C7]'
-                  }`}
-              >
-                {link}
-                <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${dark ? 'bg-[#00D4FF]' : 'bg-[#0284C7]'
-                  }`} />
-              </a>
-            ))}
+          {/* Desktop Nav Links (shown on lg and up to keep tablet uncluttered) */}
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8 2xl:gap-11">
+            {navLinks.map((link) => {
+              const isServices = link.toLowerCase() === 'services';
+              return isServices ? (
+                <Link
+                  key={link}
+                  to="/services"
+                  className={`text-[15px] 2xl:text-[17px] font-inter font-medium tracking-[0.3px] transition-colors relative py-1 group ${dark
+                    ? 'text-slate-300 hover:text-[#00D4FF]'
+                    : 'text-slate-700 hover:text-[#0284C7]'
+                    }`}
+                >
+                  {link}
+                  <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${dark ? 'bg-[#00D4FF]' : 'bg-[#0284C7]'
+                    }`} />
+                </Link>
+              ) : (
+                <a
+                  key={link}
+                  href={`/#${link.toLowerCase()}`}
+                  className={`text-[15px] 2xl:text-[17px] font-inter font-medium tracking-[0.3px] transition-colors relative py-1 group ${dark
+                    ? 'text-slate-300 hover:text-[#00D4FF]'
+                    : 'text-slate-700 hover:text-[#0284C7]'
+                    }`}
+                >
+                  {link}
+                  <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${dark ? 'bg-[#00D4FF]' : 'bg-[#0284C7]'
+                    }`} />
+                </a>
+              );
+            })}
           </div>
 
-          {/* Action Controls */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* Action Controls (Desktop & Tablet) */}
+          <div className="hidden md:flex items-center gap-3 2xl:gap-5">
             {/* Theme Toggle Button */}
             <button
               onClick={toggle}
-              className={`p-2 rounded-full border backdrop-blur-xl transition-all duration-300 flex items-center justify-center ${dark
+              className={`p-2 2xl:p-2.5 rounded-full border backdrop-blur-xl transition-all duration-300 flex items-center justify-center ${dark
                 ? 'bg-white/10 border-white/20 text-amber-400 hover:border-amber-400/60 hover:scale-110 shadow-[0_0_15px_rgba(251,191,36,0.3)]'
                 : 'bg-slate-100 border-slate-300 text-indigo-600 hover:border-indigo-400 hover:scale-110 shadow-sm'
                 }`}
@@ -260,18 +277,16 @@ export default function Navbar() {
               </motion.div>
             </button>
 
-            {/* Let's Talk CTA & WhatsApp (Desktop Only) */}
-            <div className="flex items-center gap-3">
-
-
+            {/* Let's Talk CTA & WhatsApp */}
+            <div className="flex items-center gap-2.5 sm:gap-3 2xl:gap-3.5">
               <a
                 href="#contact"
-                className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${dark
+                className={`inline-flex items-center gap-2 px-5 py-2 sm:px-6 sm:py-2.5 2xl:px-8 2xl:py-3.5 rounded-full text-xs sm:text-sm 2xl:text-[16px] font-semibold transition-all duration-300 ${dark
                   ? 'bg-gradient-to-r from-[#00D4FF]/20 via-[#9B59FF]/20 to-[#FF6EC7]/20 border border-[#00D4FF]/40 text-white hover:border-[#00D4FF] hover:shadow-[0_0_25px_rgba(0,212,255,0.35)] hover:scale-105'
                   : 'bg-gradient-to-r from-[#0284C7] to-[#7C3AED] text-white shadow-md hover:shadow-indigo-500/25 hover:opacity-95 hover:scale-105'
                   }`}
               >
-                Let's Talk <span className="text-base">→</span>
+                Let's Talk <span className="text-base 2xl:text-lg">→</span>
               </a>
 
               <a
@@ -279,19 +294,31 @@ export default function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Chat on WhatsApp"
-                className="hidden md:inline-flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-110"
+                className="hidden lg:inline-flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-110"
               >
-                <svg className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl shadow-md hover:shadow-emerald-500/30" viewBox="0 0 48 48" fill="none">
+                <svg className="w-8 h-8 sm:w-9 sm:h-9 2xl:w-11 2xl:h-11 rounded-xl shadow-md hover:shadow-emerald-500/30" viewBox="0 0 48 48" fill="none">
                   <rect width="48" height="48" rx="12" fill="#25D366" />
                   <path fillRule="evenodd" clipRule="evenodd" d="M24 10C16.268 10 10 16.268 10 24C10 26.832 10.842 29.467 12.294 31.67L10.748 37.314L16.541 35.795C18.667 37.086 21.246 37.842 24 37.842C31.732 37.842 38 31.574 38 23.842C38 16.11 31.732 10 24 10ZM24 35.263C21.656 35.263 19.467 34.582 17.618 33.407L13.791 34.41L14.814 30.672C13.504 28.755 12.737 26.46 12.737 23.99C12.737 17.776 17.786 12.727 24 12.727C30.214 12.727 35.263 17.776 35.263 23.99C35.263 30.204 30.214 35.263 24 35.263ZM30.932 27.272C30.552 27.082 28.686 26.164 28.339 26.037C27.992 25.91 27.739 25.847 27.486 26.227C27.233 26.607 26.505 27.462 26.284 27.715C26.063 27.968 25.842 27.999 25.462 27.809C25.082 27.619 23.856 27.217 22.404 25.922C21.272 24.913 20.507 23.668 20.286 23.288C20.065 22.908 20.263 22.702 20.453 22.513C20.624 22.343 20.833 22.07 21.023 21.849C21.213 21.628 21.276 21.469 21.403 21.216C21.53 20.963 21.467 20.742 21.372 20.552C21.277 20.362 20.517 18.495 20.201 17.735C19.893 16.995 19.58 17.095 19.349 17.083C19.127 17.072 18.874 17.072 18.621 17.072C18.368 17.072 17.957 17.167 17.609 17.547C17.261 17.927 16.28 18.845 16.28 20.712C16.28 22.579 17.64 24.383 17.83 24.636C18.02 24.889 20.504 28.71 24.307 30.35C25.211 30.741 25.918 30.975 26.469 31.15C27.377 31.439 28.204 31.398 28.86 31.3C29.592 31.191 31.111 30.381 31.427 29.495C31.743 28.609 31.743 27.849 31.648 27.691C31.553 27.533 31.312 27.462 30.932 27.272Z" fill="white" />
                 </svg>
               </a>
             </div>
+
+            {/* Tablet Menu Button (shown on md to lg) */}
+            <button
+              className={`lg:hidden text-2xl p-1.5 rounded-lg border transition-all ${
+                dark
+                  ? 'border-white/10 text-white hover:bg-white/10'
+                  : 'border-slate-300 text-slate-800 hover:bg-slate-100'
+              }`}
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle Menu"
+            >
+              {mobileOpen ? <HiX /> : <HiMenuAlt3 />}
+            </button>
           </div>
 
-          {/* Mobile controls */}
+          {/* Mobile controls (under md) */}
           <div className="flex items-center gap-3 md:hidden">
-
             <button
               onClick={toggle}
               className={`p-1 transition-all duration-300 hover:scale-110 flex items-center justify-center ${dark ? 'text-amber-400' : 'text-indigo-600'
@@ -310,30 +337,43 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Drawer */}
+        {/* Mobile & Tablet Drawer */}
         <AnimatePresence>
           {mobileOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className={`md:hidden backdrop-blur-xl border-t ${dark ? 'bg-[#0A0D14]/95 border-white/10' : 'bg-white/95 border-slate-200'
+              className={`lg:hidden backdrop-blur-xl border-t ${dark ? 'bg-[#0A0D14]/95 border-white/10' : 'bg-white/95 border-slate-200'
                 }`}
             >
               <div className="flex flex-col items-center gap-5 py-6">
-                {navLinks.map((link) => (
-                  <a
-                    key={link}
-                    href={`#${link.toLowerCase()}`}
-                    onClick={() => setMobileOpen(false)}
-                    className={`text-base font-semibold transition-colors ${dark ? 'text-slate-200 hover:text-[#00D4FF]' : 'text-slate-800 hover:text-[#0284C7]'
-                      }`}
-                  >
-                    {link}
-                  </a>
-                ))}
+                {navLinks.map((link) => {
+                  const isServices = link.toLowerCase() === 'services';
+                  return isServices ? (
+                    <Link
+                      key={link}
+                      to="/services"
+                      onClick={() => setMobileOpen(false)}
+                      className={`text-base font-semibold transition-colors ${dark ? 'text-slate-200 hover:text-[#00D4FF]' : 'text-slate-800 hover:text-[#0284C7]'
+                        }`}
+                    >
+                      {link}
+                    </Link>
+                  ) : (
+                    <a
+                      key={link}
+                      href={`/#${link.toLowerCase()}`}
+                      onClick={() => setMobileOpen(false)}
+                      className={`text-base font-semibold transition-colors ${dark ? 'text-slate-200 hover:text-[#00D4FF]' : 'text-slate-800 hover:text-[#0284C7]'
+                        }`}
+                    >
+                      {link}
+                    </a>
+                  );
+                })}
                 <a
-                  href="#contact"
+                  href="/#contact"
                   onClick={() => setMobileOpen(false)}
                   className={`px-6 py-2.5 rounded-full text-sm font-semibold ${dark ? 'bg-gradient-to-r from-[#00D4FF] to-[#7C3AED] text-white font-bold shadow-[0_0_20px_rgba(0,212,255,0.3)]' : 'bg-[#0284C7] text-white'
                     }`}
