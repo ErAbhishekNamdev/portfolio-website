@@ -314,12 +314,12 @@ const AVATAR_INITIALS = ["AN", "RS", "KP", "MV"];
 
 function StatusBadge({ dark, badgeText }) {
   return (
-    <div className="fixed top-[72px] md:top-20 left-1/2 -translate-x-1/2 z-[9999] flex justify-center pointer-events-none max-md:px-4 max-md:w-full md:w-auto">
+    <div className="fixed top-[72px] md:top-[74px] lg:top-20 2xl:top-[82px] left-1/2 -translate-x-1/2 z-[9999] flex justify-center pointer-events-none max-md:px-4 max-md:w-full md:w-auto">
       <motion.div
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55 }}
-        className={`pointer-events-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full text-[13px] font-semibold tracking-wide border backdrop-blur-md transition-all duration-150 max-md:max-w-[calc(100vw-2rem)] max-md:px-3 max-md:py-1.5 max-md:text-[11px] ${dark
+        className={`pointer-events-auto inline-flex items-center justify-center gap-2 px-4 py-2 2xl:px-6 2xl:py-3 rounded-full text-[13px] xl:text-[14px] 2xl:text-[16px] font-semibold tracking-wide border backdrop-blur-md transition-all duration-150 max-md:max-w-[calc(100vw-2rem)] max-md:px-3 max-md:py-1.5 max-md:text-[11px] ${dark
           ? "bg-[#111118]/90 border-emerald-500/35 text-emerald-400 shadow-[0_0_18px_rgba(16,185,129,0.18)]"
           : "bg-white/95 border-emerald-500/45 text-emerald-700 shadow-sm"
           }`}
@@ -508,7 +508,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className={`relative min-h-0 md:min-h-screen flex flex-col overflow-hidden transition-colors duration-300 ${dark
+      className={`relative min-h-0 md:min-h-screen flex flex-col justify-start overflow-hidden transition-colors duration-300 ${dark
         ? "bg-[#0A0D14]"
         : "bg-[#F8FAFC]"
         }`}
@@ -568,10 +568,10 @@ export default function Hero() {
 
       {!introPopupOpen && <StatusBadge dark={dark} badgeText={badgeText} />}
 
-      {/* ── Two-column grid ── */}
-      <div className="relative z-10 flex-1 flex items-center max-md:items-start py-6 max-md:pt-[100px] max-md:pb-4 md:pt-[88px] md:pb-6">
-        <div className="w-full max-w-container mx-auto px-4 md:px-6">
-          <div className="w-full grid grid-cols-1 md:grid-cols-[50%_50%] lg:grid-cols-[48%_52%] gap-6 lg:gap-10 max-md:gap-12 items-center md:items-start">
+      {/* ── Two-column grid (balanced on tablet, side-by-side on lg, expanded on 2xl) ── */}
+      <div className="relative z-10 w-full flex flex-col justify-start py-4 max-md:pt-[94px] max-md:pb-4 md:pt-[118px] lg:pt-[114px] xl:pt-[118px] 2xl:pt-[122px] pb-10 md:pb-14 2xl:pb-16">
+        <div className="w-full max-w-container mx-auto px-4 md:px-6 2xl:px-12">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-[50%_50%] 2xl:grid-cols-[51%_49%] gap-6 lg:gap-8 2xl:gap-12 items-center">
             {/* LEFT — 3D Interactive Text & Hologram Container */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
@@ -580,7 +580,7 @@ export default function Hero() {
               style={tiltStyle}
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
-              className="flex flex-col items-start text-left w-full gap-3 md:gap-3.5 relative group perspective-[1000px] transform-gpu"
+              className="flex flex-col items-start md:items-center lg:items-start text-left md:text-center lg:text-left w-full gap-3 md:gap-3.5 2xl:gap-4.5 relative group perspective-[1000px] transform-gpu md:max-w-2xl lg:max-w-none md:mx-auto lg:mx-0"
             >
 
               <motion.div
@@ -590,7 +590,7 @@ export default function Hero() {
                 className="max-md:mt-2 w-full"
               >
                 <h1
-                  className="text-[21px] md:text-[26px] lg:text-[27px] font-bold leading-[1.35] tracking-tight min-h-[1.35em]"
+                  className="text-[21px] md:text-[28px] lg:text-[28px] xl:text-[32px] 2xl:text-[42px] 3xl:text-[48px] font-bold leading-[1.25] tracking-tight min-h-[1.25em] whitespace-normal 2xl:whitespace-nowrap"
                   style={{ fontFamily: "'Syne',sans-serif" }}
                 >
                   <WelcomeLine1
@@ -602,11 +602,11 @@ export default function Hero() {
 
                 {(line1Count >= WELCOME_LINE1.length || line2Count > 0) && (
                   <p
-                    className={`mt-1.5 text-[12px] md:text-[15px] font-medium leading-[1.55] min-h-[1.55em] ${dark ? "text-white" : "text-slate-700"
+                    className={`mt-1.5 2xl:mt-3 text-[12px] md:text-[14px] xl:text-[16px] 2xl:text-[21px] 3xl:text-[23px] font-medium leading-[1.5] min-h-[1.5em] ${dark ? "text-white" : "text-slate-700"
                       }`}
                     style={{ fontFamily: "'Syne',sans-serif" }}
                   >
-                    {WELCOME_LINE2.slice(0, line2Count)}
+                   {WELCOME_LINE2.slice(0, line2Count)}
                     {welcomeTyping && line1Count >= WELCOME_LINE1.length && line2Count < WELCOME_LINE2.length && (
                       <span
                         className={`caret-blink ml-0.5 inline-block h-[1em] w-[2px] shrink-0 rounded-sm align-[-0.05em] ${dark ? "bg-white" : "bg-slate-700"}`}
@@ -618,7 +618,7 @@ export default function Hero() {
 
                 {welcomeComplete && (
                   <span
-                    className="mt-2 block h-[3px] w-12 rounded-full shadow-[0_0_12px_rgba(99,102,241,0.8)] animate-pulse"
+                    className="mt-2 2xl:mt-3 block h-[3px] 2xl:h-[4px] w-12 2xl:w-16 rounded-full shadow-[0_0_12px_rgba(99,102,241,0.8)] animate-pulse md:mx-auto lg:mx-0"
                     style={{ background: "linear-gradient(90deg,#00D4FF,#7C3AED,#F472B6)" }}
                     aria-hidden="true"
                   />
@@ -629,7 +629,7 @@ export default function Hero() {
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, delay: 0.32 }}
-                className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 text-base md:text-lg font-bold max-md:text-sm w-full"
+                className="flex flex-wrap items-baseline md:justify-center lg:justify-start gap-x-1.5 gap-y-0.5 text-base md:text-lg xl:text-xl 2xl:text-[30px] 3xl:text-[34px] font-bold max-md:text-sm w-full 2xl:my-2"
                 style={{ fontFamily: "'Syne',sans-serif" }}
               >
                 <span className={`shrink-0 ${dark ? "text-slate-400" : "text-slate-600"}`}>
@@ -694,12 +694,12 @@ export default function Hero() {
                 in mind.
               </motion.p>
 
-              {/* Desktop — concise + 2 extra lines (mobile unchanged) */}
+              {/* Desktop & Tablet — concise + 2 extra lines */}
               <motion.p
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, delay: 0.42 }}
-                className={`hidden md:block w-full max-w-none text-left text-[15px] leading-[1.65] tracking-normal text-pretty ${dark ? "text-slate-400" : "text-slate-600"}`}
+                className={`hidden md:block w-full max-w-none text-left md:text-center lg:text-left text-[14.5px] xl:text-[16px] 2xl:text-[21px] 3xl:text-[23px] leading-[1.68] 2xl:leading-[1.78] tracking-normal text-pretty 2xl:max-w-[820px] ${dark ? "text-slate-400" : "text-slate-600"}`}
               >
                 I transform ideas into{" "}
                 <span className="font-semibold bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent">
@@ -737,7 +737,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.62 }}
-                className="flex flex-wrap items-center gap-3.5 mt-2 max-md:w-full max-md:flex-row max-md:flex-nowrap max-md:gap-2 relative z-20 perspective-[1000px]"
+                className="flex flex-wrap items-center md:justify-center lg:justify-start gap-3.5 2xl:gap-5 mt-2 2xl:mt-4 max-md:w-full max-md:flex-row max-md:flex-nowrap max-md:gap-2 relative z-20 perspective-[1000px]"
               >
                 {/* 3D Primary Button */}
                 <motion.a
@@ -745,7 +745,7 @@ export default function Hero() {
                   whileHover={{ y: -5, scale: 1.05, rotateX: -5, rotateY: 5 }}
                   whileTap={{ y: 1, scale: 0.96 }}
                   transition={{ type: "spring", stiffness: 350, damping: 15 }}
-                  className={`group relative inline-flex items-center gap-2.5 px-6 py-3 md:px-6 md:py-3 rounded-full font-bold text-sm text-white transition-all duration-300 max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-2.5 max-md:text-xs overflow-hidden border ${dark
+                  className={`group relative inline-flex items-center gap-2.5 px-6 py-3 md:px-6 md:py-3 2xl:px-9 2xl:py-4.5 rounded-full font-bold text-sm xl:text-base 2xl:text-[18px] text-white transition-all duration-300 max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-2.5 max-md:text-xs overflow-hidden border ${dark
                     ? "border-white/20 shadow-[0_8px_28px_rgba(0,212,255,0.45)] hover:shadow-[0_15px_42px_rgba(124,58,237,0.7)]"
                     : "border-transparent shadow-[0_8px_25px_rgba(2,132,199,0.35)] hover:shadow-[0_12px_35px_rgba(37,99,235,0.5)]"
                     }`}
@@ -768,7 +768,7 @@ export default function Hero() {
                   whileHover={{ y: -5, scale: 1.05, rotateX: -5, rotateY: -5 }}
                   whileTap={{ y: 1, scale: 0.96 }}
                   transition={{ type: "spring", stiffness: 350, damping: 15 }}
-                  className={`group relative inline-flex items-center gap-2.5 px-6 py-3 md:px-6 md:py-3 rounded-full font-bold text-sm transition-all duration-300 border max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-2.5 max-md:text-xs max-md:whitespace-nowrap overflow-hidden ${dark
+                  className={`group relative inline-flex items-center gap-2.5 px-6 py-3 md:px-6 md:py-3 2xl:px-9 2xl:py-4.5 rounded-full font-bold text-sm xl:text-base 2xl:text-[18px] transition-all duration-300 border max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-2.5 max-md:text-xs max-md:whitespace-nowrap overflow-hidden ${dark
                     ? "border-cyan-400/40 text-cyan-300 bg-[#141B2D]/90 hover:border-cyan-400 hover:bg-cyan-500/20 shadow-[0_8px_25px_rgba(0,0,0,0.5)] hover:shadow-[0_12px_32px_rgba(0,212,255,0.35)]"
                     : "border-slate-300 text-slate-800 bg-white hover:border-blue-600 hover:bg-blue-50/90 shadow-md hover:shadow-xl font-bold"
                     }`}
@@ -785,7 +785,7 @@ export default function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.75 }}
-                className="mt-6 md:mt-3 flex w-full flex-wrap items-center justify-start gap-3.5 max-md:justify-center max-md:mx-auto max-md:mb-2 perspective-[1000px]"
+                className="mt-6 md:mt-4 2xl:mt-4.5 flex w-full flex-wrap items-center justify-start md:justify-center lg:justify-start gap-3.5 2xl:gap-5 max-md:justify-center max-md:mx-auto max-md:mb-2 perspective-[1000px]"
               >
                 {SOCIALS.map((s, i) => (
                   <motion.a
@@ -813,7 +813,7 @@ export default function Hero() {
                     }}
                     whileHover={{ y: -10, scale: 1.28, rotateX: 20, rotateY: -18, rotateZ: 5 }}
                     whileTap={{ scale: 0.88 }}
-                    className="group relative flex h-11 w-11 items-center justify-center rounded-2xl text-[20px] text-white border transition-all duration-300 transform-gpu shadow-lg"
+                    className="group relative flex h-11 w-11 xl:h-12 xl:w-12 2xl:h-15 2xl:w-15 items-center justify-center rounded-2xl 2xl:rounded-2xl text-[20px] xl:text-[22px] 2xl:text-[26px] text-white border transition-all duration-300 transform-gpu shadow-lg"
                     style={{
                       background: s.bg,
                       borderColor: s.border,
@@ -844,9 +844,9 @@ export default function Hero() {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.85, delay: 0.3 }}
-              className="flex w-full items-center justify-center max-md:mt-6 max-md:pt-2 max-md:-mx-3 max-md:w-[calc(100%+1.5rem)]"
+              className="flex w-full items-center justify-center max-md:mt-6 max-md:pt-2 max-md:-mx-3 max-md:w-[calc(100%+1.5rem)] md:mt-6 lg:mt-0"
             >
-              <div className="relative w-full max-md:max-w-[calc(100vw-1rem)] md:max-w-[680px] lg:max-w-[720px] xl:max-w-[760px] mx-auto">
+              <div className="relative w-full max-md:max-w-[calc(100vw-1rem)] md:max-w-[640px] lg:max-w-[680px] xl:max-w-[730px] 2xl:max-w-[800px] 3xl:max-w-[850px] mx-auto">
                 {/* Glow — stronger in dark mode so laptop reads off the bg */}
                 <div
                   className="absolute pointer-events-none"

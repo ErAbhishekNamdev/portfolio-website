@@ -238,22 +238,22 @@ function MetricCard({ metric, dark, compact = false }) {
 
   return (
     <div
-      className={`group rounded-2xl flex items-center text-left transition-all duration-300 relative overflow-hidden border backdrop-blur-md hover:-translate-y-1 ${t.shell} ${compact ? 'p-3 gap-2.5 w-[172px] shrink-0' : 'p-4 md:p-5 gap-3.5 pl-4 md:pl-5'}`}
+      className={`group rounded-2xl flex items-center text-left transition-all duration-300 relative overflow-hidden border backdrop-blur-md hover:-translate-y-1 ${t.shell} ${compact ? 'p-3 gap-2.5 w-[172px] shrink-0' : 'p-4 md:p-5 2xl:p-6 gap-3.5 2xl:gap-4 pl-4 md:pl-5 2xl:pl-6'}`}
     >
       <div className={`absolute left-0 top-2.5 bottom-2.5 w-[4px] rounded-r-full z-[2] ${t.accentBar}`} />
       <div className={`absolute inset-0 bg-gradient-to-br ${t.glow} pointer-events-none rounded-2xl z-[1]`} />
 
-      <div className={`relative z-[3] rounded-xl flex items-center justify-center shrink-0 border transition-transform duration-300 group-hover:scale-110 ${t.icon} ${compact ? 'w-9 h-9' : 'w-11 h-11'}`}>
-        <Icon className={compact ? 'text-sm' : 'text-lg'} />
+      <div className={`relative z-[3] rounded-xl flex items-center justify-center shrink-0 border transition-transform duration-300 group-hover:scale-110 ${t.icon} ${compact ? 'w-9 h-9' : 'w-11 h-11 2xl:w-14 2xl:h-14'}`}>
+        <Icon className={compact ? 'text-sm' : 'text-lg 2xl:text-2xl'} />
       </div>
       <div className="relative z-[3] min-w-0 flex-1">
-        <span className={`font-extrabold font-mono tracking-tight block leading-none ${compact ? 'text-base' : 'text-xl md:text-2xl'} ${dark ? 'text-white' : 'text-slate-900'}`}>
+        <span className={`font-extrabold font-mono tracking-tight block leading-none ${compact ? 'text-base' : 'text-xl md:text-2xl 2xl:text-3xl'} ${dark ? 'text-white' : 'text-slate-900'}`}>
           {metric.value}
         </span>
-        <span className={`font-bold block truncate mt-1 ${compact ? 'text-[10px]' : 'text-xs md:text-sm'} ${t.title}`}>
+        <span className={`font-bold block truncate mt-1 ${compact ? 'text-[10px]' : 'text-xs md:text-sm 2xl:text-base'} ${t.title}`}>
           {metric.title}
         </span>
-        <span className={`block truncate mt-0.5 ${compact ? 'text-[9px]' : 'text-[10px] md:text-xs'} ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
+        <span className={`block truncate mt-0.5 ${compact ? 'text-[9px]' : 'text-[10px] md:text-xs 2xl:text-sm'} ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
           {metric.sub}
         </span>
       </div>
@@ -311,7 +311,7 @@ export default function About() {
       <div className="absolute bottom-10 -right-20 w-[500px] h-[500px] bg-purple-600/20 blur-[160px] rounded-full pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/10 blur-[180px] rounded-full pointer-events-none" />
 
-      <div className="max-w-container mx-auto relative z-10 space-y-10 md:space-y-14">
+      <div className="max-w-container mx-auto px-4 md:px-6 2xl:px-12 relative z-10 space-y-10 md:space-y-14 2xl:space-y-20">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -320,11 +320,11 @@ export default function About() {
           transition={{ duration: 0.7 }}
           className="text-center"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold font-syne tracking-tight">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl 2xl:text-7xl font-extrabold font-syne tracking-tight">
             <span className={heading}>About </span>
             {/* <span className="gradient-text-cyan-purple">Me</span> */}
           </h2>
-          <p className={`max-w-2xl mx-auto mt-4 text-sm md:text-base font-medium ${subtext}`}>
+          <p className={`max-w-2xl 2xl:max-w-3xl mx-auto mt-4 text-sm md:text-base 2xl:text-lg font-medium ${subtext}`}>
             Driven Software Engineer specializing in scalable full-stack web applications, interactive UI components, microservices, and algorithmic problem solving.
           </p>
         </motion.div>
@@ -341,7 +341,7 @@ export default function About() {
           </div>
         </div>
 
-        <div className="hidden sm:grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5">
+        <div className="hidden sm:grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5 2xl:gap-6">
           {coreMetrics.map((m, idx) => (
             <motion.div
               key={idx}
@@ -356,7 +356,7 @@ export default function About() {
         </div>
 
         {/* 2. MAIN SPLIT SECTION: ORBIT ON LEFT, DEVELOPER_CONFIG.TS ON RIGHT */}
-        <div className="flex flex-col lg:flex-row gap-6 md:gap-8 w-full items-stretch">
+        <div className="flex flex-col lg:flex-row gap-6 md:gap-8 2xl:gap-10 w-full items-stretch">
 
           {/* LEFT SIDE: INTERACTIVE TECH ORBIT CARD */}
           <motion.div
@@ -364,7 +364,7 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="w-full lg:w-1/2 bento-card rounded-3xl p-5 md:p-7 flex flex-col items-center justify-between relative overflow-hidden min-h-0 lg:min-h-[460px]"
+            className="w-full lg:w-1/2 bento-card rounded-3xl p-5 md:p-7 2xl:p-9 flex flex-col items-center justify-between relative overflow-hidden min-h-0 lg:min-h-[460px] 2xl:min-h-[540px]"
           >
             {/* Background Ambient Radial Glow */}
             <div
@@ -378,14 +378,14 @@ export default function About() {
             <div className="w-full flex items-center justify-center sm:justify-start mb-2 z-10 border-b pb-3 border-slate-500/20">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
-                <h3 className={`font-bold font-syne text-base md:text-lg text-center sm:text-left ${heading}`}>
+                <h3 className={`font-bold font-syne text-base md:text-lg 2xl:text-xl text-center sm:text-left ${heading}`}>
                   Interactive Tech Orbit
                 </h3>
               </div>
             </div>
 
             {/* Orbit Ring Container - Centered */}
-            <div className="tech-orbit-ring relative z-10 mx-auto flex items-center justify-center w-[290px] h-[290px] sm:w-[340px] sm:h-[340px] md:w-[380px] md:h-[380px] lg:w-[410px] lg:h-[410px] my-auto">
+            <div className="tech-orbit-ring relative z-10 mx-auto flex items-center justify-center w-[290px] h-[290px] sm:w-[340px] sm:h-[340px] md:w-[380px] md:h-[380px] lg:w-[410px] lg:h-[410px] 2xl:w-[460px] 2xl:h-[460px] my-auto">
 
               {/* Soft Radial Center Glow */}
               <div

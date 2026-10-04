@@ -57,14 +57,14 @@ export default function Projects() {
 
   return (
     <section id="projects" className={`py-24 px-4 section-spotlight transition-colors duration-300 ${dark ? 'bg-[#0E131F]' : 'bg-[#F4F6FB]'}`}>
-      <div className="max-w-container mx-auto">
+      <div className="max-w-container mx-auto px-4 md:px-6 2xl:px-12">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="text-center mb-14">
           <span className={`text-xs tracking-[3px] uppercase font-semibold ${dark ? 'text-[#00D4FF]' : 'text-[#0284C7]'}`}>Portfolio</span>
-          <h2 className="text-4xl md:text-5xl font-bold mt-2 font-syne">
+          <h2 className="text-4xl md:text-5xl 2xl:text-6xl font-bold mt-2 font-syne">
             <span className={heading}>Featured </span>
             <span className="gradient-text-cyan-purple">Projects</span>
           </h2>
-          <p className={`mt-3 max-w-xl mx-auto text-sm ${subtext}`}>Explore recent engineering projects highlighting full-stack development, modern UI design, and interactive features.</p>
+          <p className={`mt-3 max-w-xl 2xl:max-w-2xl mx-auto text-sm 2xl:text-base ${subtext}`}>Explore recent engineering projects highlighting full-stack development, modern UI design, and interactive features.</p>
         </motion.div>
 
         <div className="relative">
@@ -106,7 +106,7 @@ export default function Projects() {
 
               return (
                 <SwiperSlide key={i}>
-                  <div className="grid lg:grid-cols-2 gap-8 items-center p-1">
+                  <div className="grid lg:grid-cols-2 gap-8 2xl:gap-14 items-center p-1">
                     {/* Project Preview Window */}
                     <div className={`relative rounded-2xl overflow-hidden border p-5 card-glow ${cardBg}`}>
                       {/* Window Dots */}
