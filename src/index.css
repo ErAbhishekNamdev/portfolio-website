@@ -573,3 +573,33 @@ html.dark .skills-header-icon__svg {
 html.light .skills-header-icon__svg {
   color: #0284C7;
 }
+
+/* Responsive 2XL container & proportional typography scaling:
+   Preserves standard 16px on mobile/tablet/standard laptops (<1536px).
+   Elevates typography and layout gracefully on 2XL (1536px+) and Ultra-Wide (1920px+) screens. */
+@media (min-width: 1536px) {
+  html {
+    font-size: 17px;
+  }
+  .max-w-container {
+    max-width: 1720px !important;
+  }
+}
+
+@media (min-width: 1920px) {
+  html {
+    font-size: 17.5px;
+  }
+  .max-w-container {
+    max-width: 1840px !important;
+  }
+}
+
+@media (min-width: 2560px) {
+  html {
+    font-size: 19px;
+  }
+  .max-w-container {
+    max-width: 2200px !important;
+  }
+}
