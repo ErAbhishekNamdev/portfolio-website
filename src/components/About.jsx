@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, FreeMode } from 'swiper/modules';
+import 'swiper/css';
 import {
   FaReact,
   FaNodeJs,
@@ -330,16 +333,27 @@ export default function About() {
           </p>
         </motion.div>
 
-        {/* Metric cards — bento style */}
-        <div className="sm:hidden relative w-full overflow-hidden py-1">
-          <div className={`absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r ${dark ? 'from-[#05070E]' : 'from-[#F4F6FB]'} to-transparent z-10 pointer-events-none`} />
-          <div className={`absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l ${dark ? 'from-[#05070E]' : 'from-[#F4F6FB]'} to-transparent z-10 pointer-events-none`} />
-
-          <div className="animate-marquee-horizontal flex gap-3">
-            {[...coreMetrics, ...coreMetrics].map((m, idx) => (
-              <MetricCard key={idx} metric={m} dark={dark} compact />
+        {/* Metric cards — mobile carousel */}
+        <div className="sm:hidden -mx-4 py-1">
+          <Swiper
+            modules={[Autoplay, FreeMode]}
+            spaceBetween={12}
+            slidesPerView="auto"
+            freeMode={true}
+            grabCursor={true}
+            autoplay={{
+              delay: 2600,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            className="w-full !px-0"
+          >
+            {coreMetrics.map((m, idx) => (
+              <SwiperSlide key={idx} className="!w-auto">
+                <MetricCard metric={m} dark={dark} compact />
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
         </div>
 
         <div className="hidden sm:grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-5 2xl:gap-6">
