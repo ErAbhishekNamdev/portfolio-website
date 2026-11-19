@@ -32,6 +32,7 @@ import {
 } from 'react-icons/fa';
 import { SiMongodb, SiPostgresql, SiTailwindcss, SiTypescript, SiNextdotjs, SiVite } from 'react-icons/si';
 import { useTheme } from '../ThemeContext';
+import logoicons from '../assets/logo.jpeg';
 
 const orbitIcons = [
   { id: 'react', icon: <FaReact className="text-[#61DAFB]" />, name: 'React.js' },
@@ -238,7 +239,7 @@ function MetricCard({ metric, dark, compact = false }) {
 
   return (
     <div
-      className={`group rounded-2xl flex items-center text-left transition-all duration-300 relative overflow-hidden border backdrop-blur-md hover:-translate-y-1 ${t.shell} ${compact ? 'p-3 gap-2.5 w-[172px] shrink-0' : 'p-4 md:p-5 2xl:p-6 gap-3.5 2xl:gap-4 pl-4 md:pl-5 2xl:pl-6'}`}
+      className={`group rounded-2xl flex items-center text-left transition-all duration-300 relative overflow-hidden border backdrop-blur-md hover:-translate-y-1 ${t.shell} ${compact ? 'p-3 gap-2.5 w-[180px] shrink-0' : 'p-4 md:p-5 2xl:p-6 gap-3.5 2xl:gap-4 pl-4 md:pl-5 2xl:pl-6'}`}
     >
       <div className={`absolute left-0 top-2.5 bottom-2.5 w-[4px] rounded-r-full z-[2] ${t.accentBar}`} />
       <div className={`absolute inset-0 bg-gradient-to-br ${t.glow} pointer-events-none rounded-2xl z-[1]`} />
@@ -425,40 +426,86 @@ export default function About() {
                 />
               </svg>
 
-              {/* Center Hub Avatar */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+              {/* Center Hub Avatar / Tech Nexus Core */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 group">
+                {/* Outer Breathing Pulse Halo */}
                 <div
-                  className={`relative w-[115px] h-[115px] sm:w-[125px] sm:h-[125px] md:w-[135px] md:h-[135px] rounded-full flex flex-col items-center justify-center text-center p-2 overflow-hidden transition-transform duration-300 hover:scale-105 ${dark
-                    ? 'bg-gradient-to-br from-[#1a2744] via-[#121a2e] to-[#0d1220] border border-cyan-500/30'
-                    : 'bg-gradient-to-br from-white via-sky-50 to-indigo-50 border border-sky-300 shadow-[0_8px_30px_rgba(14,165,233,0.18)]'
+                  className={`absolute -inset-3 rounded-full blur-xl opacity-60 animate-pulse transition-opacity duration-300 group-hover:opacity-90 ${dark ? 'bg-gradient-to-r from-cyan-500/35 via-indigo-500/25 to-pink-500/35' : 'bg-gradient-to-r from-sky-400/30 to-indigo-400/30'
                     }`}
+                  aria-hidden
+                />
+
+                {/* Rotating Tech Ring just around the hub */}
+                <div
+                  className="absolute -inset-1.5 rounded-full border border-dashed pointer-events-none animate-spin-slow opacity-40 group-hover:opacity-80 transition-opacity"
                   style={{
-                    boxShadow: dark
-                      ? '0 0 0 1px rgba(0,212,255,0.4), 0 0 35px rgba(0,212,255,0.2)'
-                      : '0 0 0 1px rgba(14,165,233,0.3), 0 8px 30px rgba(14,165,233,0.16)',
+                    borderColor: dark ? 'rgba(0, 212, 255, 0.45)' : 'rgba(14, 165, 233, 0.5)',
+                    animationDuration: '24s'
                   }}
-                >
-                  <div className={`absolute inset-0 pointer-events-none ${dark
-                    ? 'bg-[radial-gradient(circle_at_50%_20%,rgba(0,212,255,0.18),transparent_65%)]'
-                    : 'bg-[radial-gradient(circle_at_50%_15%,rgba(14,165,233,0.12),transparent_60%)]'
+                  aria-hidden
+                />
+
+                <div
+                  className={`relative w-[145px] h-[145px] sm:w-[155px] sm:h-[155px] md:w-[165px] md:h-[165px] rounded-full flex flex-col items-center justify-center text-center px-2 py-2.5 sm:px-3 sm:py-3 overflow-hidden backdrop-blur-2xl transition-all duration-300 group-hover:scale-105 ${dark
+                    ? 'bg-gradient-to-b from-[#141f38]/95 via-[#0e1629]/95 to-[#080d19]/98 border-2 border-cyan-400/40 shadow-[0_0_40px_rgba(0,212,255,0.3),inset_0_1px_2px_rgba(255,255,255,0.25)]'
+                    : 'bg-gradient-to-b from-white/95 via-sky-50/95 to-indigo-50/90 border-2 border-sky-300 shadow-[0_12px_40px_rgba(14,165,233,0.25),inset_0_1px_2px_rgba(255,255,255,0.9)]'
                     }`}
+                >
+                  {/* Top glass reflection highlight */}
+                  <div
+                    className={`absolute inset-0 pointer-events-none ${dark
+                      ? 'bg-[radial-gradient(circle_at_50%_12%,rgba(0,212,255,0.25),transparent_60%)]'
+                      : 'bg-[radial-gradient(circle_at_50%_12%,rgba(14,165,233,0.18),transparent_60%)]'
+                      }`}
                   />
 
-                  {/* AN Badge */}
-                  <div className={`relative w-8.5 h-8.5 sm:w-9.5 sm:h-9.5 rounded-full flex items-center justify-center text-white font-black text-xs shrink-0 mx-auto mb-1 bg-gradient-to-br ${dark ? 'from-cyan-400 via-blue-500 to-purple-600' : 'from-sky-500 via-indigo-500 to-purple-600'} shadow-md`}
-                    style={{ boxShadow: dark ? '0 0 14px rgba(0,212,255,0.5)' : '0 4px 14px rgba(14,165,233,0.3)' }}
-                  >
-                    AN
+                  {/* Central Branded Avatar / Logo Badge */}
+                  <div className="relative mb-1">
+                    <div
+                      className="relative w-12 h-12 sm:w-13 sm:h-13 md:w-14 md:h-14 rounded-full p-[2px] shadow-lg transition-transform duration-300 group-hover:scale-105"
+                      style={{
+                        background: 'linear-gradient(135deg, #00D4FF 0%, #7C3AED 50%, #F472B6 100%)',
+                        boxShadow: dark ? '0 0 20px rgba(0, 212, 255, 0.45)' : '0 4px 16px rgba(14, 165, 233, 0.35)'
+                      }}
+                    >
+                      <div className="relative w-full h-full rounded-full overflow-hidden bg-[#0A0D14] flex items-center justify-center">
+                        <img
+                          src={logoicons}
+                          alt="Abhishek Namdev"
+                          className="w-full h-full object-cover rounded-full transition-transform duration-500 group-hover:scale-110"
+                        />
+                        {/* Shimmer sweep */}
+                        <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-700 ease-out pointer-events-none" />
+                      </div>
+
+                      {/* Live Online Pulse Dot badge */}
+                      <span className="absolute bottom-0 right-0 flex h-3.5 w-3.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                        <span className={`relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 ${dark ? 'border-[#0e1629]' : 'border-white'}`} />
+                      </span>
+                    </div>
                   </div>
 
-                  <span className={`relative text-xs sm:text-sm font-extrabold font-syne leading-tight text-center block w-full truncate ${heading}`}>
-                    Abhishek
+                  {/* Full Name clearly visible in both dark & light mode */}
+                  <span
+                    className={`relative text-[11.5px] sm:text-[13px] md:text-[14px] font-bold tracking-tight leading-tight block w-full whitespace-nowrap text-center ${dark
+                      ? 'text-white drop-shadow-[0_2px_8px_rgba(0,212,255,0.4)]'
+                      : 'text-slate-900'
+                      }`}
+                    style={{ fontFamily: "'Syne', sans-serif" }}
+                  >
+                    Abhishek Namdev
                   </span>
 
-                  <div className="relative flex items-center justify-center gap-1 mt-0.5 w-full text-center px-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0 inline-block" />
-                    <span className={`text-[8.5px] sm:text-[9.5px] font-mono font-semibold tracking-wide truncate ${dark ? 'text-cyan-400' : 'text-sky-700'}`}>
-                      Full-Stack Dev
+                  {/* Role Subtitle Badge */}
+                  <div className="relative mt-1 flex items-center justify-center gap-1">
+                    <span
+                      className={`text-[8px] sm:text-[9px] font-mono font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full border ${dark
+                        ? 'bg-cyan-500/10 border-cyan-400/30 text-cyan-300 shadow-[0_0_10px_rgba(0,212,255,0.2)]'
+                        : 'bg-sky-50 border-sky-200 text-sky-700'
+                        }`}
+                    >
+                      Frontend Specialist
                     </span>
                   </div>
                 </div>
@@ -496,227 +543,209 @@ export default function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="w-full lg:w-1/2 bento-card rounded-3xl p-5 md:p-7 flex flex-col justify-between min-h-0 lg:min-h-[460px]"
+            className="w-full lg:w-1/2 bento-card rounded-3xl flex flex-col justify-between relative overflow-hidden min-h-0 lg:min-h-[460px] 2xl:min-h-[540px]"
           >
-            <div>
-              {/* Persistent IDE Card wrapper — tabs always visible */}
-              <div className={`rounded-2xl border overflow-hidden ${dark
-                ? 'bg-[#0D1117] border-[#21262D] shadow-[0_8px_32px_rgba(0,0,0,0.6)]'
-                : 'bg-[#FAFBFC] border-slate-200 shadow-lg'
-                }`}>
+            {/* Background Ambient Radial Glow */}
+            <div
+              className={`absolute inset-0 pointer-events-none ${dark
+                ? 'bg-[radial-gradient(circle_at_50%_50%,rgba(0,212,255,0.08)_0%,transparent_70%)]'
+                : 'bg-[radial-gradient(circle_at_50%_50%,rgba(14,165,233,0.1)_0%,transparent_70%)]'
+                }`}
+              aria-hidden
+            />
 
-                {/* Header: macOS dots + filename on left, Tabs on right */}
-                <div className={`flex items-center justify-between gap-1.5 sm:gap-3 px-2.5 sm:px-4 py-2 sm:py-2.5 border-b ${dark ? 'border-[#21262D] bg-[#161B22]' : 'border-slate-200 bg-slate-100'}`}>
-                  <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
-                    <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#FF5F56]" />
-                    <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#FEBC2E]" />
-                    <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#27C840]" />
-                    <span className={`ml-1 sm:ml-2 text-[10px] sm:text-[11px] font-mono ${dark ? 'text-[#8B949E]' : 'text-slate-500'}`}>
-                      <span className="sm:hidden">config.ts</span>
-                      <span className="hidden sm:inline">developer_config.ts</span>
-                    </span>
-                  </div>
-
-                  {/* Tab switcher on the right side */}
-                  <div className={`flex items-center gap-0.5 sm:gap-1 p-0.5 sm:p-1 rounded-lg sm:rounded-xl shrink-0 ${dark ? 'bg-[#0D1117] border border-[#30363D]' : 'bg-slate-200/70 border border-slate-300'}`}>
-                    {[
-                      { id: 'profile', label: 'Profile', fullLabel: 'Profile.json' },
-                      { id: 'architecture', label: 'Stack', fullLabel: 'Stack' },
-                      { id: 'philosophy', label: 'Focus', fullLabel: 'Focus' },
-                    ].map(t => (
-                      <button
-                        key={t.id}
-                        onClick={() => setTerminalTab(t.id)}
-                        className={`px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-mono whitespace-nowrap transition-all duration-200 ${terminalTab === t.id
-                          ? dark
-                            ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
-                            : 'bg-white text-sky-700 font-bold shadow-sm border border-sky-200'
-                          : dark
-                            ? 'text-[#8B949E] hover:text-white font-medium'
-                            : 'text-slate-500 hover:text-slate-800 font-medium'
-                          }`}
-                      >
-                        <span className="sm:hidden">{t.label}</span>
-                        <span className="hidden sm:inline">{t.fullLabel}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Row 3: Tab content via AnimatePresence */}
-                <AnimatePresence mode="wait">
-                  {terminalTab === 'profile' && (
-                    <motion.div
-                      key="prof"
-                      initial="hidden"
-                      animate="visible"
-                      exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
-                      variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
-                    >
-                      {/* Code body */}
-                      <div className="flex overflow-hidden">
-                        {/* Line numbers */}
-                        <div className={`select-none font-mono text-[9px] sm:text-[11px] text-right pt-3 sm:pt-4 pb-3 sm:pb-4 px-1.5 sm:px-3 border-r leading-[1.5rem] sm:leading-[1.75rem] shrink-0 ${dark ? 'text-[#484F58] border-[#21262D]' : 'text-slate-300 border-slate-200'}`}>
-                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(n => <div key={n}>{n}</div>)}
-                        </div>
-
-                        {/* Animated code lines */}
-                        <div className={`font-mono text-[9px] sm:text-[13px] leading-[1.4rem] sm:leading-[1.75rem] pt-2.5 sm:pt-4 pb-2.5 sm:pb-4 pl-2 sm:pl-5 pr-2 sm:pr-4 w-full break-words whitespace-normal sm:whitespace-pre ${dark ? 'text-[#C9D1D9]' : 'text-slate-700'}`}>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }}>
-                            <span className={dark ? 'text-[#FF7B72]' : 'text-pink-600'}>export const </span>
-                            <span className={dark ? 'text-[#79C0FF]' : 'text-blue-600'}>developer</span>
-                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-700'}> = {'{'}</span>
-                          </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
-                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>name</span>
-                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
-                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Abhishek Namdev"</span>
-                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
-                          </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
-                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>role</span>
-                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
-                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Specialist Frontend Developer"</span>
-                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
-                          </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
-                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>location</span>
-                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
-                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"India 🇮🇳 · Open to Global Remote Work"</span>
-                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
-                          </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
-                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>education</span>
-                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
-                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"B.Tech IT · IGEC Sagar '24"</span>
-                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
-                          </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
-                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>experience</span>
-                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
-                            <span className={dark ? 'text-[#FFA657] font-semibold' : 'text-amber-600 font-semibold'}>"1.5+ Years · 20+ Projects Shipped"</span>
-                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
-                          </motion.div>
-
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
-                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>specialties</span>
-                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
-                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>["Interactive Web Apps","Website Designing"]</span>
-                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
-                          </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
-                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>leetcode</span>
-                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
-                            <span className={dark ? 'text-[#FFA657] font-bold' : 'text-amber-600 font-bold'}>1000+</span>
-                            <span className={`ml-1.5 italic text-[9px] sm:text-[11px] ${dark ? 'text-[#484F58]' : 'text-slate-400'}`}>{'//'} Top 8% Worldwide Ranking</span>
-                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
-                          </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
-                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>coreFocus</span>
-                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
-                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"High-Performance Web Apps & Pixel-Perfect UI/UX"</span>
-                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
-                          </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
-                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>architecture</span>
-                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
-                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Modular Component Design & State Management"</span>
-                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
-                          </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
-                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>commitment</span>
-                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
-                            <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Delivering Production-Ready Applications On Time"</span>
-                            <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
-                          </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6 flex items-center gap-1.5 flex-wrap">
-                            <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>status</span>
-                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>:</span>
-                            <span className={`inline-flex items-center gap-1.5 text-[9px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-md border ${dark
-                              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                              : 'bg-emerald-50 text-emerald-700 border-emerald-300'
-                              }`}>
-                              <span className="relative flex h-1.5 w-1.5">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
-                              </span>
-                              Open to New Opportunities
-                            </span>
-                          </motion.div>
-                          <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }}>
-                            <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-700'}>{'};'}</span>
-                          </motion.div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {/* Stat cards — only under profile tab */}
-                  {/* {terminalTab === 'profile' && (
-                    <motion.div key="stats" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="grid grid-cols-3 gap-2 sm:gap-3 mt-3">
-                      {[
-                        { icon: '⚡', label: 'Speed', value: '99+', sub: 'Lighthouse Score', darkBg: 'bg-amber-950/50 border-amber-800/60', lightBg: 'bg-amber-50 border-amber-200', darkIcon: 'bg-amber-500/20 text-amber-300 border-amber-600/40', lightIcon: 'bg-amber-100 text-amber-700', darkValue: 'text-amber-300', lightValue: 'text-amber-700', darkSub: 'text-amber-400/70', lightSub: 'text-amber-600/80' },
-                        { icon: '🛡️', label: 'Quality', value: '100%', sub: 'Typed & Tested', darkBg: 'bg-sky-950/50 border-sky-800/60', lightBg: 'bg-sky-50 border-sky-200', darkIcon: 'bg-sky-500/20 text-sky-300 border-sky-600/40', lightIcon: 'bg-sky-100 text-sky-700', darkValue: 'text-sky-300', lightValue: 'text-sky-700', darkSub: 'text-sky-400/70', lightSub: 'text-sky-600/80' },
-                        { icon: '🚀', label: 'Status', value: 'Open', sub: 'Freelance & FT', darkBg: 'bg-emerald-950/50 border-emerald-800/60', lightBg: 'bg-emerald-50 border-emerald-200', darkIcon: 'bg-emerald-500/20 text-emerald-300 border-emerald-600/40', lightIcon: 'bg-emerald-100 text-emerald-700', darkValue: 'text-emerald-300', lightValue: 'text-emerald-700', darkSub: 'text-emerald-400/70', lightSub: 'text-emerald-600/80' },
-                      ].map((c) => (
-                        <div key={c.label} className={`p-2.5 sm:p-3 rounded-xl border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${dark ? c.darkBg : c.lightBg}`}>
-                          <div className="flex items-center justify-between mb-2">
-                            <span className={`text-[9px] sm:text-[10px] font-bold tracking-wider uppercase ${dark ? 'text-slate-400' : 'text-slate-500'}`}>{c.label}</span>
-                            <div className={`w-6 h-6 rounded-md flex items-center justify-center text-xs border ${dark ? c.darkIcon : c.lightIcon}`}>{c.icon}</div>
-                          </div>
-                          <span className={`font-extrabold text-sm sm:text-base font-mono block ${dark ? c.darkValue : c.lightValue}`}>{c.value}</span>
-                          <span className={`text-[9px] sm:text-[10px] block mt-0.5 ${dark ? c.darkSub : c.lightSub}`}>{c.sub}</span>
-                        </div>
-                      ))}
-                    </motion.div>
-                  )} */}
-
-                  {terminalTab === 'architecture' && (
-                    <motion.div key="arch" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-3 text-xs sm:text-sm p-2 mt-3">
-                      <div className="flex items-center justify-between gap-2">
-                        <h4 className={`font-bold font-syne text-sml  sm:text-base ${heading}`}>Core Tech Stack</h4>
-                        {/* <span className={`text-[10px] sm:text-[11px] font-mono shrink-0 ${dark ? 'text-cyan-400' : 'text-sky-600'}`}>Production Ready</span> */}
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
-                        {stackItems.map((item, idx) => {
-                          const StackIcon = item.icon;
-                          return (
-                            <div
-                              key={idx}
-                              className={`p-3 sm:p-3.5 rounded-2xl border transition-colors duration-200 hover:border-cyan-400/30 ${innerBg}`}
-                            >
-                              <span className={`font-bold inline-flex items-center gap-2 mb-1 text-xs sm:text-sm ${item.color}`}>
-                                <StackIcon className="shrink-0" /> {item.title}
-                              </span>
-                              <span className={`block text-[11px] sm:text-xs leading-relaxed ${subtext}`}>{item.tech}</span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {terminalTab === 'philosophy' && (
-                    <motion.div key="phil" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-3 text-xs sm:text-sm p-2 mt-3">
-                      <h4 className={`font-bold font-syne text-sm sm:text-base ${heading}`}>Engineering Focus</h4>
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
-                        {engineeringFocusItems.map((item, idx) => {
-                          const FocusIcon = item.icon;
-                          return (
-                            <li key={idx} className={`flex items-start gap-2.5 p-2.5 sm:p-3 rounded-xl border ${innerBg}`}>
-                              <FocusIcon className={`${item.iconColor} shrink-0 mt-0.5 text-sm`} />
-                              <span className={subtext}>
-                                <strong className={`block mb-0.5 ${heading}`}>{item.title}</strong>
-                                {item.desc}
-                              </span>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+            {/* Header: macOS dots + filename on left, Tabs on right */}
+            <div className={`flex items-center justify-between gap-1.5 sm:gap-3 px-3.5 sm:px-5 py-3 sm:py-3.5 border-b z-10 ${dark ? 'border-slate-500/20 bg-white/[0.02]' : 'border-slate-200/80 bg-slate-100/60'}`}>
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#FF5F56] shadow-sm" />
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#FEBC2E] shadow-sm" />
+                <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#27C840] shadow-sm" />
+                <span className={`ml-1.5 sm:ml-2.5 text-[11px] sm:text-xs font-mono font-medium ${dark ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <span className="sm:hidden">config.ts</span>
+                  <span className="hidden sm:inline">developer_config.ts</span>
+                </span>
               </div>
+
+              {/* Tab switcher on the right side */}
+              <div className={`flex items-center gap-0.5 sm:gap-1 p-0.5 sm:p-1 rounded-lg sm:rounded-xl shrink-0 ${dark ? 'bg-black/30 border border-white/10' : 'bg-slate-200/70 border border-slate-300'}`}>
+                {[
+                  { id: 'profile', label: 'Profile', fullLabel: 'Profile.json' },
+                  { id: 'architecture', label: 'Stack', fullLabel: 'Stack' },
+                  { id: 'philosophy', label: 'Focus', fullLabel: 'Focus' },
+                ].map(t => (
+                  <button
+                    key={t.id}
+                    onClick={() => setTerminalTab(t.id)}
+                    className={`px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-mono whitespace-nowrap transition-all duration-200 ${terminalTab === t.id
+                      ? dark
+                        ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+                        : 'bg-white text-sky-700 font-bold shadow-sm border border-sky-200'
+                      : dark
+                        ? 'text-[#8B949E] hover:text-white font-medium'
+                        : 'text-slate-500 hover:text-slate-800 font-medium'
+                      }`}
+                  >
+                    <span className="sm:hidden">{t.label}</span>
+                    <span className="hidden sm:inline">{t.fullLabel}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Row 3: Tab content via AnimatePresence */}
+            <div className="flex-1 flex flex-col justify-center overflow-hidden z-10">
+              <AnimatePresence mode="wait">
+                {terminalTab === 'profile' && (
+                  <motion.div
+                    key="prof"
+                    initial="hidden"
+                    animate="visible"
+                    exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
+                    variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
+                    className="flex-1 flex flex-col justify-center"
+                  >
+                    {/* Code body */}
+                    <div className="flex flex-1 overflow-hidden">
+                      {/* Line numbers */}
+                      <div className={`select-none font-mono text-[9px] sm:text-[11px] text-right pt-3 sm:pt-4 pb-3 sm:pb-4 px-2 sm:px-3 border-r leading-[1.5rem] sm:leading-[1.75rem] shrink-0 ${dark ? 'text-slate-500 border-slate-500/20' : 'text-slate-400 border-slate-200'}`}>
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map(n => <div key={n}>{n}</div>)}
+                      </div>
+
+                      {/* Animated code lines */}
+                      <div className={`font-mono text-[9px] sm:text-[13px] leading-[1.5rem] sm:leading-[1.75rem] pt-2.5 sm:pt-4 pb-2.5 sm:pb-4 pl-2.5 sm:pl-5 pr-2.5 sm:pr-4 w-full break-words whitespace-normal sm:whitespace-pre ${dark ? 'text-[#C9D1D9]' : 'text-slate-700'}`}>
+                        <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }}>
+                          <span className={dark ? 'text-[#FF7B72]' : 'text-pink-600'}>export const </span>
+                          <span className={dark ? 'text-[#79C0FF]' : 'text-blue-600'}>developer</span>
+                          <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-700'}> = {'{'}</span>
+                        </motion.div>
+                        <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                          <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>name</span>
+                          <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                          <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Abhishek Namdev"</span>
+                          <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                        </motion.div>
+                        <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                          <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>role</span>
+                          <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                          <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Specialist Frontend Developer"</span>
+                          <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                        </motion.div>
+                        <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                          <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>location</span>
+                          <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                          <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"India 🇮🇳 · Open to Global Remote Work"</span>
+                          <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                        </motion.div>
+                        <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                          <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>education</span>
+                          <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                          <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"B.Tech IT · IGEC Sagar '24"</span>
+                          <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                        </motion.div>
+                        <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                          <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>experience</span>
+                          <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                          <span className={dark ? 'text-[#FFA657] font-semibold' : 'text-amber-600 font-semibold'}>"1.5+ Years · 20+ Projects Shipped"</span>
+                          <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                        </motion.div>
+
+                        <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                          <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>specialties</span>
+                          <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                          <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>["Interactive Web Apps","Website Designing"]</span>
+                          <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                        </motion.div>
+                        <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                          <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>leetcode</span>
+                          <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                          <span className={dark ? 'text-[#FFA657] font-bold' : 'text-amber-600 font-bold'}>1000+</span>
+                          <span className={`ml-1.5 italic text-[9px] sm:text-[11px] ${dark ? 'text-slate-400' : 'text-slate-400'}`}>{'//'} Top 8% Worldwide Ranking</span>
+                          <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                        </motion.div>
+                        <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                          <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>coreFocus</span>
+                          <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                          <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"High-Performance Web Apps & Pixel-Perfect UI/UX"</span>
+                          <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                        </motion.div>
+                        <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                          <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>architecture</span>
+                          <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                          <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Modular Component Design & State Management"</span>
+                          <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                        </motion.div>
+                        <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6">
+                          <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>commitment</span>
+                          <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>: </span>
+                          <span className={dark ? 'text-[#A5D6FF]' : 'text-sky-700'}>"Delivering Production-Ready Applications On Time"</span>
+                          <span className={dark ? 'text-[#484F58]' : 'text-slate-400'}>,</span>
+                        </motion.div>
+                        <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }} className="pl-3 sm:pl-6 flex items-center gap-1.5 flex-wrap">
+                          <span className={dark ? 'text-[#7EE787]' : 'text-teal-600'}>status</span>
+                          <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-600'}>:</span>
+                          <span className={`inline-flex items-center gap-1.5 text-[9px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-md border ${dark
+                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                            : 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                            }`}>
+                            <span className="relative flex h-1.5 w-1.5">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                            </span>
+                            Open to New Opportunities
+                          </span>
+                        </motion.div>
+                        <motion.div variants={{ hidden: { opacity: 0, x: -10 }, visible: { opacity: 1, x: 0, transition: { duration: 0.3 } } }}>
+                          <span className={dark ? 'text-[#C9D1D9]' : 'text-slate-700'}>{'};'}</span>
+                        </motion.div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {terminalTab === 'architecture' && (
+                  <motion.div key="arch" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-3 text-xs sm:text-sm p-4 sm:p-6 flex-1 flex flex-col justify-center">
+                    <div className="flex items-center justify-between gap-2">
+                      <h4 className={`font-bold font-syne text-sm sm:text-base ${heading}`}>Core Tech Stack</h4>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                      {stackItems.map((item, idx) => {
+                        const StackIcon = item.icon;
+                        return (
+                          <div
+                            key={idx}
+                            className={`p-3 sm:p-3.5 rounded-2xl border transition-colors duration-200 hover:border-cyan-400/30 ${innerBg}`}
+                          >
+                            <span className={`font-bold inline-flex items-center gap-2 mb-1 text-xs sm:text-sm ${item.color}`}>
+                              <StackIcon className="shrink-0" /> {item.title}
+                            </span>
+                            <span className={`block text-[11px] sm:text-xs leading-relaxed ${subtext}`}>{item.tech}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+
+                {terminalTab === 'philosophy' && (
+                  <motion.div key="phil" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="space-y-3 text-xs sm:text-sm p-4 sm:p-6 flex-1 flex flex-col justify-center">
+                    <h4 className={`font-bold font-syne text-sm sm:text-base ${heading}`}>Engineering Focus</h4>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                      {engineeringFocusItems.map((item, idx) => {
+                        const FocusIcon = item.icon;
+                        return (
+                          <li key={idx} className={`flex items-start gap-2.5 p-2.5 sm:p-3 rounded-xl border ${innerBg}`}>
+                            <FocusIcon className={`${item.iconColor} shrink-0 mt-0.5 text-sm`} />
+                            <span className={subtext}>
+                              <strong className={`block mb-0.5 ${heading}`}>{item.title}</strong>
+                              {item.desc}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         </div>
