@@ -305,11 +305,10 @@ export default function Navbar() {
 
             {/* Tablet Menu Button (shown on md to lg) */}
             <button
-              className={`lg:hidden text-2xl p-1.5 rounded-lg border transition-all ${
-                dark
-                  ? 'border-white/10 text-white hover:bg-white/10'
-                  : 'border-slate-300 text-slate-800 hover:bg-slate-100'
-              }`}
+              className={`lg:hidden text-2xl p-1.5 rounded-lg border transition-all ${dark
+                ? 'border-white/10 text-white hover:bg-white/10'
+                : 'border-slate-300 text-slate-800 hover:bg-slate-100'
+                }`}
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle Menu"
             >
