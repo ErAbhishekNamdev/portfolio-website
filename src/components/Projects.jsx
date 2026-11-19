@@ -71,11 +71,10 @@ export default function Projects() {
           {/* Swiper Custom Navigation */}
           <button
             onClick={() => swiperRef.current?.slidePrev()}
-            className={`absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex ${
-              dark
-                ? 'bg-[#111118] border-white/15 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-lg shadow-black/40'
-                : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-md'
-            }`}
+            className={`absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex ${dark
+              ? 'bg-[#111118] border-white/15 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-lg shadow-black/40'
+              : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-md'
+              }`}
             aria-label="Previous Project"
           >
             <FaChevronLeft size={14} />
@@ -83,11 +82,10 @@ export default function Projects() {
 
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className={`absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex ${
-              dark
-                ? 'bg-[#111118] border-white/15 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-lg shadow-black/40'
-                : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-md'
-            }`}
+            className={`absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex ${dark
+              ? 'bg-[#111118] border-white/15 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-lg shadow-black/40'
+              : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-md'
+              }`}
             aria-label="Next Project"
           >
             <FaChevronRight size={14} />
@@ -145,11 +143,10 @@ export default function Projects() {
 
                     {/* Project Details */}
                     <div>
-                      <span className={`inline-block px-3.5 py-1 rounded-full border text-xs font-semibold mb-4 ${
-                        dark
-                          ? 'bg-[#111118] border-white/15 text-[#00D4FF]'
-                          : 'bg-white border-slate-300 text-[#0284C7] shadow-sm'
-                      }`}>
+                      <span className={`inline-block px-3.5 py-1 rounded-full border text-xs font-semibold mb-4 ${dark
+                        ? 'bg-[#111118] border-white/15 text-[#00D4FF]'
+                        : 'bg-white border-slate-300 text-[#0284C7] shadow-sm'
+                        }`}>
                         {p.category}
                       </span>
                       <h3 className={`text-3xl font-bold font-syne mb-3 ${heading}`}>{p.title}</h3>
@@ -172,11 +169,10 @@ export default function Projects() {
                         {p.stack.map((s) => (
                           <span
                             key={s}
-                            className={`px-3 py-1 rounded-full border text-xs font-fira font-medium transition-colors ${
-                              dark
-                                ? 'bg-[#111118] border-white/15 text-slate-200'
-                                : 'bg-white border-slate-200 text-slate-800 shadow-sm'
-                            }`}
+                            className={`px-3 py-1 rounded-full border text-xs font-fira font-medium transition-colors ${dark
+                              ? 'bg-[#111118] border-white/15 text-slate-200'
+                              : 'bg-white border-slate-200 text-slate-800 shadow-sm'
+                              }`}
                           >
                             {s}
                           </span>
@@ -187,21 +183,19 @@ export default function Projects() {
                       <div className="flex flex-wrap gap-4">
                         <a
                           href="#"
-                          className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold text-sm transition-all duration-300 ${
-                            dark
-                              ? 'bg-gradient-to-r from-[#00D4FF] to-[#00B8E0] text-slate-950 font-bold hover:shadow-[0_0_25px_rgba(0,212,255,0.4)]'
-                              : 'bg-gradient-to-r from-[#0284C7] to-[#7C3AED] hover:opacity-95 shadow-md shadow-indigo-500/20'
-                          }`}
+                          className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold text-sm transition-all duration-300 ${dark
+                            ? 'bg-gradient-to-r from-[#00D4FF] to-[#00B8E0] text-slate-950 font-bold hover:shadow-[0_0_25px_rgba(0,212,255,0.4)]'
+                            : 'bg-gradient-to-r from-[#0284C7] to-[#7C3AED] hover:opacity-95 shadow-md shadow-indigo-500/20'
+                            }`}
                         >
                           <FaEye /> Live Demo
                         </a>
                         <a
                           href="#"
-                          className={`inline-flex items-center gap-2 px-6 py-3 rounded-full border text-sm font-semibold transition-all duration-300 ${
-                            dark
-                              ? 'border-white/20 text-slate-200 hover:border-white hover:bg-white/10'
-                              : 'border-slate-300 text-slate-800 bg-white hover:border-slate-400 hover:bg-slate-50 shadow-sm'
-                          }`}
+                          className={`inline-flex items-center gap-2 px-6 py-3 rounded-full border text-sm font-semibold transition-all duration-300 ${dark
+                            ? 'border-white/20 text-slate-200 hover:border-white hover:bg-white/10'
+                            : 'border-slate-300 text-slate-800 bg-white hover:border-slate-400 hover:bg-slate-50 shadow-sm'
+                            }`}
                         >
                           <FaGithub /> Source Code
                         </a>
