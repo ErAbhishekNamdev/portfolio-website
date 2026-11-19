@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FaGithub,
   FaLinkedin,
@@ -17,11 +17,245 @@ import { useTheme } from "../ThemeContext";
 import LaptopScreen from "./LaptopScreen";
 import naukriIcon from "../assets/image copy 2.png";
 
+// ── All developer quotes in one flat pool ──────────────────────────────────
+const ALL_DEV_QUOTES = [
+  { text: "First, solve the problem. Then, write the code.", author: "John Johnson" },
+  { text: "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.", author: "Martin Fowler" },
+  { text: "Clean code always looks like it was written by someone who cares.", author: "Robert C. Martin" },
+  { text: "Make it work, make it right, make it fast.", author: "Kent Beck" },
+  { text: "Simplicity is the soul of efficiency.", author: "Austin Freeman" },
+  { text: "Code is like humor. When you have to explain it, it's bad.", author: "Cory House" },
+  { text: "It works on my machine.", author: "Every Developer Ever 😄" },
+  { text: "The best error message is the one that never shows up.", author: "Thomas Fuchs" },
+  { text: "Every great developer you know got there by solving problems they were unqualified to solve.", author: "Patrick McKenzie" },
+  { text: "Programming isn't about what you know; it's about what you can figure out.", author: "Chris Pine" },
+  { text: "The most powerful tool we have as developers is automation.", author: "Scott Hanselman" },
+  { text: "One of the best programming skills you can have is knowing when to walk away for a while.", author: "Oscar Godson" },
+  { text: "Software is eating the world.", author: "Marc Andreessen" },
+  { text: "The best way to predict the future is to implement it.", author: "David Heinemeier Hansson" },
+  { text: "Talk is cheap. Show me the code.", author: "Linus Torvalds" },
+  { text: "Before software can be reusable, it first has to be usable.", author: "Ralph Johnson" },
+  { text: "Good software, like wine, takes time.", author: "Joel Spolsky" },
+  { text: "Weeks of coding can save you hours of planning.", author: "Unknown Developer" },
+  { text: "Debugging is twice as hard as writing the code in the first place.", author: "Brian W. Kernighan" },
+  { text: "If debugging is the process of removing software bugs, then programming must be the process of putting them in.", author: "Edsger Dijkstra" },
+  { text: "The art of debugging is figuring out what you really told your program to do rather than what you thought you told it to do.", author: "Andrew Singer" },
+  { text: "It's not a bug — it's an undocumented feature.", author: "Anonymous Developer 😂" },
+  { text: "The computer is incredibly fast, accurate, and stupid.", author: "Leo Cherne" },
+  { text: "Artificial intelligence is the new electricity.", author: "Andrew Ng" },
+  { text: "Technology is best when it brings people together.", author: "Matt Mullenweg" },
+  { text: "The web is more a social creation than a technical one.", author: "Tim Berners-Lee" },
+  { text: "The advance of technology is based on making it fit in so that you don't really even notice it.", author: "Bill Gates" },
+  { text: "It has become appallingly obvious that our technology has exceeded our humanity.", author: "Albert Einstein" },
+  { text: "Premature optimization is the root of all evil.", author: "Donald Knuth" },
+  { text: "Programs must be written for people to read, and only incidentally for machines to execute.", author: "Harold Abelson" },
+  { text: "The only way to go fast is to go well.", author: "Robert C. Martin" },
+  { text: "Experience is the name everyone gives to their mistakes.", author: "Oscar Wilde" },
+  { text: "Every line of code is a hypothesis.", author: "Michael Feathers" },
+  { text: "There are only two hard things in Computer Science: cache invalidation and naming things.", author: "Phil Karlton" },
+  { text: "Code never lies; comments sometimes do.", author: "Ron Jeffries" },
+  { text: "The most dangerous phrase in the language is: we've always done it this way.", author: "Grace Hopper" },
+  { text: "In software, the most important thing is the interface. Everything else is implementation detail.", author: "Scott Meyers" },
+  { text: "A good programmer looks both ways before crossing a one-way street.", author: "Doug Linder" },
+  { text: "JavaScript is the only language where people think it's okay to not learn it fully before using it.", author: "Douglas Crockford" },
+  { text: "React makes it painless to create interactive UIs.", author: "React Docs" },
+  { text: "First make it possible. Then make it beautiful. Then make it fast.", author: "Michael Nygard" },
+  { text: "The best code is no code at all.", author: "Jeff Atwood" },
+  { text: "You don't have to be great to start, but you have to start to be great.", author: "Zig Ziglar" },
+  { text: "If it's not tested, it's broken.", author: "Bruce Eckel" },
+  { text: "Measuring programming progress by lines of code is like measuring aircraft building progress by weight.", author: "Bill Gates" },
+  { text: "Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.", author: "John Woods" },
+  { text: "The function of good software is to make the complex appear to be simple.", author: "Grady Booch" },
+  { text: "Software undergoes beta testing shortly before it's dead.", author: "Anonymous" },
+  { text: "The Internet is the world's largest library. It's just that all the books are on the floor.", author: "John Allen Paulos" },
+  { text: "An API that isn't comprehensible isn't usable.", author: "James Gosling" },
+];
+
+// Shuffle helper using Fisher-Yates
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const LS_KEY = "devQuoteQueue";
+
+// Returns a queue that won't repeat until all quotes are exhausted
+function getNextQueue() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) {
+      const q = JSON.parse(raw);
+      if (Array.isArray(q) && q.length > 0) return q;
+    }
+  } catch {}
+  return shuffle(ALL_DEV_QUOTES.map((_, i) => i));
+}
+
+function peekNextQuote() {
+  const queue = getNextQueue();
+  const idx = queue[0];
+  return ALL_DEV_QUOTES[idx] || ALL_DEV_QUOTES[0];
+}
+
+function consumeNextQuote() {
+  let queue = getNextQueue();
+  const idx = queue.shift();
+  if (queue.length === 0) queue = shuffle(ALL_DEV_QUOTES.map((_, i) => i));
+  try { localStorage.setItem(LS_KEY, JSON.stringify(queue)); } catch {}
+  return ALL_DEV_QUOTES[idx] || ALL_DEV_QUOTES[0];
+}
+
+// Accent colors cycling through each quote
+const ACCENT_COLORS = [
+  "#00D4FF", "#7C3AED", "#F472B6", "#10B981", "#F59E0B", "#6366F1", "#C026D3", "#38BDF8",
+];
+
+function useFloatingQuote() {
+  const [quote, setQuote] = useState(() => peekNextQuote());
+  const [visible, setVisible] = useState(true);
+  const [accentIdx, setAccentIdx] = useState(0);
+
+  useEffect(() => {
+    // Show each quote for 5.5 s, then slide out for 0.5 s, then swap
+    const showTimer = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        const next = consumeNextQuote();
+        setQuote(next);
+        setAccentIdx((i) => (i + 1) % ACCENT_COLORS.length);
+        setVisible(true);
+      }, 520);
+    }, 6000);
+
+    return () => clearInterval(showTimer);
+  }, []);
+
+  return { quote, visible, accent: ACCENT_COLORS[accentIdx] };
+}
+
+// ── Hero Bottom Quote Strip — centered, full-width, interactive ───────────────
+function HeroQuoteStrip({ dark }) {
+  const { quote, visible, accent } = useFloatingQuote();
+  const [clicked, setClicked] = useState(false);
+
+  const handleClick = () => {
+    setClicked(true);
+    setTimeout(() => setClicked(false), 400);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 1.1 }}
+      className="w-full mt-10 md:mt-14 px-4 md:px-6 2xl:px-12"
+    >
+      <div className="w-full max-w-container mx-auto">
+        {/* Divider */}
+        <div className="flex items-center gap-4 mb-6">
+          <div
+            className="flex-1 h-px"
+            style={{ background: dark ? "linear-gradient(to right, transparent, rgba(255,255,255,0.08))" : "linear-gradient(to right, transparent, rgba(0,0,0,0.08))" }}
+          />
+          <span className={`shrink-0 text-[10px] font-bold tracking-[0.2em] uppercase ${dark ? "text-slate-500" : "text-slate-400"}`}>
+            Dev Wisdom
+          </span>
+          <div
+            className="flex-1 h-px"
+            style={{ background: dark ? "linear-gradient(to left, transparent, rgba(255,255,255,0.08))" : "linear-gradient(to left, transparent, rgba(0,0,0,0.08))" }}
+          />
+        </div>
+
+        {/* Clickable quote area */}
+        <motion.div
+          onClick={handleClick}
+          whileTap={{ scale: 0.98 }}
+          className="relative flex flex-col items-center text-center cursor-pointer select-none group"
+          title="Click for next quote"
+        >
+          {/* Big decorative quote mark */}
+          <span
+            className="absolute -top-3 left-1/2 -translate-x-1/2 text-[64px] md:text-[80px] leading-none font-serif opacity-[0.07] pointer-events-none select-none"
+            style={{ color: accent }}
+          >
+            &ldquo;
+          </span>
+
+          {/* Animated quote */}
+          <div className="relative min-h-[72px] md:min-h-[60px] flex items-center justify-center w-full overflow-hidden">
+            <AnimatePresence mode="wait">
+              {visible && (
+                <motion.blockquote
+                  key={quote.text}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -14 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  className={`text-[14px] md:text-[16px] xl:text-[17px] font-medium leading-[1.65] italic max-w-2xl mx-auto ${
+                    dark ? "text-slate-300" : "text-slate-600"
+                  }`}
+                >
+                  &ldquo;{quote.text}&rdquo;
+                </motion.blockquote>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Author */}
+          <AnimatePresence mode="wait">
+            {visible && (
+              <motion.p
+                key={quote.author}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, delay: 0.15 }}
+                className="mt-3 text-[12px] md:text-[13px] font-semibold tracking-wide flex items-center gap-2"
+                style={{ color: accent }}
+              >
+                <span className="inline-block w-5 h-[1.5px] rounded-full" style={{ background: accent }} />
+                {quote.author}
+                <span className="inline-block w-5 h-[1.5px] rounded-full" style={{ background: accent }} />
+              </motion.p>
+            )}
+          </AnimatePresence>
+
+          {/* Click hint */}
+          <p className={`mt-4 text-[10px] tracking-widest uppercase font-medium transition-opacity duration-300 opacity-0 group-hover:opacity-60 ${dark ? "text-slate-500" : "text-slate-400"}`}>
+            click for next quote
+          </p>
+
+          {/* Ripple on click */}
+          <AnimatePresence>
+            {clicked && (
+              <motion.span
+                key="ripple"
+                initial={{ scale: 0.5, opacity: 0.4 }}
+                animate={{ scale: 2.5, opacity: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                className="absolute inset-0 rounded-full pointer-events-none"
+                style={{ background: `radial-gradient(circle, ${accent}33, transparent 70%)` }}
+              />
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 const BADGE_MESSAGES = [
   "Available for Frontend Collaborations",
   "Available for Freelance Projects",
   "Ready for React & Next.js Work",
-  'Building High-Performance Web Apps',
+  "Building High-Performance Web Apps",
   "Open to New Opportunities",
   "Ready for React & Next.js Work",
 ];
@@ -52,92 +286,49 @@ function speakWelcomeText(onEnd) {
     }
   };
 
-  if (welcomeSpokenThisLoad) {
-    triggerEnd();
-    return;
-  }
+  if (welcomeSpokenThisLoad) { triggerEnd(); return; }
 
   const synth = window.speechSynthesis;
-  if (!synth) {
-    triggerEnd();
-    return;
-  }
+  if (!synth) { triggerEnd(); return; }
 
   const speakNow = () => {
-    if (welcomeSpokenThisLoad) {
-      triggerEnd();
-      return;
-    }
-
+    if (welcomeSpokenThisLoad) { triggerEnd(); return; }
     const voices = synth.getVoices();
-    if (!voices.length) {
-      triggerEnd();
-      return;
-    }
-
+    if (!voices.length) { triggerEnd(); return; }
     welcomeSpokenThisLoad = true;
-
     if (synth.speaking || synth.pending) synth.cancel();
-
     const utter = new SpeechSynthesisUtterance(WELCOME_SPEECH);
-    utter.rate = 0.78;
-    utter.pitch = 1.02;
-    utter.volume = 1;
-    utter.lang = "en-US";
-
+    utter.rate = 0.78; utter.pitch = 1.02; utter.volume = 1; utter.lang = "en-US";
     const voice =
       voices.find((v) => v.lang.startsWith("en") && /google|natural|samantha|zira|david|neural/i.test(v.name)) ||
       voices.find((v) => v.lang.startsWith("en"));
     if (voice) utter.voice = voice;
-
     let resumeTimer;
     utter.onstart = () => {
       synth.resume();
       resumeTimer = window.setInterval(() => {
-        if (!synth.speaking) {
-          clearInterval(resumeTimer);
-          return;
-        }
+        if (!synth.speaking) { clearInterval(resumeTimer); return; }
         synth.resume();
       }, 140);
     };
-    const cleanup = () => {
-      if (resumeTimer) clearInterval(resumeTimer);
-      triggerEnd();
-    };
-    utter.onend = cleanup;
-    utter.onerror = cleanup;
-
-    // Safety timeout in case browser TTS hangs
+    const cleanup = () => { if (resumeTimer) clearInterval(resumeTimer); triggerEnd(); };
+    utter.onend = cleanup; utter.onerror = cleanup;
     window.setTimeout(triggerEnd, 7000);
-
-    synth.speak(utter);
-    synth.resume();
+    synth.speak(utter); synth.resume();
   };
 
-  if (synth.getVoices().length) {
-    speakNow();
-    return;
-  }
-
+  if (synth.getVoices().length) { speakNow(); return; }
   let handled = false;
   const trySpeak = () => {
-    if (handled || welcomeSpokenThisLoad) {
-      triggerEnd();
-      return;
-    }
+    if (handled || welcomeSpokenThisLoad) { triggerEnd(); return; }
     if (!synth.getVoices().length) return;
     handled = true;
     synth.removeEventListener("voiceschanged", trySpeak);
     speakNow();
   };
-
   synth.addEventListener("voiceschanged", trySpeak);
   window.setTimeout(() => {
-    if (!handled && !welcomeSpokenThisLoad) {
-      trySpeak();
-      triggerEnd();
-    }
+    if (!handled && !welcomeSpokenThisLoad) { trySpeak(); triggerEnd(); }
   }, 400);
 }
 
@@ -147,19 +338,14 @@ function useWelcomeIntro(enabled = true) {
   const [phase, setPhase] = useState("line1");
   const [speechFinished, setSpeechFinished] = useState(false);
 
-  useEffect(() => {
-    window.speechSynthesis?.getVoices();
-  }, []);
+  useEffect(() => { window.speechSynthesis?.getVoices(); }, []);
 
   useEffect(() => {
     if (!enabled) {
-      if (typeof window !== "undefined" && window.speechSynthesis) {
-        window.speechSynthesis.cancel();
-      }
+      if (typeof window !== "undefined" && window.speechSynthesis) window.speechSynthesis.cancel();
       return undefined;
     }
     if (phase !== "line1" && phase !== "line2") return undefined;
-
     let id;
     if (phase === "line1") {
       if (line1Count < WELCOME_LINE1.length) {
@@ -180,7 +366,6 @@ function useWelcomeIntro(enabled = true) {
 
   const isComplete = phase === "done";
   const isTyping = phase === "line1" || phase === "line2";
-
   return { line1Count, line2Count, isComplete, isTyping, speechFinished };
 }
 
@@ -188,33 +373,21 @@ function WelcomeLine1({ count, dark, showCaret }) {
   const welcomePart = WELCOME_LINE1.slice(0, Math.min(count, 7));
   const middlePart = count > 7 ? WELCOME_LINE1.slice(7, Math.min(count, 13)) : "";
   const creativePart = count > 13 ? WELCOME_LINE1.slice(13, count) : "";
-
   return (
     <>
       {welcomePart ? (
-        <span
-          className="bg-gradient-to-r from-[#6366F1] via-[#7C3AED] to-[#C026D3] bg-clip-text text-transparent"
-          style={{ WebkitBackgroundClip: "text" }}
-        >
+        <span className="bg-gradient-to-r from-[#6366F1] via-[#7C3AED] to-[#C026D3] bg-clip-text text-transparent" style={{ WebkitBackgroundClip: "text" }}>
           {welcomePart}
         </span>
       ) : null}
-      {middlePart ? (
-        <span className={dark ? "text-white" : "text-slate-900"}>{middlePart}</span>
-      ) : null}
+      {middlePart ? <span className={dark ? "text-white" : "text-slate-900"}>{middlePart}</span> : null}
       {creativePart ? (
-        <span
-          className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent"
-          style={{ WebkitBackgroundClip: "text" }}
-        >
+        <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent" style={{ WebkitBackgroundClip: "text" }}>
           {creativePart}
         </span>
       ) : null}
       {showCaret ? (
-        <span
-          className={`caret-blink ml-0.5 inline-block h-[1em] w-[2px] shrink-0 rounded-sm align-[-0.05em] ${dark ? "bg-[#7C3AED]" : "bg-[#6366F1]"}`}
-          aria-hidden="true"
-        />
+        <span className={`caret-blink ml-0.5 inline-block h-[1em] w-[2px] shrink-0 rounded-sm align-[-0.05em] ${dark ? "bg-[#7C3AED]" : "bg-[#6366F1]"}`} aria-hidden="true" />
       ) : null}
     </>
   );
@@ -230,18 +403,13 @@ function useTyping(lines, enabled = true) {
     let id;
     const current = lines[index];
     if (stage === "typing") {
-      if (text.length < current.length)
-        id = setTimeout(() => setText(current.slice(0, text.length + 1)), 80);
+      if (text.length < current.length) id = setTimeout(() => setText(current.slice(0, text.length + 1)), 80);
       else id = setTimeout(() => setStage("pause"), 1100);
     } else if (stage === "pause") {
       id = setTimeout(() => setStage("deleting"), 1000);
     } else {
-      if (text.length > 0)
-        id = setTimeout(() => setText(current.slice(0, text.length - 1)), 45);
-      else {
-        setIndex((i) => (i + 1) % lines.length);
-        setStage("typing");
-      }
+      if (text.length > 0) id = setTimeout(() => setText(current.slice(0, text.length - 1)), 45);
+      else { setIndex((i) => (i + 1) % lines.length); setStage("typing"); }
     }
     return () => clearTimeout(id);
   }, [text, index, stage, lines, enabled]);
@@ -249,68 +417,14 @@ function useTyping(lines, enabled = true) {
   return text;
 }
 
-
-
 const SOCIALS = [
-  {
-    icon: <FaGithub />,
-    href: "https://github.com/ErAbhishekNamdev",
-    label: "GitHub",
-    bg: "#1c1c1e",
-    border: "rgba(255,255,255,0.15)",
-    hoverBorder: "rgba(255,255,255,0.4)",
-    glow: "rgba(255,255,255,0.18)",
-  },
-  {
-    icon: <FaLinkedin />,
-    href: "https://www.linkedin.com/in/abhishek-namdev-software-engineer/",
-    label: "LinkedIn",
-    bg: "#0A66C2",
-    border: "rgba(10,102,194,0.5)",
-    hoverBorder: "rgba(10,102,194,0.9)",
-    glow: "rgba(10,102,194,0.45)",
-  },
-  {
-    icon: <FaTwitter />,
-    href: "https://x.com/Abhishekna78501",
-    label: "Twitter / X",
-    bg: "#1DA1F2",
-    border: "rgba(29,161,242,0.45)",
-    hoverBorder: "rgba(29,161,242,0.9)",
-    glow: "rgba(29,161,242,0.45)",
-  },
-  {
-    icon: <FaWhatsapp />,
-    href: "https://wa.me/917024073871",
-    label: "WhatsApp",
-    bg: "#25D366",
-    border: "rgba(37,211,102,0.45)",
-    hoverBorder: "rgba(37,211,102,0.9)",
-    glow: "rgba(37,211,102,0.45)",
-  },
-  {
-    icon: <FaEnvelope />,
-    href: "mailto:abhisheknamdev9171@gmail.com",
-    label: "Email",
-    bg: "#EA4335",
-    border: "rgba(234,67,53,0.45)",
-    hoverBorder: "rgba(234,67,53,0.9)",
-    glow: "rgba(234,67,53,0.45)",
-  },
-  {
-    icon: <img src={naukriIcon} alt="Naukri" className="w-full h-full object-cover rounded-xl" />,
-    href: "https://www.naukri.com/mnjuser/profile",
-    label: "Naukri",
-    bg: "transparent",
-    border: "rgba(37,99,235,0.4)",
-    hoverBorder: "rgba(37,99,235,0.9)",
-    glow: "rgba(37,99,235,0.5)",
-    isImage: true,
-  },
+  { icon: <FaGithub />, href: "https://github.com/ErAbhishekNamdev", label: "GitHub", bg: "#1c1c1e", border: "rgba(255,255,255,0.15)", hoverBorder: "rgba(255,255,255,0.4)", glow: "rgba(255,255,255,0.18)" },
+  { icon: <FaLinkedin />, href: "https://www.linkedin.com/in/abhishek-namdev-software-engineer/", label: "LinkedIn", bg: "#0A66C2", border: "rgba(10,102,194,0.5)", hoverBorder: "rgba(10,102,194,0.9)", glow: "rgba(10,102,194,0.45)" },
+  { icon: <FaTwitter />, href: "https://x.com/Abhishekna78501", label: "Twitter / X", bg: "#1DA1F2", border: "rgba(29,161,242,0.45)", hoverBorder: "rgba(29,161,242,0.9)", glow: "rgba(29,161,242,0.45)" },
+  { icon: <FaWhatsapp />, href: "https://wa.me/917024073871", label: "WhatsApp", bg: "#25D366", border: "rgba(37,211,102,0.45)", hoverBorder: "rgba(37,211,102,0.9)", glow: "rgba(37,211,102,0.45)" },
+  { icon: <FaEnvelope />, href: "mailto:abhisheknamdev9171@gmail.com", label: "Email", bg: "#EA4335", border: "rgba(234,67,53,0.45)", hoverBorder: "rgba(234,67,53,0.9)", glow: "rgba(234,67,53,0.45)" },
+  { icon: <img src={naukriIcon} alt="Naukri" className="w-full h-full object-cover rounded-xl" />, href: "https://www.naukri.com/mnjuser/profile", label: "Naukri", bg: "transparent", border: "rgba(37,99,235,0.4)", hoverBorder: "rgba(37,99,235,0.9)", glow: "rgba(37,99,235,0.5)", isImage: true },
 ];
-
-const AVATAR_COLORS = ["#6366f1", "#7c3aed", "#c026d3", "#ec4899"];
-const AVATAR_INITIALS = ["AN", "RS", "KP", "MV"];
 
 function StatusBadge({ dark, badgeText }) {
   return (
@@ -322,7 +436,7 @@ function StatusBadge({ dark, badgeText }) {
         className={`pointer-events-auto inline-flex items-center justify-center gap-2 px-4 py-2 2xl:px-6 2xl:py-3 rounded-full text-[13px] xl:text-[14px] 2xl:text-[16px] font-semibold tracking-wide border backdrop-blur-md transition-all duration-150 max-md:max-w-[calc(100vw-2rem)] max-md:px-3 max-md:py-1.5 max-md:text-[11px] ${dark
           ? "bg-[#111118]/90 border-emerald-500/35 text-emerald-400 shadow-[0_0_18px_rgba(16,185,129,0.18)]"
           : "bg-white/95 border-emerald-500/45 text-emerald-700 shadow-sm"
-          }`}
+        }`}
       >
         <span className="relative flex h-2 w-2 shrink-0">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -339,113 +453,55 @@ function StatusBadge({ dark, badgeText }) {
 
 function Hero3DCanvas({ dark }) {
   const canvasRef = useRef(null);
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     let animId;
-
     let width = (canvas.width = canvas.parentElement?.offsetWidth || window.innerWidth);
     let height = (canvas.height = canvas.parentElement?.offsetHeight || window.innerHeight);
-
     const handleResize = () => {
       if (!canvas.parentElement) return;
       width = canvas.width = canvas.parentElement.offsetWidth;
       height = canvas.height = canvas.parentElement.offsetHeight;
     };
     window.addEventListener("resize", handleResize);
-
-    const isDesktop = width >= 768;
-    const count = isDesktop ? 65 : 35;
+    const count = width >= 768 ? 65 : 35;
     const particles = [];
     const colors = dark
-      ? ["rgba(0, 212, 255, 0.7)", "rgba(124, 58, 237, 0.7)", "rgba(244, 114, 182, 0.7)", "rgba(56, 189, 248, 0.7)"]
-      : ["rgba(2, 132, 199, 0.6)", "rgba(124, 58, 237, 0.6)", "rgba(192, 38, 211, 0.6)", "rgba(14, 165, 233, 0.6)"];
-
+      ? ["rgba(0,212,255,0.7)", "rgba(124,58,237,0.7)", "rgba(244,114,182,0.7)", "rgba(56,189,248,0.7)"]
+      : ["rgba(2,132,199,0.6)", "rgba(124,58,237,0.6)", "rgba(192,38,211,0.6)", "rgba(14,165,233,0.6)"];
     for (let i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        radius: Math.random() * 3.5 + 1.5,
-        color: colors[i % colors.length],
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        pulseSpeed: Math.random() * 0.02 + 0.008,
-        pulse: Math.random() * Math.PI,
-      });
+      particles.push({ x: Math.random() * width, y: Math.random() * height, radius: Math.random() * 3.5 + 1.5, color: colors[i % colors.length], vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4, pulseSpeed: Math.random() * 0.02 + 0.008, pulse: Math.random() * Math.PI });
     }
-
-    let mouseX = -9999;
-    let mouseY = -9999;
-
-    const handleMouseMove = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
-    };
+    let mouseX = -9999, mouseY = -9999;
+    const handleMouseMove = (e) => { const r = canvas.getBoundingClientRect(); mouseX = e.clientX - r.left; mouseY = e.clientY - r.top; };
     window.addEventListener("mousemove", handleMouseMove);
-
     const render = () => {
       ctx.clearRect(0, 0, width, height);
-
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.pulse += p.pulseSpeed;
-
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-        if (p.y < 0) p.y = height;
-        if (p.y > height) p.y = 0;
-
-        let dx = p.x - mouseX;
-        let dy = p.y - mouseY;
-        let dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
-          let force = (120 - dist) / 120;
-          p.x += (dx / (dist || 1)) * force * 1.5;
-          p.y += (dy / (dist || 1)) * force * 1.5;
-        }
-
-        const currentRadius = p.radius + Math.sin(p.pulse) * 1.2;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, Math.max(0.5, currentRadius), 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.shadowBlur = dark ? 12 : 6;
-        ctx.shadowColor = p.color;
-        ctx.fill();
-        ctx.shadowBlur = 0;
+      for (const p of particles) {
+        p.x += p.vx; p.y += p.vy; p.pulse += p.pulseSpeed;
+        if (p.x < 0) p.x = width; if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height; if (p.y > height) p.y = 0;
+        const dx = p.x - mouseX, dy = p.y - mouseY, dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) { const f = (120 - dist) / 120; p.x += (dx / (dist || 1)) * f * 1.5; p.y += (dy / (dist || 1)) * f * 1.5; }
+        const r = p.radius + Math.sin(p.pulse) * 1.2;
+        ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(0.5, r), 0, Math.PI * 2);
+        ctx.fillStyle = p.color; ctx.shadowBlur = dark ? 12 : 6; ctx.shadowColor = p.color; ctx.fill(); ctx.shadowBlur = 0;
       }
-
       animId = requestAnimationFrame(render);
     };
-
     render();
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
+    return () => { cancelAnimationFrame(animId); window.removeEventListener("resize", handleResize); window.removeEventListener("mousemove", handleMouseMove); };
   }, [dark]);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className={`absolute inset-0 w-full h-full pointer-events-none z-0 ${dark ? 'opacity-70' : 'opacity-45'}`}
-    />
-  );
+  return <canvas ref={canvasRef} className={`absolute inset-0 w-full h-full pointer-events-none z-0 ${dark ? "opacity-70" : "opacity-45"}`} />;
 }
 
 export default function Hero() {
   const { dark, introPopupOpen } = useTheme();
   const badgeText = useTyping(BADGE_MESSAGES, !introPopupOpen);
   const roleText = useTyping(ROLE_LINES, !introPopupOpen);
-  const { line1Count, line2Count, isComplete: welcomeComplete, isTyping: welcomeTyping, speechFinished } =
-    useWelcomeIntro(!introPopupOpen);
+  const { line1Count, line2Count, isComplete: welcomeComplete, isTyping: welcomeTyping, speechFinished } = useWelcomeIntro(!introPopupOpen);
   const [contactOpen, setContactOpen] = useState(false);
   const [callbackOpen, setCallbackOpen] = useState(false);
   const [cbLoading, setCbLoading] = useState(false);
@@ -455,124 +511,53 @@ export default function Hero() {
   const callUrl = "tel:7024073871";
 
   const [tiltStyle, setTiltStyle] = useState({ transform: "perspective(1000px) rotateX(0deg) rotateY(0deg)" });
-
   const handleMouseMove = (e) => {
-    const card = e.currentTarget;
-    const box = card.getBoundingClientRect();
-    const x = e.clientX - box.left - box.width / 2;
-    const y = e.clientY - box.top - box.height / 2;
-    const rX = -(y / (box.height / 2)) * 7;
-    const rY = (x / (box.width / 2)) * 7;
-    setTiltStyle({
-      transform: `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg)`,
-      transition: "transform 0.1s ease"
-    });
+    const box = e.currentTarget.getBoundingClientRect();
+    const rX = -((e.clientY - box.top - box.height / 2) / (box.height / 2)) * 7;
+    const rY = ((e.clientX - box.left - box.width / 2) / (box.width / 2)) * 7;
+    setTiltStyle({ transform: `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg)`, transition: "transform 0.1s ease" });
   };
-
-  const handleMouseLeave = () => {
-    setTiltStyle({
-      transform: "perspective(1000px) rotateX(0deg) rotateY(0deg)",
-      transition: "transform 0.5s ease"
-    });
-  };
+  const handleMouseLeave = () => setTiltStyle({ transform: "perspective(1000px) rotateX(0deg) rotateY(0deg)", transition: "transform 0.5s ease" });
 
   async function handleCallbackSubmit(e) {
-    e.preventDefault();
-    setCbLoading(true);
-    setCbError("");
+    e.preventDefault(); setCbLoading(true); setCbError("");
     const formData = new FormData(e.target);
     formData.append("access_key", "ab110ab7-2adf-4524-8baa-91916758c32c");
     formData.append("subject", "📞 Callback Request — Portfolio");
     formData.append("from_name", "Portfolio Contact Form");
-
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
-      if (data.success) {
-        setCbSuccess(true);
-        e.target.reset();
-        setTimeout(() => { setCbSuccess(false); setCallbackOpen(false); }, 3000);
-      } else {
-        setCbError(data.message || "Something went wrong. Please try again.");
-      }
-    } catch {
-      setCbError("Network error. Please try again.");
-    } finally {
-      setCbLoading(false);
-    }
+      const res = await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
+      const data = await res.json();
+      if (data.success) { setCbSuccess(true); e.target.reset(); setTimeout(() => { setCbSuccess(false); setCallbackOpen(false); }, 3000); }
+      else setCbError(data.message || "Something went wrong. Please try again.");
+    } catch { setCbError("Network error. Please try again."); }
+    finally { setCbLoading(false); }
   }
 
   return (
     <section
       id="hero"
-      className={`relative min-h-0 md:min-h-screen flex flex-col justify-start overflow-hidden transition-colors duration-300 ${dark
-        ? "bg-[#0A0D14]"
-        : "bg-[#F8FAFC]"
-        }`}
+      className={`relative min-h-0 md:min-h-screen flex flex-col justify-start overflow-hidden transition-colors duration-300 ${dark ? "bg-[#0A0D14]" : "bg-[#F8FAFC]"}`}
     >
-      {/* 3D Interactive Particle Sphere Canvas */}
       <Hero3DCanvas dark={dark} />
 
       {/* Grid */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: dark
-            ? `linear-gradient(rgba(99,102,241,0.06) 1px,transparent 1px), linear-gradient(90deg,rgba(99,102,241,0.06) 1px,transparent 1px)`
-            : `none`,
-          backgroundSize: "44px 44px",
-        }}
-      />
+      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: dark ? `linear-gradient(rgba(99,102,241,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.06) 1px,transparent 1px)` : "none", backgroundSize: "44px 44px" }} />
 
       {/* Ambient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute rounded-full"
-          style={{
-            width: 560,
-            height: 560,
-            top: -160,
-            left: -140,
-            filter: "blur(80px)",
-            background: dark
-              ? "radial-gradient(circle,rgba(99,102,241,0.25) 0%,rgba(124,58,237,0.1) 45%,transparent 70%)"
-              : "radial-gradient(circle,rgba(2,132,199,0.10) 0%,rgba(99,102,241,0.04) 45%,transparent 70%)",
-          }}
-          animate={{ scale: [1, 1.07, 1], x: [0, 18, 0] }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute rounded-full"
-          style={{
-            width: 480,
-            height: 480,
-            bottom: -100,
-            right: -80,
-            filter: "blur(80px)",
-            background: dark
-              ? "radial-gradient(circle,rgba(192,38,211,0.22) 0%,rgba(244,114,182,0.07) 45%,transparent 70%)"
-              : "radial-gradient(circle,rgba(192,38,211,0.08) 0%,rgba(244,114,182,0.03) 45%,transparent 70%)",
-          }}
-          animate={{ scale: [1, 1.09, 1], y: [0, -22, 0] }}
-          transition={{
-            duration: 11,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2,
-          }}
-        />
+        <motion.div className="absolute rounded-full" style={{ width: 560, height: 560, top: -160, left: -140, filter: "blur(80px)", background: dark ? "radial-gradient(circle,rgba(99,102,241,0.25) 0%,rgba(124,58,237,0.1) 45%,transparent 70%)" : "radial-gradient(circle,rgba(2,132,199,0.10) 0%,rgba(99,102,241,0.04) 45%,transparent 70%)" }} animate={{ scale: [1, 1.07, 1], x: [0, 18, 0] }} transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }} />
+        <motion.div className="absolute rounded-full" style={{ width: 480, height: 480, bottom: -100, right: -80, filter: "blur(80px)", background: dark ? "radial-gradient(circle,rgba(192,38,211,0.22) 0%,rgba(244,114,182,0.07) 45%,transparent 70%)" : "radial-gradient(circle,rgba(192,38,211,0.08) 0%,rgba(244,114,182,0.03) 45%,transparent 70%)" }} animate={{ scale: [1, 1.09, 1], y: [0, -22, 0] }} transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 2 }} />
       </div>
 
       {!introPopupOpen && <StatusBadge dark={dark} badgeText={badgeText} />}
 
-      {/* ── Two-column grid (balanced on tablet, side-by-side on lg, expanded on 2xl) ── */}
+      {/* ── Main content ── */}
       <div className="relative z-10 w-full flex flex-col justify-start py-4 max-md:pt-[94px] max-md:pb-4 md:pt-[118px] lg:pt-[114px] xl:pt-[118px] 2xl:pt-[122px] pb-10 md:pb-14 2xl:pb-16">
         <div className="w-full max-w-container mx-auto px-4 md:px-6 2xl:px-12">
           <div className="w-full grid grid-cols-1 lg:grid-cols-[50%_50%] 2xl:grid-cols-[51%_49%] gap-6 lg:gap-8 2xl:gap-12 items-center">
-            {/* LEFT — 3D Interactive Text & Hologram Container */}
+
+            {/* LEFT column */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
@@ -582,469 +567,150 @@ export default function Hero() {
               onMouseLeave={handleMouseLeave}
               className="flex flex-col items-start md:items-center lg:items-start text-left md:text-center lg:text-left w-full gap-3 md:gap-3.5 2xl:gap-4.5 relative group perspective-[1000px] transform-gpu md:max-w-2xl lg:max-w-none md:mx-auto lg:mx-0"
             >
-
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.15 }}
-                className="max-md:mt-2 w-full"
-              >
-                <h1
-                  className="text-[21px] md:text-[28px] lg:text-[28px] xl:text-[32px] 2xl:text-[42px] 3xl:text-[48px] font-bold leading-[1.25] tracking-tight min-h-[1.25em] whitespace-normal 2xl:whitespace-nowrap"
-                  style={{ fontFamily: "'Syne',sans-serif" }}
-                >
-                  <WelcomeLine1
-                    count={line1Count}
-                    dark={dark}
-                    showCaret={welcomeTyping && line1Count < WELCOME_LINE1.length}
-                  />
+              <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }} className="max-md:mt-2 w-full">
+                <h1 className="text-[21px] md:text-[28px] lg:text-[28px] xl:text-[32px] 2xl:text-[42px] 3xl:text-[48px] font-bold leading-[1.25] tracking-tight min-h-[1.25em] whitespace-normal 2xl:whitespace-nowrap" style={{ fontFamily: "'Syne',sans-serif" }}>
+                  <WelcomeLine1 count={line1Count} dark={dark} showCaret={welcomeTyping && line1Count < WELCOME_LINE1.length} />
                 </h1>
-
                 {(line1Count >= WELCOME_LINE1.length || line2Count > 0) && (
-                  <p
-                    className={`mt-1.5 2xl:mt-3 text-[12px] md:text-[14px] xl:text-[16px] 2xl:text-[21px] 3xl:text-[23px] font-medium leading-[1.5] min-h-[1.5em] ${dark ? "text-white" : "text-slate-700"
-                      }`}
-                    style={{ fontFamily: "'Syne',sans-serif" }}
-                  >
-                   {WELCOME_LINE2.slice(0, line2Count)}
+                  <p className={`mt-1.5 2xl:mt-3 text-[12px] md:text-[14px] xl:text-[16px] 2xl:text-[21px] 3xl:text-[23px] font-medium leading-[1.5] min-h-[1.5em] ${dark ? "text-white" : "text-slate-700"}`} style={{ fontFamily: "'Syne',sans-serif" }}>
+                    {WELCOME_LINE2.slice(0, line2Count)}
                     {welcomeTyping && line1Count >= WELCOME_LINE1.length && line2Count < WELCOME_LINE2.length && (
-                      <span
-                        className={`caret-blink ml-0.5 inline-block h-[1em] w-[2px] shrink-0 rounded-sm align-[-0.05em] ${dark ? "bg-white" : "bg-slate-700"}`}
-                        aria-hidden="true"
-                      />
+                      <span className={`caret-blink ml-0.5 inline-block h-[1em] w-[2px] shrink-0 rounded-sm align-[-0.05em] ${dark ? "bg-white" : "bg-slate-700"}`} aria-hidden="true" />
                     )}
                   </p>
                 )}
-
                 {welcomeComplete && (
-                  <span
-                    className="mt-2 2xl:mt-3 block h-[3px] 2xl:h-[4px] w-12 2xl:w-16 rounded-full shadow-[0_0_12px_rgba(99,102,241,0.8)] animate-pulse md:mx-auto lg:mx-0"
-                    style={{ background: "linear-gradient(90deg,#00D4FF,#7C3AED,#F472B6)" }}
-                    aria-hidden="true"
-                  />
+                  <span className="mt-2 2xl:mt-3 block h-[3px] 2xl:h-[4px] w-12 2xl:w-16 rounded-full shadow-[0_0_12px_rgba(99,102,241,0.8)] animate-pulse md:mx-auto lg:mx-0" style={{ background: "linear-gradient(90deg,#00D4FF,#7C3AED,#F472B6)" }} aria-hidden="true" />
                 )}
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, delay: 0.32 }}
-                className="flex flex-wrap items-baseline md:justify-center lg:justify-start gap-x-1.5 gap-y-0.5 text-base md:text-lg xl:text-xl 2xl:text-[30px] 3xl:text-[34px] font-bold max-md:text-sm w-full 2xl:my-2"
-                style={{ fontFamily: "'Syne',sans-serif" }}
-              >
-                <span className={`shrink-0 ${dark ? "text-slate-400" : "text-slate-600"}`}>
-                  I am a
-                </span>
+              <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.32 }} className="flex flex-wrap items-baseline md:justify-center lg:justify-start gap-x-1.5 gap-y-0.5 text-base md:text-lg xl:text-xl 2xl:text-[30px] 3xl:text-[34px] font-bold max-md:text-sm w-full 2xl:my-2" style={{ fontFamily: "'Syne',sans-serif" }}>
+                <span className={`shrink-0 ${dark ? "text-slate-400" : "text-slate-600"}`}>I am a</span>
                 <span className="relative hidden md:inline-grid [grid-template-areas:'stack'] font-bold">
-                  <span
-                    className="[grid-area:stack] invisible whitespace-nowrap pointer-events-none select-none"
-                    aria-hidden="true"
-                  >
-                    {LONGEST_ROLE}
-                  </span>
+                  <span className="[grid-area:stack] invisible whitespace-nowrap pointer-events-none select-none" aria-hidden="true">{LONGEST_ROLE}</span>
                   <span className="[grid-area:stack] inline-flex items-baseline whitespace-nowrap">
-                    <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,212,255,0.3)] font-bold">
-                      {roleText}
-                    </span>
-                    <span
-                      className="caret-blink ml-0.5 inline-block h-[1.05em] w-[2px] shrink-0 rounded-sm bg-[#00D4FF]"
-                      aria-hidden="true"
-                    />
+                    <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,212,255,0.3)] font-bold">{roleText}</span>
+                    <span className="caret-blink ml-0.5 inline-block h-[1.05em] w-[2px] shrink-0 rounded-sm bg-[#00D4FF]" aria-hidden="true" />
                   </span>
                 </span>
                 <span className="inline-flex items-baseline md:hidden font-bold">
-                  <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,212,255,0.3)] font-bold">
-                    {roleText}
-                  </span>
-                  <span
-                    className="caret-blink ml-0.5 inline-block h-[1.05em] w-[2px] shrink-0 rounded-sm bg-[#00D4FF]"
-                    aria-hidden="true"
-                  />
+                  <span className="bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(0,212,255,0.3)] font-bold">{roleText}</span>
+                  <span className="caret-blink ml-0.5 inline-block h-[1.05em] w-[2px] shrink-0 rounded-sm bg-[#00D4FF]" aria-hidden="true" />
                 </span>
               </motion.div>
 
-              {/* Mobile — single paragraph, natural left-aligned wrap */}
-              <motion.p
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, delay: 0.42 }}
-                className={`md:hidden w-full max-w-full text-left text-[13px] leading-[1.8] tracking-normal ${dark ? "text-slate-400" : "text-slate-600"}`}
-                style={{ textAlign: "left", hyphens: "none" }}
-              >
-                I transform ideas into{" "}
-                <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
-                  high-performing digital&nbsp;experiences
-                </span>{" "}
-                that{" "}
-                <span className={dark ? "text-white" : ""}>
-                  help startups, businesses, and entrepreneurs grow
-                </span>
-                . I build{" "}
-                <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
-                  fast, scalable, and&nbsp;SEO-friendly
-                </span>{" "}
-                websites and web apps — from{" "}
-                <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
-                  landing pages to full-featured&nbsp;applications
-                </span>{" "}
-                — with clean code, modern design, and{" "}
-                <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
-                  long-term business&nbsp;growth
-                </span>{" "}
-                in mind.
+              {/* Mobile paragraph */}
+              <motion.p initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.42 }} className={`md:hidden w-full max-w-full text-left text-[13px] leading-[1.8] tracking-normal ${dark ? "text-slate-400" : "text-slate-600"}`} style={{ textAlign: "left", hyphens: "none" }}>
+                I transform ideas into{" "}<span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">high-performing digital&nbsp;experiences</span>{" "}that{" "}<span className={dark ? "text-white" : ""}>help startups, businesses, and entrepreneurs grow</span>. I build{" "}<span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">fast, scalable, and&nbsp;SEO-friendly</span>{" "}websites and web apps — from{" "}<span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>landing pages to full-featured&nbsp;applications</span>{" "}— with clean code, modern design, and{" "}<span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">long-term business&nbsp;growth</span>{" "}in mind.
               </motion.p>
 
-              {/* Desktop & Tablet — concise + 2 extra lines */}
-              <motion.p
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, delay: 0.42 }}
-                className={`hidden md:block w-full max-w-none text-left md:text-center lg:text-left text-[14.5px] xl:text-[16px] 2xl:text-[21px] 3xl:text-[23px] leading-[1.68] 2xl:leading-[1.78] tracking-normal text-pretty 2xl:max-w-[820px] ${dark ? "text-slate-400" : "text-slate-600"}`}
-              >
-                I transform ideas into{" "}
-                <span className="font-semibold bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent">
-                  high-performing digital experiences
-                </span>{" "}
-                that{" "}
-                <span className={dark ? "text-white" : ""}>
-                  help startups, businesses, and entrepreneurs grow
-                </span>
-                . Whether you&apos;re{" "}
-                <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
-                  launching a new business, designing a brand-new website, or redesigning an existing one,
-                </span>{" "}
-                I build{" "}
-                <span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">
-                  fast, scalable, and SEO-friendly
-                </span>{" "}
-                websites and web apps with clean code, modern design, and a seamless user experience. From{" "}
-                <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
-                  high-converting landing pages
-                </span>{" "}
-                to{" "}
-                <span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>
-                  full-featured web applications
-                </span>{" "}
-                — with{" "}
-                <span className="font-semibold bg-gradient-to-r from-[#00D4FF] to-[#7C3AED] bg-clip-text text-transparent">
-                  long-term business growth
-                </span>{" "}
-                in mind.
+              {/* Desktop paragraph */}
+              <motion.p initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, delay: 0.42 }} className={`hidden md:block w-full max-w-none text-left md:text-center lg:text-left text-[14.5px] xl:text-[16px] 2xl:text-[21px] 3xl:text-[23px] leading-[1.68] 2xl:leading-[1.78] tracking-normal text-pretty 2xl:max-w-[820px] ${dark ? "text-slate-400" : "text-slate-600"}`}>
+                I transform ideas into{" "}<span className="font-semibold bg-gradient-to-r from-[#00D4FF] via-[#7C3AED] to-[#F472B6] bg-clip-text text-transparent">high-performing digital experiences</span>{" "}that{" "}<span className={dark ? "text-white" : ""}>help startups, businesses, and entrepreneurs grow</span>. Whether you&apos;re{" "}<span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>launching a new business, designing a brand-new website, or redesigning an existing one,</span>{" "}I build{" "}<span className="font-semibold bg-gradient-to-r from-[#6366F1] to-[#7C3AED] bg-clip-text text-transparent">fast, scalable, and SEO-friendly</span>{" "}websites and web apps with clean code, modern design, and a seamless user experience. From{" "}<span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>high-converting landing pages</span>{" "}to{" "}<span className={`font-semibold ${dark ? "text-slate-200" : "text-slate-800"}`}>full-featured web applications</span>{" "}— with{" "}<span className="font-semibold bg-gradient-to-r from-[#00D4FF] to-[#7C3AED] bg-clip-text text-transparent">long-term business growth</span>{" "}in mind.
               </motion.p>
 
-              {/* Buttons — Ultra-World-Class 3D Glassmorphic Action Buttons */}
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.62 }}
-                className="flex flex-wrap items-center md:justify-center lg:justify-start gap-3.5 2xl:gap-5 mt-2 2xl:mt-4 max-md:w-full max-md:flex-row max-md:flex-nowrap max-md:gap-2 relative z-20 perspective-[1000px]"
-              >
-                {/* 3D Primary Button */}
-                <motion.a
-                  href="#contact"
-                  whileHover={{ y: -5, scale: 1.05, rotateX: -5, rotateY: 5 }}
-                  whileTap={{ y: 1, scale: 0.96 }}
-                  transition={{ type: "spring", stiffness: 350, damping: 15 }}
-                  className={`group relative inline-flex items-center gap-2.5 px-6 py-3 md:px-6 md:py-3 2xl:px-9 2xl:py-4.5 rounded-full font-bold text-sm xl:text-base 2xl:text-[18px] text-white transition-all duration-300 max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-2.5 max-md:text-xs overflow-hidden border ${dark
-                    ? "border-white/20 shadow-[0_8px_28px_rgba(0,212,255,0.45)] hover:shadow-[0_15px_42px_rgba(124,58,237,0.7)]"
-                    : "border-transparent shadow-[0_8px_25px_rgba(2,132,199,0.35)] hover:shadow-[0_12px_35px_rgba(37,99,235,0.5)]"
-                    }`}
-                  style={{
-                    background: dark
-                      ? "linear-gradient(135deg, #00D4FF 0%, #7C3AED 50%, #F472B6 100%)"
-                      : "linear-gradient(135deg, #0284C7 0%, #2563EB 50%, #7C3AED 100%)",
-                  }}
-                >
-                  {/* 3D Laser Beam Sweep */}
+              {/* Buttons */}
+              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.62 }} className="flex flex-wrap items-center md:justify-center lg:justify-start gap-3.5 2xl:gap-5 mt-2 2xl:mt-4 max-md:w-full max-md:flex-row max-md:flex-nowrap max-md:gap-2 relative z-20 perspective-[1000px]">
+                <motion.a href="#contact" whileHover={{ y: -5, scale: 1.05, rotateX: -5, rotateY: 5 }} whileTap={{ y: 1, scale: 0.96 }} transition={{ type: "spring", stiffness: 350, damping: 15 }} className={`group relative inline-flex items-center gap-2.5 px-6 py-3 md:px-6 md:py-3 2xl:px-9 2xl:py-4.5 rounded-full font-bold text-sm xl:text-base 2xl:text-[18px] text-white transition-all duration-300 max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-2.5 max-md:text-xs overflow-hidden border ${dark ? "border-white/20 shadow-[0_8px_28px_rgba(0,212,255,0.45)] hover:shadow-[0_15px_42px_rgba(124,58,237,0.7)]" : "border-transparent shadow-[0_8px_25px_rgba(2,132,199,0.35)] hover:shadow-[0_12px_35px_rgba(37,99,235,0.5)]"}`} style={{ background: dark ? "linear-gradient(135deg,#00D4FF 0%,#7C3AED 50%,#F472B6 100%)" : "linear-gradient(135deg,#0284C7 0%,#2563EB 50%,#7C3AED 100%)" }}>
                   <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-1000 ease-out pointer-events-none" />
-                  <span className="relative z-10 flex items-center gap-2">
-                    Get In Touch <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1.5 group-hover:scale-110" />
-                  </span>
+                  <span className="relative z-10 flex items-center gap-2">Get In Touch <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1.5 group-hover:scale-110" /></span>
                 </motion.a>
-
-                {/* 3D Secondary Glass Button */}
-                <motion.a
-                  href="#"
-                  whileHover={{ y: -5, scale: 1.05, rotateX: -5, rotateY: -5 }}
-                  whileTap={{ y: 1, scale: 0.96 }}
-                  transition={{ type: "spring", stiffness: 350, damping: 15 }}
-                  className={`group relative inline-flex items-center gap-2.5 px-6 py-3 md:px-6 md:py-3 2xl:px-9 2xl:py-4.5 rounded-full font-bold text-sm xl:text-base 2xl:text-[18px] transition-all duration-300 border max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-2.5 max-md:text-xs max-md:whitespace-nowrap overflow-hidden ${dark
-                    ? "border-cyan-400/40 text-cyan-300 bg-[#141B2D]/90 hover:border-cyan-400 hover:bg-cyan-500/20 shadow-[0_8px_25px_rgba(0,0,0,0.5)] hover:shadow-[0_12px_32px_rgba(0,212,255,0.35)]"
-                    : "border-slate-300 text-slate-800 bg-white hover:border-blue-600 hover:bg-blue-50/90 shadow-md hover:shadow-xl font-bold"
-                    }`}
-                >
+                <motion.a href="#" whileHover={{ y: -5, scale: 1.05, rotateX: -5, rotateY: -5 }} whileTap={{ y: 1, scale: 0.96 }} transition={{ type: "spring", stiffness: 350, damping: 15 }} className={`group relative inline-flex items-center gap-2.5 px-6 py-3 md:px-6 md:py-3 2xl:px-9 2xl:py-4.5 rounded-full font-bold text-sm xl:text-base 2xl:text-[18px] transition-all duration-300 border max-md:flex-1 max-md:justify-center max-md:gap-1.5 max-md:px-3.5 max-md:py-2.5 max-md:text-xs max-md:whitespace-nowrap overflow-hidden ${dark ? "border-cyan-400/40 text-cyan-300 bg-[#141B2D]/90 hover:border-cyan-400 hover:bg-cyan-500/20 shadow-[0_8px_25px_rgba(0,0,0,0.5)] hover:shadow-[0_12px_32px_rgba(0,212,255,0.35)]" : "border-slate-300 text-slate-800 bg-white hover:border-blue-600 hover:bg-blue-50/90 shadow-md hover:shadow-xl font-bold"}`}>
                   <span className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-1000 ease-out pointer-events-none" />
-                  <span className="relative z-10 flex items-center gap-2">
-                    <FaDownload className="text-xs transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110" /> Download Resume
-                  </span>
+                  <span className="relative z-10 flex items-center gap-2"><FaDownload className="text-xs transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110" /> Download Resume</span>
                 </motion.a>
               </motion.div>
 
-              {/* Socials — 3D Key-Card Interactive Spring Icons */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.75 }}
-                className="mt-6 md:mt-4 2xl:mt-4.5 flex w-full flex-wrap items-center justify-start md:justify-center lg:justify-start gap-3.5 2xl:gap-5 max-md:justify-center max-md:mx-auto max-md:mb-2 perspective-[1000px]"
-              >
+              {/* Socials */}
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.75 }} className="mt-6 md:mt-4 2xl:mt-4.5 flex w-full flex-wrap items-center justify-start md:justify-center lg:justify-start gap-3.5 2xl:gap-5 max-md:justify-center max-md:mx-auto max-md:mb-2 perspective-[1000px]">
                 {SOCIALS.map((s, i) => (
-                  <motion.a
-                    key={i}
-                    href={s.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={s.label}
-                    title={s.label}
+                  <motion.a key={i} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label} title={s.label}
                     initial={{ opacity: 0, y: 16, scale: 0.75 }}
-                    animate={{
-                      opacity: 1,
-                      y: [0, -4, 0],
-                      scale: 1,
-                    }}
-                    transition={{
-                      opacity: { delay: 0.78 + i * 0.08, duration: 0.5 },
-                      scale: { delay: 0.78 + i * 0.08, duration: 0.5 },
-                      y: {
-                        duration: 3.2 + i * 0.35,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: i * 0.15,
-                      },
-                    }}
-                    whileHover={{ y: -10, scale: 1.28, rotateX: 20, rotateY: -18, rotateZ: 5 }}
-                    whileTap={{ scale: 0.88 }}
-                    className="group relative flex h-11 w-11 xl:h-12 xl:w-12 2xl:h-15 2xl:w-15 items-center justify-center rounded-2xl 2xl:rounded-2xl text-[20px] xl:text-[22px] 2xl:text-[26px] text-white border transition-all duration-300 transform-gpu shadow-lg"
-                    style={{
-                      background: s.bg,
-                      borderColor: s.border,
-                      boxShadow: `0 6px 18px ${s.glow}`,
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.borderColor = s.hoverBorder;
-                      e.currentTarget.style.boxShadow = `0 0 32px ${s.glow}, 0 12px 28px ${s.glow}`;
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.borderColor = s.border;
-                      e.currentTarget.style.boxShadow = `0 6px 18px ${s.glow}`;
-                    }}
+                    animate={{ opacity: 1, y: [0, -4, 0], scale: 1 }}
+                    transition={{ opacity: { delay: 0.78 + i * 0.08, duration: 0.5 }, scale: { delay: 0.78 + i * 0.08, duration: 0.5 }, y: { duration: 3.2 + i * 0.35, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 } }}
+                    whileHover={{ y: -10, scale: 1.28, rotateX: 20, rotateY: -18, rotateZ: 5 }} whileTap={{ scale: 0.88 }}
+                    className="group relative flex h-11 w-11 xl:h-12 xl:w-12 2xl:h-15 2xl:w-15 items-center justify-center rounded-2xl text-[20px] xl:text-[22px] 2xl:text-[26px] text-white border transition-all duration-300 transform-gpu shadow-lg"
+                    style={{ background: s.bg, borderColor: s.border, boxShadow: `0 6px 18px ${s.glow}` }}
+                    onMouseEnter={e => { e.currentTarget.style.borderColor = s.hoverBorder; e.currentTarget.style.boxShadow = `0 0 32px ${s.glow},0 12px 28px ${s.glow}`; }}
+                    onMouseLeave={e => { e.currentTarget.style.borderColor = s.border; e.currentTarget.style.boxShadow = `0 6px 18px ${s.glow}`; }}
                   >
-                    {/* 3D Glowing Halo Ring */}
-                    <span
-                      className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-130"
-                      style={{ boxShadow: `0 0 28px ${s.glow}` }}
-                    />
+                    <span className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-130" style={{ boxShadow: `0 0 28px ${s.glow}` }} />
                     <span className="relative z-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-120 group-hover:rotate-6">{s.icon}</span>
                   </motion.a>
                 ))}
               </motion.div>
             </motion.div>
 
-            {/* RIGHT – Laptop */}
+            {/* RIGHT column — Laptop only */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.85, delay: 0.3 }}
-              className="flex w-full items-center justify-center max-md:mt-6 max-md:pt-2 max-md:-mx-3 max-md:w-[calc(100%+1.5rem)] md:mt-6 lg:mt-0"
+              className="flex flex-col w-full items-center justify-center max-md:mt-6 max-md:pt-2 max-md:-mx-3 max-md:w-[calc(100%+1.5rem)] md:mt-6 lg:mt-0"
             >
+              {/* Laptop mockup */}
               <div className="relative w-full max-md:max-w-[calc(100vw-1rem)] md:max-w-[640px] lg:max-w-[680px] xl:max-w-[730px] 2xl:max-w-[800px] 3xl:max-w-[850px] mx-auto">
-                {/* Glow — stronger in dark mode so laptop reads off the bg */}
-                <div
-                  className="absolute pointer-events-none"
-                  style={{
-                    inset: dark ? "-28px" : "-20px",
-                    background: dark
-                      ? "radial-gradient(ellipse at 50% 55%,rgba(99,102,241,0.55) 0%,rgba(124,58,237,0.28) 42%,transparent 72%)"
-                      : "radial-gradient(ellipse at 50% 55%,rgba(99,102,241,0.38) 0%,rgba(124,58,237,0.18) 40%,transparent 70%)",
-                    filter: "blur(45px)",
-                  }}
-                />
-                <div
-                  className="absolute pointer-events-none"
-                  style={{
-                    bottom: -30,
-                    left: "10%",
-                    right: "10%",
-                    height: 60,
-                    background: dark ? "rgba(124,58,237,0.45)" : "rgba(192,38,211,0.35)",
-                    filter: "blur(30px)",
-                    borderRadius: "50%",
-                  }}
-                />
+                {/* Glow */}
+                <div className="absolute pointer-events-none" style={{ inset: dark ? "-28px" : "-20px", background: dark ? "radial-gradient(ellipse at 50% 55%,rgba(99,102,241,0.55) 0%,rgba(124,58,237,0.28) 42%,transparent 72%)" : "radial-gradient(ellipse at 50% 55%,rgba(99,102,241,0.38) 0%,rgba(124,58,237,0.18) 40%,transparent 70%)", filter: "blur(45px)" }} />
+                <div className="absolute pointer-events-none" style={{ bottom: -30, left: "10%", right: "10%", height: 60, background: dark ? "rgba(124,58,237,0.45)" : "rgba(192,38,211,0.35)", filter: "blur(30px)", borderRadius: "50%" }} />
 
                 {/* Floating laptop */}
-                <motion.div
-                  animate={{ y: [0, -14, 0] }}
-                  transition={{
-                    duration: 4.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  whileHover={{ rotateY: 5, rotateX: -2, scale: 1.02 }}
-                  style={{ transformStyle: "preserve-3d", perspective: 1200 }}
-                >
+                <motion.div animate={{ y: [0, -14, 0] }} transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }} whileHover={{ rotateY: 5, rotateX: -2, scale: 1.02 }} style={{ transformStyle: "preserve-3d", perspective: 1200 }}>
                   {/* Lid */}
-                  <div
-                    className={`relative w-full rounded-[18px] overflow-hidden max-md:rounded-[12px] p-[6px] pb-0 max-md:p-[3px] max-md:pb-0 ${dark
-                      ? "border border-white/[0.16] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_0_40px_rgba(99,102,241,0.22),0_24px_64px_rgba(0,0,0,0.55)]"
-                      : ""
-                      }`}
-                    style={{
-                      background: dark
-                        ? "linear-gradient(to bottom,#4a5168 0%,#3a4058 40%,#2f354a 75%,#262b3d 100%)"
-                        : "linear-gradient(to bottom,#cdd0e0,#b0b5c8)",
-                      boxShadow: dark
-                        ? undefined
-                        : "0 32px 80px rgba(0,0,0,0.22),0 0 0 1px rgba(255,255,255,0.6)",
-                    }}
-                  >
-                    {/* Traffic lights + camera */}
-                    <div
-                      className={`flex items-center justify-between px-3 py-1.5 ${dark ? "bg-[#2a2f42]/80" : ""}`}
-                    >
+                  <div className={`relative w-full rounded-[18px] overflow-hidden max-md:rounded-[12px] p-[6px] pb-0 max-md:p-[3px] max-md:pb-0 ${dark ? "border border-white/[0.16] shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_0_40px_rgba(99,102,241,0.22),0_24px_64px_rgba(0,0,0,0.55)]" : ""}`} style={{ background: dark ? "linear-gradient(to bottom,#4a5168 0%,#3a4058 40%,#2f354a 75%,#262b3d 100%)" : "linear-gradient(to bottom,#cdd0e0,#b0b5c8)", boxShadow: dark ? undefined : "0 32px 80px rgba(0,0,0,0.22),0 0 0 1px rgba(255,255,255,0.6)" }}>
+                    {/* Traffic lights */}
+                    <div className={`flex items-center justify-between px-3 py-1.5 ${dark ? "bg-[#2a2f42]/80" : ""}`}>
                       <div className="flex gap-1.5">
                         <div className="h-2 w-2 rounded-full bg-[#ff5f57]" />
                         <div className="h-2 w-2 rounded-full bg-[#febc2e]" />
                         <div className="h-2 w-2 rounded-full bg-[#28c840]" />
                       </div>
-                      <div
-                        className={`h-1.5 w-1.5 rounded-full ${dark ? "bg-slate-600" : "bg-slate-400"}`}
-                      />
+                      <div className={`h-1.5 w-1.5 rounded-full ${dark ? "bg-slate-600" : "bg-slate-400"}`} />
                       <div className="w-10" />
                     </div>
-
                     {/* Screen */}
-                    <div
-                      className={`w-full rounded-t-xl overflow-hidden max-md:rounded-lg relative aspect-[16/10] ${dark ? "ring-1 ring-inset ring-white/[0.12] shadow-inner" : ""
-                        }`}
-                      style={dark ? { boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)" } : undefined}
-                    >
-                      <div className="absolute inset-0 w-full h-full">
-                        <LaptopScreen speechFinished={speechFinished} />
-                      </div>
-                      <div
-                        className="absolute top-0 left-0 right-0 h-1/3 z-10 pointer-events-none"
-                        style={{
-                          background:
-                            "linear-gradient(180deg,rgba(255,255,255,0.06) 0%,transparent 100%)",
-                        }}
-                      />
+                    <div className={`w-full rounded-t-xl overflow-hidden max-md:rounded-lg relative aspect-[16/10] ${dark ? "ring-1 ring-inset ring-white/[0.12] shadow-inner" : ""}`} style={dark ? { boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)" } : undefined}>
+                      <div className="absolute inset-0 w-full h-full"><LaptopScreen speechFinished={speechFinished} /></div>
+                      <div className="absolute top-0 left-0 right-0 h-1/3 z-10 pointer-events-none" style={{ background: "linear-gradient(180deg,rgba(255,255,255,0.06) 0%,transparent 100%)" }} />
                     </div>
                   </div>
-
                   {/* Base */}
-                  <div
-                    className="mx-auto h-[10px]"
-                    style={{
-                      width: "96%",
-                      background: dark
-                        ? "linear-gradient(to bottom,#3a4058,#2f354a)"
-                        : "linear-gradient(to bottom,#b8bcc8,#9a9eb2)",
-                    }}
-                  />
-                  <div
-                    className="mx-auto h-[7px] rounded-b-2xl"
-                    style={{
-                      width: "82%",
-                      background: dark
-                        ? "linear-gradient(to bottom,#2f354a,#252a3a)"
-                        : "linear-gradient(to bottom,#9a9eb2,#7e8295)",
-                    }}
-                  />
+                  <div className="mx-auto h-[10px]" style={{ width: "96%", background: dark ? "linear-gradient(to bottom,#3a4058,#2f354a)" : "linear-gradient(to bottom,#b8bcc8,#9a9eb2)" }} />
+                  <div className="mx-auto h-[7px] rounded-b-2xl" style={{ width: "82%", background: dark ? "linear-gradient(to bottom,#2f354a,#252a3a)" : "linear-gradient(to bottom,#9a9eb2,#7e8295)" }} />
                 </motion.div>
               </div>
             </motion.div>
+
           </div>
         </div>
+
+        {/* ── Dev Wisdom strip — bottom of hero, full-width centered ── */}
+        <HeroQuoteStrip dark={dark} />
       </div>
 
       {/* ── Chat widget — fixed bottom-right ── */}
       <div className="fixed right-4 bottom-4 z-[10000] flex flex-col items-end gap-3 sm:right-6 sm:bottom-6">
         {contactOpen && (
-          <div
-            className={`w-[300px] rounded-[32px] border p-3 shadow-2xl backdrop-blur-xl ${dark
-              ? "border-white/10 bg-[#2A2A3C] text-white shadow-[0_12px_48px_rgba(0,0,0,0.55)]"
-              : "border-slate-200 bg-white text-slate-900"
-              }`}
-          >
+          <div className={`w-[300px] rounded-[32px] border p-3 shadow-2xl backdrop-blur-xl ${dark ? "border-white/10 bg-[#2A2A3C] text-white shadow-[0_12px_48px_rgba(0,0,0,0.55)]" : "border-slate-200 bg-white text-slate-900"}`}>
             <div className="flex flex-col gap-3">
-              {/* Call */}
-              <button
-                type="button"
-                onClick={() => window.open(callUrl, "_self")}
-                className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition ${dark
-                  ? "border-white/10 bg-white/[0.05] text-white hover:border-[#00D4FF]/50 hover:bg-[#00D4FF]/10"
-                  : "border-slate-200 bg-white text-slate-900 hover:border-[#00D4FF] hover:bg-[#EFF8FF]"
-                  }`}
-              >
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#00D4FF]/15 text-[#00D4FF]">
-                  <FaPhoneAlt />
-                </span>
-                <div>
-                  <div className="text-sm font-semibold">Call Us</div>
-                  <div className={`text-xs ${dark ? "text-slate-400" : "text-slate-500"}`}>7024073871</div>
-                </div>
+              <button type="button" onClick={() => window.open(callUrl, "_self")} className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition ${dark ? "border-white/10 bg-white/[0.05] text-white hover:border-[#00D4FF]/50 hover:bg-[#00D4FF]/10" : "border-slate-200 bg-white text-slate-900 hover:border-[#00D4FF] hover:bg-[#EFF8FF]"}`}>
+                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#00D4FF]/15 text-[#00D4FF]"><FaPhoneAlt /></span>
+                <div><div className="text-sm font-semibold">Call Us</div><div className={`text-xs ${dark ? "text-slate-400" : "text-slate-500"}`}>7024073871</div></div>
               </button>
-              {/* WhatsApp */}
-              <button
-                type="button"
-                onClick={() => window.open(whatsappUrl, "_blank")}
-                className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition ${dark
-                  ? "border-white/10 bg-white/[0.05] text-white hover:border-[#25D366]/50 hover:bg-[#25D366]/10"
-                  : "border-slate-200 bg-white text-slate-900 hover:border-[#25D366] hover:bg-[#ECFFF2]"
-                  }`}
-              >
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#25D366]/15 text-[#25D366]">
-                  <FaWhatsapp />
-                </span>
-                <div>
-                  <div className="text-sm font-semibold">WhatsApp</div>
-                  <div className={`text-xs ${dark ? "text-slate-400" : "text-slate-500"}`}>7024073871</div>
-                </div>
+              <button type="button" onClick={() => window.open(whatsappUrl, "_blank")} className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition ${dark ? "border-white/10 bg-white/[0.05] text-white hover:border-[#25D366]/50 hover:bg-[#25D366]/10" : "border-slate-200 bg-white text-slate-900 hover:border-[#25D366] hover:bg-[#ECFFF2]"}`}>
+                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#25D366]/15 text-[#25D366]"><FaWhatsapp /></span>
+                <div><div className="text-sm font-semibold">WhatsApp</div><div className={`text-xs ${dark ? "text-slate-400" : "text-slate-500"}`}>7024073871</div></div>
               </button>
-              {/* Callback */}
-              <button
-                type="button"
-                onClick={() => {
-                  setCallbackOpen(true);
-                  setContactOpen(false);
-                }}
-                className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition ${dark
-                  ? "border-white/10 bg-white/[0.05] text-white hover:border-[#F6B93B]/50 hover:bg-[#F6B93B]/10"
-                  : "border-slate-200 bg-white text-slate-900 hover:border-[#F6B93B] hover:bg-[#FFF4E2]"
-                  }`}
-              >
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#F6B93B]/15 text-[#F6B93B]">
-                  <FaCommentDots />
-                </span>
-                <div>
-                  <div className="text-sm font-semibold">
-                    Request a Callback
-                  </div>
-                  <div className={`text-xs ${dark ? "text-slate-400" : "text-slate-500"}`}>
-                    Quick response guaranteed
-                  </div>
-                </div>
+              <button type="button" onClick={() => { setCallbackOpen(true); setContactOpen(false); }} className={`flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition ${dark ? "border-white/10 bg-white/[0.05] text-white hover:border-[#F6B93B]/50 hover:bg-[#F6B93B]/10" : "border-slate-200 bg-white text-slate-900 hover:border-[#F6B93B] hover:bg-[#FFF4E2]"}`}>
+                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#F6B93B]/15 text-[#F6B93B]"><FaCommentDots /></span>
+                <div><div className="text-sm font-semibold">Request a Callback</div><div className={`text-xs ${dark ? "text-slate-400" : "text-slate-500"}`}>Quick response guaranteed</div></div>
               </button>
             </div>
           </div>
         )}
-
         <div className="relative">
-          {!contactOpen && (
-            <span className="absolute inset-0 rounded-full bg-[#00D4FF]/40 animate-ping" />
-          )}
-          <button
-            type="button"
-            onClick={() => setContactOpen((p) => !p)}
-            aria-label={contactOpen ? "Close chat" : "Open chat"}
-            className="relative flex h-20 w-20 items-center justify-center rounded-full text-3xl transition-all duration-300 hover:scale-110 active:scale-95 text-white"
-            style={{
-              background: "linear-gradient(135deg,#00D4FF,#7C3AED,#C026D3)",
-              boxShadow: dark
-                ? "0 8px 35px rgba(124,58,237,0.65)"
-                : "0 8px 35px rgba(124,58,237,0.55)",
-            }}
-          >
+          {!contactOpen && <span className="absolute inset-0 rounded-full bg-[#00D4FF]/40 animate-ping" />}
+          <button type="button" onClick={() => setContactOpen((p) => !p)} aria-label={contactOpen ? "Close chat" : "Open chat"} className="relative flex h-20 w-20 items-center justify-center rounded-full text-3xl transition-all duration-300 hover:scale-110 active:scale-95 text-white" style={{ background: "linear-gradient(135deg,#00D4FF,#7C3AED,#C026D3)", boxShadow: dark ? "0 8px 35px rgba(124,58,237,0.65)" : "0 8px 35px rgba(124,58,237,0.55)" }}>
             <FaRobot style={{ fontSize: 34 }} />
           </button>
           {!contactOpen && (
@@ -1058,102 +724,33 @@ export default function Hero() {
 
       {callbackOpen && (
         <div className="fixed right-4 bottom-24 z-[10000] sm:right-6 sm:bottom-24">
-          <div
-            className={`w-[300px] rounded-[28px] border p-3 shadow-xl backdrop-blur-xl ${dark
-              ? "border-white/10 bg-[#2A2A3C] text-white shadow-[0_12px_48px_rgba(0,0,0,0.55)]"
-              : "border-slate-200 bg-white text-slate-900"
-              }`}
-          >
+          <div className={`w-[300px] rounded-[28px] border p-3 shadow-xl backdrop-blur-xl ${dark ? "border-white/10 bg-[#2A2A3C] text-white shadow-[0_12px_48px_rgba(0,0,0,0.55)]" : "border-slate-200 bg-white text-slate-900"}`}>
             <div className={`rounded-[10px] p-3.5 ${dark ? "border border-[#F7C948]/20 bg-[#F7C948]/10" : "bg-[#F7C948]/10"}`}>
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <p className="text-sm font-semibold">Request a Callback</p>
-                  <p className={`mt-1 text-[11px] ${dark ? "text-slate-400" : "text-slate-600"}`}>
-                    Enter details and we'll call you shortly.
-                  </p>
+                  <p className={`mt-1 text-[11px] ${dark ? "text-slate-400" : "text-slate-600"}`}>Enter details and we'll call you shortly.</p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => { setCallbackOpen(false); setCbSuccess(false); setCbError(""); }}
-                  className={`flex h-9 w-9 items-center justify-center rounded-full border transition ${dark
-                    ? "border-white/10 bg-white/[0.06] text-slate-300 hover:bg-white/10"
-                    : "border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
-                    }`}
-                >
+                <button type="button" onClick={() => { setCallbackOpen(false); setCbSuccess(false); setCbError(""); }} className={`flex h-9 w-9 items-center justify-center rounded-full border transition ${dark ? "border-white/10 bg-white/[0.06] text-slate-300 hover:bg-white/10" : "border-slate-200 bg-white text-slate-700 hover:bg-slate-100"}`}>
                   <FaTimes />
                 </button>
               </div>
             </div>
-
-            {/* ── Success State ── */}
             {cbSuccess ? (
               <div className="mt-4 flex flex-col items-center gap-2 py-4 text-center">
                 <span className="text-3xl">✅</span>
                 <p className="text-sm font-semibold text-emerald-500">Request Sent!</p>
-                <p className={`text-[11px] ${dark ? "text-slate-400" : "text-slate-500"}`}>
-                  We'll call you back shortly.
-                </p>
+                <p className={`text-[11px] ${dark ? "text-slate-400" : "text-slate-500"}`}>We'll call you back shortly.</p>
               </div>
             ) : (
-              <form
-                onSubmit={handleCallbackSubmit}
-                className="mt-3 space-y-2.5"
-              >
-                <input
-                  name="name"
-                  required
-                  placeholder="Name"
-                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
-                    ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                    : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                    }`}
-                />
-                <input
-                  name="phone"
-                  type="tel"
-                  required
-                  placeholder="Phone No"
-                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
-                    ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                    : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                    }`}
-                />
-                <input
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="Email"
-                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
-                    ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                    : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                    }`}
-                />
-                <textarea
-                  name="message"
-                  rows={2}
-                  placeholder="Your Message (optional)"
-                  className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark
-                    ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25"
-                    : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"
-                    }`}
-                />
-
-                {/* Error message */}
-                {cbError && (
-                  <p className="text-[11px] text-red-500 font-medium">{cbError}</p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={cbLoading}
-                  className="w-full rounded-lg bg-[#F7C948] px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-[#e8c23c] transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                >
-                  {cbLoading ? (
-                    <>
-                      <span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-700 border-t-transparent" />
-                      Sending...
-                    </>
-                  ) : "Submit Request"}
+              <form onSubmit={handleCallbackSubmit} className="mt-3 space-y-2.5">
+                <input name="name" required placeholder="Name" className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25" : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"}`} />
+                <input name="phone" type="tel" required placeholder="Phone No" className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25" : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"}`} />
+                <input name="email" type="email" required placeholder="Email" className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25" : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"}`} />
+                <textarea name="message" rows={2} placeholder="Your Message (optional)" className={`w-full rounded-lg border px-3.5 py-2 text-sm outline-none transition focus:ring-2 ${dark ? "border-white/10 bg-white/[0.04] text-white placeholder:text-slate-500 focus:border-[#F7C948] focus:ring-[#F7C948]/25" : "border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:border-[#F7C948] focus:ring-[#F7C948]/20"}`} />
+                {cbError && <p className="text-[11px] text-red-500 font-medium">{cbError}</p>}
+                <button type="submit" disabled={cbLoading} className="w-full rounded-lg bg-[#F7C948] px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-[#e8c23c] transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                  {cbLoading ? (<><span className="inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-slate-700 border-t-transparent" />Sending...</>) : "Submit Request"}
                 </button>
               </form>
             )}
