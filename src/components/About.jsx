@@ -321,22 +321,23 @@ export default function About() {
           </p>
         </motion.div>
 
-        {/* Metric cards — mobile carousel */}
-        <div className="sm:hidden -mx-4 py-1">
+        {/* Metric cards — mobile continuous smooth carousel */}
+        <div className="sm:hidden -mx-4 py-1 overflow-hidden">
           <Swiper
-            modules={[Autoplay, FreeMode]}
+            modules={[Autoplay]}
             spaceBetween={12}
             slidesPerView="auto"
-            freeMode={true}
-            grabCursor={true}
+            loop={true}
+            speed={12000}
             autoplay={{
-              delay: 2600,
+              delay: 0,
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
-            className="w-full !px-0"
+            grabCursor={true}
+            className="w-full !px-0 [&_.swiper-wrapper]:!ease-linear [&_.swiper-wrapper]:![transition-timing-function:linear]"
           >
-            {coreMetrics.map((m, idx) => (
+            {[...coreMetrics, ...coreMetrics, ...coreMetrics].map((m, idx) => (
               <SwiperSlide key={idx} className="!w-auto">
                 <MetricCard metric={m} dark={dark} compact />
               </SwiperSlide>
