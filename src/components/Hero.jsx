@@ -116,15 +116,20 @@ const ACCENT_COLORS = [
 ];
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // ── Hero Bottom Quote Strip — centered, beautifully styled, clean & subtle ───────────────
 function HeroQuoteStrip({ dark }) {
 =======
 function useFloatingQuote() {
 >>>>>>> b1355b10cd1d1747d2d766eaa56cf81818e5e7a2
+=======
+function useFloatingQuote() {
+>>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
   const [quote, setQuote] = useState(() => peekNextQuote());
   const [visible, setVisible] = useState(true);
   const [accentIdx, setAccentIdx] = useState(0);
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   const accent = ACCENT_COLORS[accentIdx];
 
@@ -145,6 +150,8 @@ function useFloatingQuote() {
     return () => clearInterval(interval);
   }, [quote]);
 =======
+=======
+>>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
   useEffect(() => {
     // Show each quote for 5.5 s, then slide out for 0.5 s, then swap
     const showTimer = setInterval(() => {
@@ -172,12 +179,16 @@ function HeroQuoteStrip({ dark }) {
     setClicked(true);
     setTimeout(() => setClicked(false), 400);
   };
+<<<<<<< HEAD
 >>>>>>> b1355b10cd1d1747d2d766eaa56cf81818e5e7a2
+=======
+>>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
+<<<<<<< HEAD
 <<<<<<< HEAD
       transition={{ duration: 0.7, delay: 1.0 }}
       className="w-full mt-10 md:mt-14 px-4 md:px-6 2xl:px-12"
@@ -213,6 +224,8 @@ function HeroQuoteStrip({ dark }) {
                 : "linear-gradient(to left, transparent, rgba(168, 85, 247, 0.3), rgba(0, 0, 0, 0.08))",
             }}
 =======
+=======
+>>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
       transition={{ duration: 0.7, delay: 1.1 }}
       className="w-full mt-10 md:mt-14 px-4 md:px-6 2xl:px-12"
     >
@@ -229,12 +242,16 @@ function HeroQuoteStrip({ dark }) {
           <div
             className="flex-1 h-px"
             style={{ background: dark ? "linear-gradient(to left, transparent, rgba(255,255,255,0.08))" : "linear-gradient(to left, transparent, rgba(0,0,0,0.08))" }}
+<<<<<<< HEAD
 >>>>>>> b1355b10cd1d1747d2d766eaa56cf81818e5e7a2
+=======
+>>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
           />
         </div>
 
         {/* Clickable quote area */}
         <motion.div
+<<<<<<< HEAD
 <<<<<<< HEAD
           onClick={advanceQuote}
           whileTap={{ scale: 0.99 }}
@@ -296,6 +313,8 @@ function HeroQuoteStrip({ dark }) {
             </AnimatePresence>
           </div>
 =======
+=======
+>>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
           onClick={handleClick}
           whileTap={{ scale: 0.98 }}
           className="relative flex flex-col items-center text-center cursor-pointer select-none group"
@@ -367,7 +386,10 @@ function HeroQuoteStrip({ dark }) {
               />
             )}
           </AnimatePresence>
+<<<<<<< HEAD
 >>>>>>> b1355b10cd1d1747d2d766eaa56cf81818e5e7a2
+=======
+>>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
         </motion.div>
       </div>
     </motion.div>
