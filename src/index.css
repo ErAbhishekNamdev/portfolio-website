@@ -285,6 +285,13 @@ html.light .card-glow:hover {
   }
 }
 
+@media (min-width: 1536px) {
+  .tech-orbit-ring {
+    --orbit-radius: 197px;
+    --orbit-icon-size: 50px;
+  }
+}
+
 .tech-orbit-icon {
   width: var(--orbit-icon-size);
   height: var(--orbit-icon-size);
