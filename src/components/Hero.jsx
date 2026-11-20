@@ -12,6 +12,7 @@ import {
   FaTimes,
   FaRobot,
   FaEnvelope,
+  FaQuoteLeft,
 } from "react-icons/fa";
 import { useTheme } from "../ThemeContext";
 import LaptopScreen from "./LaptopScreen";
@@ -114,135 +115,132 @@ const ACCENT_COLORS = [
   "#00D4FF", "#7C3AED", "#F472B6", "#10B981", "#F59E0B", "#6366F1", "#C026D3", "#38BDF8",
 ];
 
-function useFloatingQuote() {
+// ── Hero Bottom Quote Strip — centered, beautifully styled, clean & subtle ───────────────
+function HeroQuoteStrip({ dark }) {
   const [quote, setQuote] = useState(() => peekNextQuote());
   const [visible, setVisible] = useState(true);
   const [accentIdx, setAccentIdx] = useState(0);
 
-  useEffect(() => {
-    // Show each quote for 5.5 s, then slide out for 0.5 s, then swap
-    const showTimer = setInterval(() => {
-      setVisible(false);
-      setTimeout(() => {
-        const next = consumeNextQuote();
-        setQuote(next);
-        setAccentIdx((i) => (i + 1) % ACCENT_COLORS.length);
-        setVisible(true);
-      }, 520);
-    }, 6000);
+  const accent = ACCENT_COLORS[accentIdx];
 
-    return () => clearInterval(showTimer);
-  }, []);
-
-  return { quote, visible, accent: ACCENT_COLORS[accentIdx] };
-}
-
-// ── Hero Bottom Quote Strip — centered, full-width, interactive ───────────────
-function HeroQuoteStrip({ dark }) {
-  const { quote, visible, accent } = useFloatingQuote();
-  const [clicked, setClicked] = useState(false);
-
-  const handleClick = () => {
-    setClicked(true);
-    setTimeout(() => setClicked(false), 400);
+  const advanceQuote = () => {
+    setVisible(false);
+    setTimeout(() => {
+      const next = consumeNextQuote();
+      setQuote(next);
+      setAccentIdx((i) => (i + 1) % ACCENT_COLORS.length);
+      setVisible(true);
+    }, 220);
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      advanceQuote();
+    }, 6500);
+    return () => clearInterval(interval);
+  }, [quote]);
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay: 1.1 }}
+      transition={{ duration: 0.7, delay: 1.0 }}
       className="w-full mt-10 md:mt-14 px-4 md:px-6 2xl:px-12"
     >
       <div className="w-full max-w-container mx-auto">
-        {/* Divider */}
-        <div className="flex items-center gap-4 mb-6">
+        {/* Modern Section Divider & Tag */}
+        <div className="flex items-center justify-center gap-3 sm:gap-5 mb-6 sm:mb-8">
           <div
             className="flex-1 h-px"
-            style={{ background: dark ? "linear-gradient(to right, transparent, rgba(255,255,255,0.08))" : "linear-gradient(to right, transparent, rgba(0,0,0,0.08))" }}
+            style={{
+              background: dark
+                ? "linear-gradient(to right, transparent, rgba(0, 212, 255, 0.3), rgba(255, 255, 255, 0.1))"
+                : "linear-gradient(to right, transparent, rgba(2, 132, 199, 0.3), rgba(0, 0, 0, 0.08))",
+            }}
           />
-          <span className={`shrink-0 text-[10px] font-bold tracking-[0.2em] uppercase ${dark ? "text-slate-500" : "text-slate-400"}`}>
+
+          <span
+            className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold tracking-[3px] uppercase border transition-all duration-300 ${
+              dark
+                ? "bg-cyan-500/10 border-cyan-500/25 text-[#00D4FF]"
+                : "bg-sky-50 border-sky-200 text-[#0284C7] shadow-sm"
+            }`}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-current opacity-80" />
             Dev Wisdom
           </span>
+
           <div
             className="flex-1 h-px"
-            style={{ background: dark ? "linear-gradient(to left, transparent, rgba(255,255,255,0.08))" : "linear-gradient(to left, transparent, rgba(0,0,0,0.08))" }}
+            style={{
+              background: dark
+                ? "linear-gradient(to left, transparent, rgba(168, 85, 247, 0.3), rgba(255, 255, 255, 0.1))"
+                : "linear-gradient(to left, transparent, rgba(168, 85, 247, 0.3), rgba(0, 0, 0, 0.08))",
+            }}
           />
         </div>
 
         {/* Clickable quote area */}
         <motion.div
-          onClick={handleClick}
-          whileTap={{ scale: 0.98 }}
-          className="relative flex flex-col items-center text-center cursor-pointer select-none group"
-          title="Click for next quote"
+          onClick={advanceQuote}
+          whileTap={{ scale: 0.99 }}
+          className="relative flex flex-col items-center text-center cursor-pointer select-none group max-w-3xl mx-auto px-4"
+          title="Click to see another quote"
         >
-          {/* Big decorative quote mark */}
-          <span
-            className="absolute -top-3 left-1/2 -translate-x-1/2 text-[64px] md:text-[80px] leading-none font-serif opacity-[0.07] pointer-events-none select-none"
-            style={{ color: accent }}
-          >
-            &ldquo;
-          </span>
+          {/* Subtle quotation accent pill */}
+          <div className="mb-2 sm:mb-2.5">
+            <span
+              className="inline-flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full border transition-all duration-500 shadow-sm"
+              style={{
+                backgroundColor: `${accent}14`,
+                borderColor: `${accent}40`,
+                color: accent,
+              }}
+            >
+              <FaQuoteLeft className="text-[10px] sm:text-xs" />
+            </span>
+          </div>
 
-          {/* Animated quote */}
-          <div className="relative min-h-[72px] md:min-h-[60px] flex items-center justify-center w-full overflow-hidden">
+          {/* Animated quote text */}
+          <div className="relative min-h-[68px] sm:min-h-[58px] flex items-center justify-center w-full">
             <AnimatePresence mode="wait">
               {visible && (
-                <motion.blockquote
+                <motion.div
                   key={quote.text}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -14 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                  className={`text-[14px] md:text-[16px] xl:text-[17px] font-medium leading-[1.65] italic max-w-2xl mx-auto ${
-                    dark ? "text-slate-300" : "text-slate-600"
-                  }`}
+                  initial={{ opacity: 0, y: 10, filter: "blur(3px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -10, filter: "blur(3px)" }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
                 >
-                  &ldquo;{quote.text}&rdquo;
-                </motion.blockquote>
+                  <blockquote
+                    className={`text-[15px] sm:text-[17px] md:text-[18px] font-medium leading-[1.65] italic tracking-tight ${
+                      dark ? "text-slate-200" : "text-slate-700"
+                    }`}
+                  >
+                    &ldquo;{quote.text}&rdquo;
+                  </blockquote>
+
+                  {/* Author */}
+                  <div className="mt-3 flex items-center justify-center gap-2.5">
+                    <span
+                      className="inline-block w-5 sm:w-7 h-[1.5px] rounded-full transition-all duration-500"
+                      style={{ backgroundColor: accent }}
+                    />
+                    <span
+                      className="text-xs sm:text-sm font-bold tracking-wide font-syne transition-colors duration-500"
+                      style={{ color: accent }}
+                    >
+                      {quote.author}
+                    </span>
+                    <span
+                      className="inline-block w-5 sm:w-7 h-[1.5px] rounded-full transition-all duration-500"
+                      style={{ backgroundColor: accent }}
+                    />
+                  </div>
+                </motion.div>
               )}
             </AnimatePresence>
           </div>
-
-          {/* Author */}
-          <AnimatePresence mode="wait">
-            {visible && (
-              <motion.p
-                key={quote.author}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4, delay: 0.15 }}
-                className="mt-3 text-[12px] md:text-[13px] font-semibold tracking-wide flex items-center gap-2"
-                style={{ color: accent }}
-              >
-                <span className="inline-block w-5 h-[1.5px] rounded-full" style={{ background: accent }} />
-                {quote.author}
-                <span className="inline-block w-5 h-[1.5px] rounded-full" style={{ background: accent }} />
-              </motion.p>
-            )}
-          </AnimatePresence>
-
-          {/* Click hint */}
-          <p className={`mt-4 text-[10px] tracking-widest uppercase font-medium transition-opacity duration-300 opacity-0 group-hover:opacity-60 ${dark ? "text-slate-500" : "text-slate-400"}`}>
-            click for next quote
-          </p>
-
-          {/* Ripple on click */}
-          <AnimatePresence>
-            {clicked && (
-              <motion.span
-                key="ripple"
-                initial={{ scale: 0.5, opacity: 0.4 }}
-                animate={{ scale: 2.5, opacity: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                className="absolute inset-0 rounded-full pointer-events-none"
-                style={{ background: `radial-gradient(circle, ${accent}33, transparent 70%)` }}
-              />
-            )}
-          </AnimatePresence>
         </motion.div>
       </div>
     </motion.div>
