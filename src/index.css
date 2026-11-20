@@ -285,6 +285,7 @@ html.light .card-glow:hover {
   }
 }
 
+<<<<<<< HEAD
 @media (min-width: 1536px) {
   .tech-orbit-ring {
     --orbit-radius: 197px;
@@ -292,6 +293,8 @@ html.light .card-glow:hover {
   }
 }
 
+=======
+>>>>>>> b1355b10cd1d1747d2d766eaa56cf81818e5e7a2
 .tech-orbit-icon {
   width: var(--orbit-icon-size);
   height: var(--orbit-icon-size);

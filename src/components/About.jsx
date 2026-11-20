@@ -1,5 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
+<<<<<<< HEAD
+=======
+import { motion, AnimatePresence } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, FreeMode } from 'swiper/modules';
+import 'swiper/css';
+>>>>>>> b1355b10cd1d1747d2d766eaa56cf81818e5e7a2
 import {
   FaAws,
   FaBrain,
@@ -321,6 +328,7 @@ export default function About() {
           </p>
         </motion.div>
 
+<<<<<<< HEAD
         {/* Metric cards — mobile continuous smooth carousel */}
         <div className="sm:hidden -mx-4 py-1 overflow-hidden">
           <Swiper
@@ -338,6 +346,24 @@ export default function About() {
             className="w-full !px-0 [&_.swiper-wrapper]:!ease-linear [&_.swiper-wrapper]:![transition-timing-function:linear]"
           >
             {[...coreMetrics, ...coreMetrics, ...coreMetrics].map((m, idx) => (
+=======
+        {/* Metric cards — mobile carousel */}
+        <div className="sm:hidden -mx-4 py-1">
+          <Swiper
+            modules={[Autoplay, FreeMode]}
+            spaceBetween={12}
+            slidesPerView="auto"
+            freeMode={true}
+            grabCursor={true}
+            autoplay={{
+              delay: 2600,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            className="w-full !px-0"
+          >
+            {coreMetrics.map((m, idx) => (
+>>>>>>> b1355b10cd1d1747d2d766eaa56cf81818e5e7a2
               <SwiperSlide key={idx} className="!w-auto">
                 <MetricCard metric={m} dark={dark} compact />
               </SwiperSlide>
@@ -449,7 +475,11 @@ export default function About() {
                 />
 
                 <div
+<<<<<<< HEAD
                   className={`relative w-[145px] h-[145px] sm:w-[155px] sm:h-[155px] md:w-[165px] md:h-[165px] 2xl:w-[175px] 2xl:h-[175px] rounded-full flex flex-col items-center justify-center text-center px-2 py-2.5 sm:px-3 sm:py-3 overflow-hidden backdrop-blur-2xl transition-all duration-300 group-hover:scale-105 ${dark
+=======
+                  className={`relative w-[145px] h-[145px] sm:w-[155px] sm:h-[155px] md:w-[165px] md:h-[165px] rounded-full flex flex-col items-center justify-center text-center px-2 py-2.5 sm:px-3 sm:py-3 overflow-hidden backdrop-blur-2xl transition-all duration-300 group-hover:scale-105 ${dark
+>>>>>>> b1355b10cd1d1747d2d766eaa56cf81818e5e7a2
                     ? 'bg-gradient-to-b from-[#141f38]/95 via-[#0e1629]/95 to-[#080d19]/98 border-2 border-cyan-400/40 shadow-[0_0_40px_rgba(0,212,255,0.3),inset_0_1px_2px_rgba(255,255,255,0.25)]'
                     : 'bg-gradient-to-b from-white/95 via-sky-50/95 to-indigo-50/90 border-2 border-sky-300 shadow-[0_12px_40px_rgba(14,165,233,0.25),inset_0_1px_2px_rgba(255,255,255,0.9)]'
                     }`}
