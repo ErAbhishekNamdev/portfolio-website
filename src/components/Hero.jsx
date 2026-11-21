@@ -92,7 +92,7 @@ function getNextQueue() {
       const q = JSON.parse(raw);
       if (Array.isArray(q) && q.length > 0) return q;
     }
-  } catch {}
+  } catch { }
   return shuffle(ALL_DEV_QUOTES.map((_, i) => i));
 }
 
@@ -106,7 +106,7 @@ function consumeNextQuote() {
   let queue = getNextQueue();
   const idx = queue.shift();
   if (queue.length === 0) queue = shuffle(ALL_DEV_QUOTES.map((_, i) => i));
-  try { localStorage.setItem(LS_KEY, JSON.stringify(queue)); } catch {}
+  try { localStorage.setItem(LS_KEY, JSON.stringify(queue)); } catch { }
   return ALL_DEV_QUOTES[idx] || ALL_DEV_QUOTES[0];
 }
 
@@ -115,22 +115,12 @@ const ACCENT_COLORS = [
   "#00D4FF", "#7C3AED", "#F472B6", "#10B981", "#F59E0B", "#6366F1", "#C026D3", "#38BDF8",
 ];
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 // ── Hero Bottom Quote Strip — centered, beautifully styled, clean & subtle ───────────────
 function HeroQuoteStrip({ dark }) {
-=======
-function useFloatingQuote() {
->>>>>>> b1355b10cd1d1747d2d766eaa56cf81818e5e7a2
-=======
-function useFloatingQuote() {
->>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
   const [quote, setQuote] = useState(() => peekNextQuote());
   const [visible, setVisible] = useState(true);
   const [accentIdx, setAccentIdx] = useState(0);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   const accent = ACCENT_COLORS[accentIdx];
 
   const advanceQuote = () => {
@@ -149,47 +139,11 @@ function useFloatingQuote() {
     }, 6500);
     return () => clearInterval(interval);
   }, [quote]);
-=======
-=======
->>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
-  useEffect(() => {
-    // Show each quote for 5.5 s, then slide out for 0.5 s, then swap
-    const showTimer = setInterval(() => {
-      setVisible(false);
-      setTimeout(() => {
-        const next = consumeNextQuote();
-        setQuote(next);
-        setAccentIdx((i) => (i + 1) % ACCENT_COLORS.length);
-        setVisible(true);
-      }, 520);
-    }, 6000);
-
-    return () => clearInterval(showTimer);
-  }, []);
-
-  return { quote, visible, accent: ACCENT_COLORS[accentIdx] };
-}
-
-// ── Hero Bottom Quote Strip — centered, full-width, interactive ───────────────
-function HeroQuoteStrip({ dark }) {
-  const { quote, visible, accent } = useFloatingQuote();
-  const [clicked, setClicked] = useState(false);
-
-  const handleClick = () => {
-    setClicked(true);
-    setTimeout(() => setClicked(false), 400);
-  };
-<<<<<<< HEAD
->>>>>>> b1355b10cd1d1747d2d766eaa56cf81818e5e7a2
-=======
->>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-<<<<<<< HEAD
-<<<<<<< HEAD
       transition={{ duration: 0.7, delay: 1.0 }}
       className="w-full mt-10 md:mt-14 px-4 md:px-6 2xl:px-12"
     >
@@ -206,11 +160,10 @@ function HeroQuoteStrip({ dark }) {
           />
 
           <span
-            className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold tracking-[3px] uppercase border transition-all duration-300 ${
-              dark
-                ? "bg-cyan-500/10 border-cyan-500/25 text-[#00D4FF]"
-                : "bg-sky-50 border-sky-200 text-[#0284C7] shadow-sm"
-            }`}
+            className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold tracking-[3px] uppercase border transition-all duration-300 ${dark
+              ? "bg-cyan-500/10 border-cyan-500/25 text-[#00D4FF]"
+              : "bg-sky-50 border-sky-200 text-[#0284C7] shadow-sm"
+              }`}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-current opacity-80" />
             Dev Wisdom
@@ -223,36 +176,11 @@ function HeroQuoteStrip({ dark }) {
                 ? "linear-gradient(to left, transparent, rgba(168, 85, 247, 0.3), rgba(255, 255, 255, 0.1))"
                 : "linear-gradient(to left, transparent, rgba(168, 85, 247, 0.3), rgba(0, 0, 0, 0.08))",
             }}
-=======
-=======
->>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
-      transition={{ duration: 0.7, delay: 1.1 }}
-      className="w-full mt-10 md:mt-14 px-4 md:px-6 2xl:px-12"
-    >
-      <div className="w-full max-w-container mx-auto">
-        {/* Divider */}
-        <div className="flex items-center gap-4 mb-6">
-          <div
-            className="flex-1 h-px"
-            style={{ background: dark ? "linear-gradient(to right, transparent, rgba(255,255,255,0.08))" : "linear-gradient(to right, transparent, rgba(0,0,0,0.08))" }}
-          />
-          <span className={`shrink-0 text-[10px] font-bold tracking-[0.2em] uppercase ${dark ? "text-slate-500" : "text-slate-400"}`}>
-            Dev Wisdom
-          </span>
-          <div
-            className="flex-1 h-px"
-            style={{ background: dark ? "linear-gradient(to left, transparent, rgba(255,255,255,0.08))" : "linear-gradient(to left, transparent, rgba(0,0,0,0.08))" }}
-<<<<<<< HEAD
->>>>>>> b1355b10cd1d1747d2d766eaa56cf81818e5e7a2
-=======
->>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
           />
         </div>
 
         {/* Clickable quote area */}
         <motion.div
-<<<<<<< HEAD
-<<<<<<< HEAD
           onClick={advanceQuote}
           whileTap={{ scale: 0.99 }}
           className="relative flex flex-col items-center text-center cursor-pointer select-none group max-w-3xl mx-auto px-4"
@@ -284,9 +212,8 @@ function HeroQuoteStrip({ dark }) {
                   transition={{ duration: 0.35, ease: "easeOut" }}
                 >
                   <blockquote
-                    className={`text-[15px] sm:text-[17px] md:text-[18px] font-medium leading-[1.65] italic tracking-tight ${
-                      dark ? "text-slate-200" : "text-slate-700"
-                    }`}
+                    className={`text-[15px] sm:text-[17px] md:text-[18px] font-medium leading-[1.65] italic tracking-tight ${dark ? "text-slate-200" : "text-slate-700"
+                      }`}
                   >
                     &ldquo;{quote.text}&rdquo;
                   </blockquote>
@@ -312,84 +239,6 @@ function HeroQuoteStrip({ dark }) {
               )}
             </AnimatePresence>
           </div>
-=======
-=======
->>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
-          onClick={handleClick}
-          whileTap={{ scale: 0.98 }}
-          className="relative flex flex-col items-center text-center cursor-pointer select-none group"
-          title="Click for next quote"
-        >
-          {/* Big decorative quote mark */}
-          <span
-            className="absolute -top-3 left-1/2 -translate-x-1/2 text-[64px] md:text-[80px] leading-none font-serif opacity-[0.07] pointer-events-none select-none"
-            style={{ color: accent }}
-          >
-            &ldquo;
-          </span>
-
-          {/* Animated quote */}
-          <div className="relative min-h-[72px] md:min-h-[60px] flex items-center justify-center w-full overflow-hidden">
-            <AnimatePresence mode="wait">
-              {visible && (
-                <motion.blockquote
-                  key={quote.text}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -14 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                  className={`text-[14px] md:text-[16px] xl:text-[17px] font-medium leading-[1.65] italic max-w-2xl mx-auto ${
-                    dark ? "text-slate-300" : "text-slate-600"
-                  }`}
-                >
-                  &ldquo;{quote.text}&rdquo;
-                </motion.blockquote>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Author */}
-          <AnimatePresence mode="wait">
-            {visible && (
-              <motion.p
-                key={quote.author}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4, delay: 0.15 }}
-                className="mt-3 text-[12px] md:text-[13px] font-semibold tracking-wide flex items-center gap-2"
-                style={{ color: accent }}
-              >
-                <span className="inline-block w-5 h-[1.5px] rounded-full" style={{ background: accent }} />
-                {quote.author}
-                <span className="inline-block w-5 h-[1.5px] rounded-full" style={{ background: accent }} />
-              </motion.p>
-            )}
-          </AnimatePresence>
-
-          {/* Click hint */}
-          <p className={`mt-4 text-[10px] tracking-widest uppercase font-medium transition-opacity duration-300 opacity-0 group-hover:opacity-60 ${dark ? "text-slate-500" : "text-slate-400"}`}>
-            click for next quote
-          </p>
-
-          {/* Ripple on click */}
-          <AnimatePresence>
-            {clicked && (
-              <motion.span
-                key="ripple"
-                initial={{ scale: 0.5, opacity: 0.4 }}
-                animate={{ scale: 2.5, opacity: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                className="absolute inset-0 rounded-full pointer-events-none"
-                style={{ background: `radial-gradient(circle, ${accent}33, transparent 70%)` }}
-              />
-            )}
-          </AnimatePresence>
-<<<<<<< HEAD
->>>>>>> b1355b10cd1d1747d2d766eaa56cf81818e5e7a2
-=======
->>>>>>> c6def4546717bc4492cdd47a5b18cf054ddd46b5
         </motion.div>
       </div>
     </motion.div>
@@ -583,7 +432,7 @@ function StatusBadge({ dark, badgeText }) {
         className={`pointer-events-auto inline-flex items-center justify-center gap-2 px-4 py-2 2xl:px-6 2xl:py-3 rounded-full text-[13px] xl:text-[14px] 2xl:text-[16px] font-semibold tracking-wide border backdrop-blur-md transition-all duration-150 max-md:max-w-[calc(100vw-2rem)] max-md:px-3 max-md:py-1.5 max-md:text-[11px] ${dark
           ? "bg-[#111118]/90 border-emerald-500/35 text-emerald-400 shadow-[0_0_18px_rgba(16,185,129,0.18)]"
           : "bg-white/95 border-emerald-500/45 text-emerald-700 shadow-sm"
-        }`}
+          }`}
       >
         <span className="relative flex h-2 w-2 shrink-0">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
