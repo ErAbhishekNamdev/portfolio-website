@@ -1,39 +1,34 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, FreeMode } from 'swiper/modules';
-import 'swiper/css';
 import {
-  FaReact,
-  FaNodeJs,
-  FaDocker,
-  FaGitAlt,
-  FaPython,
   FaAws,
+  FaBrain,
+  FaBriefcase,
+  FaChartLine,
+  FaCode,
+  FaCodeBranch,
+  FaCubes,
   FaDatabase,
+  FaDocker,
+  FaFire,
+  FaGitAlt,
   FaGithub,
   FaGraduationCap,
-  FaCode,
-  FaRocket,
-  FaBrain,
-  FaTerminal,
-  FaFire,
-  FaCodeBranch,
-  FaUserCheck,
-  FaLightbulb,
-  FaCopy,
-  FaCheck,
-  FaLaptopCode,
-  FaServer,
-  FaCubes,
-  FaBriefcase,
   FaHandshake,
-  FaSmile,
-  FaChartLine,
+  FaLightbulb,
+  FaNodeJs,
+  FaPython,
+  FaReact,
+  FaRocket,
+  FaServer,
   FaStar,
-  FaTrophy
+  FaTrophy,
+  FaUserCheck
 } from 'react-icons/fa';
-import { SiMongodb, SiPostgresql, SiTailwindcss, SiTypescript, SiNextdotjs, SiVite } from 'react-icons/si';
+import { SiMongodb, SiNextdotjs, SiPostgresql, SiTailwindcss, SiTypescript, SiVite } from 'react-icons/si';
+import 'swiper/css';
+import { Autoplay, FreeMode } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { useTheme } from '../ThemeContext';
 import logoicons from '../assets/logo.jpeg';
 
@@ -289,14 +284,7 @@ function CircularProgress({ value, max, size = 100, stroke = 8, color = '#00D4FF
 export default function About() {
   const [terminalTab, setTerminalTab] = useState('profile');
   const [selectedSkillCategory, setSelectedSkillCategory] = useState('All Stack');
-  const [copied, setCopied] = useState(false);
   const { dark } = useTheme();
-
-  const handleCopyEmail = () => {
-    navigator.clipboard?.writeText('abhisheknamdev9171@gmail.com');
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   const subtext = dark ? 'text-slate-400' : 'text-slate-500';
   const heading = dark ? 'text-white' : 'text-slate-900';
@@ -333,22 +321,23 @@ export default function About() {
           </p>
         </motion.div>
 
-        {/* Metric cards — mobile carousel */}
-        <div className="sm:hidden -mx-4 py-1">
+        {/* Metric cards — mobile continuous smooth carousel */}
+        <div className="sm:hidden -mx-4 py-1 overflow-hidden">
           <Swiper
-            modules={[Autoplay, FreeMode]}
+            modules={[Autoplay]}
             spaceBetween={12}
             slidesPerView="auto"
-            freeMode={true}
-            grabCursor={true}
+            loop={true}
+            speed={12000}
             autoplay={{
-              delay: 2600,
+              delay: 0,
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
-            className="w-full !px-0"
+            grabCursor={true}
+            className="w-full !px-0 [&_.swiper-wrapper]:!ease-linear [&_.swiper-wrapper]:![transition-timing-function:linear]"
           >
-            {coreMetrics.map((m, idx) => (
+            {[...coreMetrics, ...coreMetrics, ...coreMetrics].map((m, idx) => (
               <SwiperSlide key={idx} className="!w-auto">
                 <MetricCard metric={m} dark={dark} compact />
               </SwiperSlide>
@@ -460,7 +449,7 @@ export default function About() {
                 />
 
                 <div
-                  className={`relative w-[145px] h-[145px] sm:w-[155px] sm:h-[155px] md:w-[165px] md:h-[165px] rounded-full flex flex-col items-center justify-center text-center px-2 py-2.5 sm:px-3 sm:py-3 overflow-hidden backdrop-blur-2xl transition-all duration-300 group-hover:scale-105 ${dark
+                  className={`relative w-[145px] h-[145px] sm:w-[155px] sm:h-[155px] md:w-[165px] md:h-[165px] 2xl:w-[175px] 2xl:h-[175px] rounded-full flex flex-col items-center justify-center text-center px-2 py-2.5 sm:px-3 sm:py-3 overflow-hidden backdrop-blur-2xl transition-all duration-300 group-hover:scale-105 ${dark
                     ? 'bg-gradient-to-b from-[#141f38]/95 via-[#0e1629]/95 to-[#080d19]/98 border-2 border-cyan-400/40 shadow-[0_0_40px_rgba(0,212,255,0.3),inset_0_1px_2px_rgba(255,255,255,0.25)]'
                     : 'bg-gradient-to-b from-white/95 via-sky-50/95 to-indigo-50/90 border-2 border-sky-300 shadow-[0_12px_40px_rgba(14,165,233,0.25),inset_0_1px_2px_rgba(255,255,255,0.9)]'
                     }`}

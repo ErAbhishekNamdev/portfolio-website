@@ -285,6 +285,13 @@ html.light .card-glow:hover {
   }
 }
 
+@media (min-width: 1536px) {
+  .tech-orbit-ring {
+    --orbit-radius: 197px;
+    --orbit-icon-size: 50px;
+  }
+}
+
 .tech-orbit-icon {
   width: var(--orbit-icon-size);
   height: var(--orbit-icon-size);
@@ -581,6 +588,7 @@ html.light .skills-header-icon__svg {
   html {
     font-size: 17px;
   }
+
   .max-w-container {
     max-width: 1720px !important;
   }
@@ -590,6 +598,7 @@ html.light .skills-header-icon__svg {
   html {
     font-size: 17.5px;
   }
+
   .max-w-container {
     max-width: 1840px !important;
   }
@@ -599,7 +608,8 @@ html.light .skills-header-icon__svg {
   html {
     font-size: 19px;
   }
+
   .max-w-container {
     max-width: 2200px !important;
   }
-}
+}
