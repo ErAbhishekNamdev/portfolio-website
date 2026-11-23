@@ -3,6 +3,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { useTheme } from '../ThemeContext';
 
 const skills = [
+  // Core Languages & Frontend Essentials
   { name: 'HTML5', color: '#E34F26', textColor: '#fff', icon: '</>' },
   { name: 'CSS3', color: '#1572B6', textColor: '#fff', icon: 'CSS' },
   { name: 'JavaScript', color: '#F7DF1E', textColor: '#000', icon: 'JS' },
@@ -10,21 +11,43 @@ const skills = [
   { name: 'React', color: '#61DAFB', textColor: '#000', icon: '⚛' },
   { name: 'Next.js', color: '#000000', textColor: '#fff', icon: 'N' },
   { name: 'Tailwind', color: '#38BDF8', textColor: '#fff', icon: 'TW' },
-  { name: 'jenkins', color: '#3C873A', textColor: '#fff', icon: 'jen' },
+  { name: 'SASS', color: '#CC6699', textColor: '#fff', icon: '💅' },
+  { name: 'Bootstrap', color: '#7952B3', textColor: '#fff', icon: 'B' },
+
+  // State & Data Fetching
+  { name: 'Redux', color: '#764ABC', textColor: '#fff', icon: 'RX' },
+  { name: 'Zustand', color: '#4338CA', textColor: '#fff', icon: 'Z' },
+  { name: 'React Query', color: '#FF4154', textColor: '#fff', icon: 'RQ' },
+  { name: 'GraphQL', color: '#E10098', textColor: '#fff', icon: 'GQL' },
+  { name: 'REST API', color: '#14B8A6', textColor: '#fff', icon: 'API' },
+  { name: 'Axios', color: '#5A29E4', textColor: '#fff', icon: 'AX' },
+
+  // UI, Animations & Design
+  { name: 'Figma', color: '#F24E1E', textColor: '#fff', icon: 'FIG' },
+  { name: 'Shadcn UI', color: '#18181B', textColor: '#fff', icon: 'ui' },
+  { name: 'Framer', color: '#0055FF', textColor: '#fff', icon: 'FM' },
+  { name: 'GSAP', color: '#88CE02', textColor: '#000', icon: 'GS' },
+  { name: 'Three.js', color: '#00B4A6', textColor: '#fff', icon: '3D' },
+  { name: 'Responsive', color: '#0284C7', textColor: '#fff', icon: 'RWD' },
+
+  // Build Tools, Testing & Ecosystem
+  { name: 'Vite', color: '#646CFF', textColor: '#fff', icon: 'V' },
+  { name: 'Webpack', color: '#1C78C0', textColor: '#fff', icon: 'WP' },
+  { name: 'Jest', color: '#C21325', textColor: '#fff', icon: '🃏' },
+  { name: 'Git', color: '#F05032', textColor: '#fff', icon: 'G' },
+  { name: 'GitHub', color: '#24292F', textColor: '#fff', icon: 'GH' },
+  { name: 'Postman', color: '#FF6C37', textColor: '#fff', icon: 'PM' },
+
+  // Full-Stack & Cloud Integration
+  { name: 'Node.js', color: '#339933', textColor: '#fff', icon: 'JS' },
   { name: 'Express', color: '#404040', textColor: '#fff', icon: 'EX' },
   { name: 'MongoDB', color: '#4EA94B', textColor: '#fff', icon: 'M' },
   { name: 'PostgreSQL', color: '#336791', textColor: '#fff', icon: 'PG' },
   { name: 'Docker', color: '#2496ED', textColor: '#fff', icon: '🐳' },
-  { name: 'Git', color: '#F05032', textColor: '#fff', icon: 'G' },
-  { name: 'Three.js', color: '#00B4A6', textColor: '#fff', icon: '3D' },
-  { name: 'GSAP', color: '#88CE02', textColor: '#000', icon: 'GS' },
-  { name: 'Framer', color: '#0055FF', textColor: '#fff', icon: 'FM' },
-  { name: 'Redux', color: '#764ABC', textColor: '#fff', icon: 'RX' },
-  { name: 'GraphQL', color: '#E10098', textColor: '#fff', icon: 'GQL' },
-  { name: 'Vite', color: '#646CFF', textColor: '#fff', icon: 'V' },
-  { name: 'Python', color: '#3776AB', textColor: '#fff', icon: 'PY' },
   { name: 'AWS', color: '#FF9900', textColor: '#000', icon: 'AWS' },
-  { name: 'REST API', color: '#14B8A6', textColor: '#fff', icon: 'API' },
+  { name: 'Jenkins', color: '#D33833', textColor: '#fff', icon: 'JEN' },
+  { name: 'Python', color: '#3776AB', textColor: '#fff', icon: 'PY' },
+  { name: 'PWA', color: '#5A0FC8', textColor: '#fff', icon: 'PWA' },
 ];
 
 function getWobble(index) {
@@ -126,7 +149,7 @@ function SkillTile({ skill, index, dark }) {
         }
       >
         <div
-          className="flex h-[80px] w-[80px] sm:h-[105px] sm:w-[105px] flex-col items-center justify-center gap-2 rounded-[16px] transition-all"
+          className="flex h-[68px] w-[68px] sm:h-[84px] sm:w-[84px] md:h-[88px] md:w-[88px] flex-col items-center justify-center gap-1 sm:gap-1.5 rounded-[13px] sm:rounded-[15px] transition-all select-none"
           style={{
             backgroundColor: skill.color,
             border: `1.5px solid ${borderColor}`,
@@ -135,21 +158,20 @@ function SkillTile({ skill, index, dark }) {
           }}
         >
           <div
-            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full"
+            className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full shrink-0"
             style={{
               backgroundColor:
                 skill.textColor === '#000'
                   ? 'rgba(0,0,0,0.12)'
-                  : 'rgba(255,255,255,0.2)',
+                  : 'rgba(255,255,255,0.22)',
             }}
           >
             <span
+              className="text-[10px] sm:text-[11.5px] leading-none"
               style={{
                 color: skill.textColor,
                 fontWeight: 700,
-                fontSize: 13,
                 fontFamily: 'Fira Code, monospace',
-                lineHeight: 1,
               }}
             >
               {skill.icon}
@@ -157,14 +179,10 @@ function SkillTile({ skill, index, dark }) {
           </div>
 
           <span
+            className="text-[8.5px] sm:text-[10px] max-w-[94%] truncate font-bold leading-tight text-center tracking-[0.1px]"
             style={{
               color: skill.textColor,
-              fontWeight: 700,
-              fontSize: 11,
               fontFamily: 'Inter, sans-serif',
-              lineHeight: 1,
-              letterSpacing: '0.2px',
-              textAlign: 'center',
             }}
           >
             {skill.name}
@@ -235,7 +253,7 @@ export default function Skills() {
           ))}
 
           <div
-            className="relative z-10 grid grid-cols-4 lg:grid-cols-9 justify-items-center gap-4 2xl:gap-6 max-w-5xl 2xl:max-w-7xl mx-auto"
+            className="relative z-10 grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-9 justify-items-center gap-2.5 sm:gap-3.5 2xl:gap-4 max-w-5xl 2xl:max-w-6xl mx-auto"
           >
             {skills.map((skill, i) => (
               <SkillTile key={skill.name} skill={skill} index={i} dark={dark} />
