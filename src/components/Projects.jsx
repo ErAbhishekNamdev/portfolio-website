@@ -103,11 +103,11 @@ export default function Projects() {
           <p className={`mt-3 max-w-xl 2xl:max-w-2xl mx-auto text-sm 2xl:text-base ${subtext}`}>Explore recent engineering projects highlighting full-stack development, modern UI design, and interactive features.</p>
         </motion.div>
 
-        <div className="relative px-2 sm:px-4 lg:px-8 2xl:px-10">
+        <div className="relative px-3 sm:px-6 lg:px-14 xl:px-16">
           {/* Swiper Custom Navigation - in outer margins so it never overlaps the preview card */}
           <button
             onClick={() => swiperRef.current?.slidePrev()}
-            className={`absolute left-0 lg:-left-3 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
+            className={`absolute left-0 lg:left-1 xl:left-2 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
               ? 'bg-[#111118]/95 border-white/20 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-black/50'
               : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-slate-200'
               }`}
@@ -118,7 +118,7 @@ export default function Projects() {
 
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className={`absolute right-0 lg:-right-3 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
+            className={`absolute right-0 lg:right-1 xl:right-2 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
               ? 'bg-[#111118]/95 border-white/20 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-black/50'
               : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-slate-200'
               }`}
@@ -140,18 +140,18 @@ export default function Projects() {
 
               return (
                 <SwiperSlide key={i}>
-                  <div className="grid lg:grid-cols-[1.25fr_1fr] 2xl:grid-cols-[1.3fr_0.9fr] gap-6 lg:gap-10 2xl:gap-14 items-center p-1">
-                    {/* Project Preview Window - Large & High-Impact */}
+                  <div className="grid lg:grid-cols-[1.15fr_1fr] 2xl:grid-cols-[1.2fr_0.9fr] gap-6 lg:gap-10 2xl:gap-14 items-center p-1">
+                    {/* Project Preview Window - Natural Proportions */}
                     <div
-                      className={`relative w-full rounded-2xl overflow-hidden border p-3 sm:p-4.5 card-glow group transition-all duration-300 ${cardBg}`}
+                      className={`relative w-full rounded-2xl overflow-hidden border p-3 sm:p-4 card-glow group transition-all duration-300 ${cardBg}`}
                       style={{
                         boxShadow: dark
-                          ? `0 25px 60px rgba(0,0,0,0.65), 0 0 50px ${activeAccent}20`
-                          : `0 18px 45px rgba(0,0,0,0.09)`,
+                          ? `0 20px 50px rgba(0,0,0,0.65), 0 0 45px ${activeAccent}18`
+                          : `0 15px 35px rgba(0,0,0,0.08)`,
                       }}
                     >
                       {/* Browser Title Bar */}
-                      <div className="flex items-center justify-between gap-3 mb-3 px-1">
+                      <div className="flex items-center justify-between gap-3 mb-2.5 px-1">
                         {/* Traffic light dots */}
                         <div className="flex items-center gap-2 shrink-0">
                           <span className="w-3 h-3 rounded-full bg-[#FF5F56] shadow-sm inline-block" />
@@ -161,7 +161,7 @@ export default function Projects() {
 
                         {/* Centered Realistic Address Bar */}
                         <div
-                          className={`flex-1 max-w-[280px] sm:max-w-[360px] flex items-center justify-center gap-1.5 px-3 py-1 rounded-lg border text-[11px] font-mono select-none ${dark
+                          className={`flex-1 max-w-[280px] sm:max-w-[340px] flex items-center justify-center gap-1.5 px-3 py-1 rounded-lg border text-[11px] font-mono select-none ${dark
                             ? 'bg-black/35 border-white/10 text-slate-300'
                             : 'bg-slate-100/90 border-slate-200 text-slate-600'
                             }`}
@@ -180,12 +180,12 @@ export default function Projects() {
                         </div>
                       </div>
 
-                      {/* Project Image Viewport - Generously Sized for Maximum Clarity */}
+                      {/* Project Image Viewport - Full Natural Display Without Cropping */}
                       <a
                         href={p.live && p.live !== '#' ? p.live : p.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block aspect-[16/9.5] sm:aspect-[16/9.2] lg:aspect-[1.88/1] 2xl:aspect-[1.92/1] w-full min-h-[260px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[400px] xl:min-h-[440px] 2xl:min-h-[480px] rounded-xl border relative overflow-hidden transition-all duration-300 shadow-inner bg-slate-950/20"
+                        className="block w-full rounded-xl border relative overflow-hidden transition-all duration-300 shadow-inner bg-slate-950/20"
                         style={{
                           borderColor: dark ? `${activeAccent}33` : `${activeAccent}40`,
                         }}
@@ -193,7 +193,7 @@ export default function Projects() {
                         <img
                           src={p.image}
                           alt={p.title}
-                          className="w-full h-full object-contain sm:object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                          className="w-full h-auto block object-contain transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                           loading="lazy"
                         />
 
