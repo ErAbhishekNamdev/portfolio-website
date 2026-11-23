@@ -152,20 +152,20 @@ function SkillTile({ skill, index, dark }) {
           isDragging
             ? {}
             : {
-                y: [0, -wobble.yAmp, 0, wobble.yAmp, 0],
-                x: [0, wobble.xAmp, 0, -wobble.xAmp, 0],
-                rotate: [0, wobble.rotAmp, 0, -wobble.rotAmp, 0],
-              }
+              y: [0, -wobble.yAmp, 0, wobble.yAmp, 0],
+              x: [0, wobble.xAmp, 0, -wobble.xAmp, 0],
+              rotate: [0, wobble.rotAmp, 0, -wobble.rotAmp, 0],
+            }
         }
         transition={
           isDragging
             ? {}
             : {
-                duration: wobble.dur,
-                delay: wobble.delay,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }
+              duration: wobble.dur,
+              delay: wobble.delay,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }
         }
       >
         <div
@@ -241,31 +241,98 @@ export default function Skills() {
   const { dark } = useTheme();
 
   return (
-    <section id="skills" className={`py-24 px-4 section-spotlight transition-colors duration-300 ${dark ? 'bg-[#0E131F]' : 'bg-[#F4F6FB]'}`}>
-      <div className="max-w-container mx-auto px-4 md:px-6 2xl:px-12">
+    <section id="skills" className={`relative overflow-hidden py-20 md:py-24 px-4 section-spotlight transition-colors duration-300 ${dark ? 'bg-[#0E131F]' : 'bg-[#F4F6FB]'}`}>
+      {/* Ambient background decorative glow */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div
+          className={`absolute top-20 left-1/2 -translate-x-1/2 w-[550px] h-[280px] rounded-full blur-[130px] ${dark ? 'bg-cyan-500/10' : 'bg-sky-400/15'
+            }`}
+        />
+        <div
+          className={`absolute bottom-12 right-10 w-[420px] h-[260px] rounded-full blur-[130px] ${dark ? 'bg-purple-600/10' : 'bg-purple-300/20'
+            }`}
+        />
+      </div>
+
+      <div className="relative z-10 max-w-container mx-auto px-4 md:px-6 2xl:px-12">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-10 md:mb-14"
         >
-          <span className={`text-xs tracking-[3px] uppercase font-semibold ${dark ? 'text-[#00D4FF]' : 'text-[#0284C7]'}`}>Interactive</span>
-          <h2 className="text-4xl md:text-5xl 2xl:text-6xl font-bold mt-2 font-syne">
+          {/* Section Divider & Badge */}
+          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-3.5 sm:mb-4">
+            <div
+              className="flex-1 max-w-[60px] sm:max-w-[100px] h-px"
+              style={{
+                background: dark
+                  ? 'linear-gradient(to right, transparent, rgba(0, 212, 255, 0.4))'
+                  : 'linear-gradient(to right, transparent, rgba(2, 132, 199, 0.35))',
+              }}
+            />
+
+            <span
+              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold tracking-[2.5px] uppercase border transition-all duration-300 ${dark
+                ? 'bg-cyan-500/10 border-cyan-500/25 text-[#00D4FF] shadow-[0_0_16px_rgba(0,212,255,0.15)]'
+                : 'bg-white border-sky-200/90 text-[#0284C7] shadow-sm shadow-sky-100'
+                }`}
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
+              </span>
+              Interactive Playground
+            </span>
+
+            <div
+              className="flex-1 max-w-[60px] sm:max-w-[100px] h-px"
+              style={{
+                background: dark
+                  ? 'linear-gradient(to left, transparent, rgba(168, 85, 247, 0.4))'
+                  : 'linear-gradient(to left, transparent, rgba(168, 85, 247, 0.35))',
+              }}
+            />
+          </div>
+
+          {/* Main Title */}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-syne tracking-tight leading-tight">
             <span className={dark ? 'text-white' : 'text-slate-900'}>Skills </span>
             <span className="gradient-text-cyan-purple">Playground</span>
           </h2>
-          <p className={`mt-3 text-sm 2xl:text-base ${dark ? 'text-slate-400' : 'text-slate-600'}`}>
+
+          {/* Subtitle */}
+          <p className={`mt-3 max-w-xl 2xl:max-w-2xl mx-auto text-sm sm:text-base 2xl:text-lg font-medium leading-relaxed ${dark ? 'text-slate-400' : 'text-slate-600'}`}>
             Drag, throw, and interact with technology tiles in real time.
           </p>
+
+          {/* Subtle Feature Pills */}
+          <div className="flex items-center justify-center gap-2 sm:gap-2.5 mt-3.5 flex-wrap">
+            <span
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold border transition-colors ${dark
+                ? 'bg-white/[0.04] border-white/10 text-slate-300'
+                : 'bg-white border-slate-200/90 text-slate-600 shadow-sm'
+                }`}
+            >
+              <span className="text-cyan-400 text-xs">✦</span> Drag & Toss Physics
+            </span>
+            <span
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold border transition-colors ${dark
+                ? 'bg-white/[0.04] border-white/10 text-slate-300'
+                : 'bg-white border-slate-200/90 text-slate-600 shadow-sm'
+                }`}
+            >
+              <span className="text-purple-400 text-xs">●</span> 50+ Tech Stack
+            </span>
+          </div>
         </motion.div>
 
         <div
-          className={`relative w-full rounded-2xl border overflow-hidden transition-all duration-300 ${
-            dark
-              ? 'border-white/10 bg-[#0B0C16]/90 shadow-[0_10px_40px_rgba(0,0,0,0.5)]'
-              : 'border-slate-200/90 bg-white/80 shadow-xl shadow-slate-200/50'
-          }`}
+          className={`relative w-full rounded-2xl border overflow-hidden transition-all duration-300 ${dark
+            ? 'border-white/10 bg-[#0B0C16]/90 shadow-[0_10px_40px_rgba(0,0,0,0.5)]'
+            : 'border-slate-200/90 bg-white/80 shadow-xl shadow-slate-200/50'
+            }`}
           style={{ minHeight: 440, padding: '40px 20px' }}
         >
           {Array.from({ length: 24 }).map((_, i) => (
@@ -273,7 +340,7 @@ export default function Skills() {
           ))}
 
           <div
-            className="relative z-10 flex flex-wrap justify-center items-center gap-2 sm:gap-2.5 md:gap-3 max-w-4xl 2xl:max-w-5xl mx-auto"
+            className="relative z-10 flex flex-wrap justify-center items-center gap-2 sm:gap-2.5 md:gap-3 max-w-6xl 2xl:max-w-5xl mx-auto"
           >
             {skills.map((skill, i) => (
               <SkillTile key={skill.name} skill={skill} index={i} dark={dark} />
