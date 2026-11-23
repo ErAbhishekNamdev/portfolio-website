@@ -103,11 +103,11 @@ export default function Projects() {
           <p className={`mt-3 max-w-xl 2xl:max-w-2xl mx-auto text-sm 2xl:text-base ${subtext}`}>Explore recent engineering projects highlighting full-stack development, modern UI design, and interactive features.</p>
         </motion.div>
 
-        <div className="relative px-3 sm:px-6 lg:px-14 xl:px-16">
-          {/* Swiper Custom Navigation - in outer margins so it never overlaps the preview card */}
+        <div className="relative px-2 sm:px-4 lg:px-7 xl:px-8">
+          {/* Swiper Custom Navigation */}
           <button
             onClick={() => swiperRef.current?.slidePrev()}
-            className={`absolute left-0 lg:left-1 xl:left-2 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
+            className={`absolute -left-2 lg:-left-3 xl:-left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
               ? 'bg-[#111118]/95 border-white/20 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-black/50'
               : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-slate-200'
               }`}
@@ -118,7 +118,7 @@ export default function Projects() {
 
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className={`absolute right-0 lg:right-1 xl:right-2 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
+            className={`absolute -right-2 lg:-right-3 xl:-right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
               ? 'bg-[#111118]/95 border-white/20 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-black/50'
               : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-slate-200'
               }`}
@@ -140,14 +140,14 @@ export default function Projects() {
 
               return (
                 <SwiperSlide key={i}>
-                  <div className="grid lg:grid-cols-[1.15fr_1fr] 2xl:grid-cols-[1.2fr_0.9fr] gap-6 lg:gap-10 2xl:gap-14 items-center p-1">
-                    {/* Project Preview Window - Natural Proportions */}
+                  <div className="grid lg:grid-cols-[1.24fr_1fr] 2xl:grid-cols-[1.3fr_0.9fr] gap-6 lg:gap-8 2xl:gap-12 items-center p-1">
+                    {/* Project Preview Window - Expanded Dimensions & Razor Sharp Display */}
                     <div
                       className={`relative w-full rounded-2xl overflow-hidden border p-3 sm:p-4 card-glow group transition-all duration-300 ${cardBg}`}
                       style={{
                         boxShadow: dark
-                          ? `0 20px 50px rgba(0,0,0,0.65), 0 0 45px ${activeAccent}18`
-                          : `0 15px 35px rgba(0,0,0,0.08)`,
+                          ? `0 22px 55px rgba(0,0,0,0.65), 0 0 45px ${activeAccent}18`
+                          : `0 16px 40px rgba(0,0,0,0.08)`,
                       }}
                     >
                       {/* Browser Title Bar */}
@@ -161,7 +161,7 @@ export default function Projects() {
 
                         {/* Centered Realistic Address Bar */}
                         <div
-                          className={`flex-1 max-w-[280px] sm:max-w-[340px] flex items-center justify-center gap-1.5 px-3 py-1 rounded-lg border text-[11px] font-mono select-none ${dark
+                          className={`flex-1 max-w-[280px] sm:max-w-[360px] flex items-center justify-center gap-1.5 px-3 py-1 rounded-lg border text-[11px] font-mono select-none ${dark
                             ? 'bg-black/35 border-white/10 text-slate-300'
                             : 'bg-slate-100/90 border-slate-200 text-slate-600'
                             }`}
@@ -193,7 +193,10 @@ export default function Projects() {
                         <img
                           src={p.image}
                           alt={p.title}
-                          className="w-full h-auto block object-contain transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                          className="project-screenshot w-full h-auto block object-contain transition-transform duration-700 ease-out group-hover:scale-[1.015] transform-gpu"
+                          style={{
+                            imageRendering: '-webkit-optimize-contrast',
+                          }}
                           loading="lazy"
                         />
 
