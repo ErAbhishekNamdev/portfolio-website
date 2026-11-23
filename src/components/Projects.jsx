@@ -141,9 +141,9 @@ export default function Projects() {
               return (
                 <SwiperSlide key={i}>
                   <div className="grid lg:grid-cols-[1.28fr_1fr] xl:grid-cols-[1.32fr_0.95fr] 2xl:grid-cols-[1.36fr_0.9fr] gap-6 lg:gap-8 2xl:gap-12 items-center p-1">
-                    {/* Project Preview Window - Balanced Width & Enhanced Height */}
+                    {/* Project Preview Window - Zero Padding Clean Browser Frame */}
                     <div
-                      className={`relative w-full rounded-2xl overflow-hidden border p-3.5 sm:p-4.5 card-glow group transition-all duration-300 hover:border-cyan-500/40 ${cardBg}`}
+                      className={`relative w-full rounded-2xl overflow-hidden border card-glow group transition-all duration-300 hover:border-cyan-500/40 ${cardBg}`}
                       style={{
                         boxShadow: dark
                           ? `0 25px 60px rgba(0,0,0,0.65), 0 0 50px ${activeAccent}20`
@@ -151,7 +151,10 @@ export default function Projects() {
                       }}
                     >
                       {/* Browser Title Bar */}
-                      <div className="flex items-center justify-between gap-3 mb-3 px-1">
+                      <div
+                        className={`flex items-center justify-between gap-3 px-3.5 sm:px-4 py-2.5 sm:py-3 border-b ${dark ? 'border-white/10 bg-[#0F1322]' : 'border-slate-200 bg-slate-50'
+                          }`}
+                      >
                         {/* Traffic light dots */}
                         <div className="flex items-center gap-2 shrink-0">
                           <span className="w-3 h-3 rounded-full bg-[#FF5F56] shadow-sm inline-block" />
@@ -162,8 +165,8 @@ export default function Projects() {
                         {/* Centered Realistic Address Bar */}
                         <div
                           className={`flex-1 max-w-[280px] sm:max-w-[360px] flex items-center justify-center gap-1.5 px-3 py-1 rounded-lg border text-[11px] font-mono select-none ${dark
-                            ? 'bg-black/35 border-white/10 text-slate-300'
-                            : 'bg-slate-100/90 border-slate-200 text-slate-600'
+                            ? 'bg-black/40 border-white/10 text-slate-300'
+                            : 'bg-white border-slate-200 text-slate-600 shadow-sm'
                             }`}
                         >
                           <FaLock className="text-[9px] text-emerald-400 shrink-0" />
@@ -180,20 +183,17 @@ export default function Projects() {
                         </div>
                       </div>
 
-                      {/* Project Image Viewport - Increased Height Proportion with 100% Full Display */}
+                      {/* Project Image Viewport - Flushed Edge-to-Edge with Zero Padding */}
                       <a
                         href={p.live && p.live !== '#' ? p.live : p.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block aspect-[16/9.3] w-full rounded-xl border relative overflow-hidden transition-all duration-300 shadow-inner flex items-center justify-center bg-white dark:bg-[#0B0E1A]"
-                        style={{
-                          borderColor: dark ? `${activeAccent}33` : `${activeAccent}40`,
-                        }}
+                        className="block w-full relative overflow-hidden bg-white dark:bg-[#0B0E1A]"
                       >
                         <img
                           src={p.image}
                           alt={p.title}
-                          className="w-full h-full object-contain select-none"
+                          className="w-full h-auto block select-none"
                           decoding="async"
                         />
 
