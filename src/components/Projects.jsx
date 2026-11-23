@@ -103,11 +103,11 @@ export default function Projects() {
           <p className={`mt-3 max-w-xl 2xl:max-w-2xl mx-auto text-sm 2xl:text-base ${subtext}`}>Explore recent engineering projects highlighting full-stack development, modern UI design, and interactive features.</p>
         </motion.div>
 
-        <div className="relative px-0 sm:px-2 lg:px-4">
+        <div className="relative px-2 sm:px-4 lg:px-8 xl:px-10">
           {/* Swiper Custom Navigation */}
           <button
             onClick={() => swiperRef.current?.slidePrev()}
-            className={`absolute -left-3 lg:-left-5 xl:-left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
+            className={`absolute -left-2 lg:-left-3 xl:-left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
               ? 'bg-[#111118]/95 border-white/20 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-black/50'
               : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-slate-200'
               }`}
@@ -118,7 +118,7 @@ export default function Projects() {
 
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className={`absolute -right-3 lg:-right-5 xl:-right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
+            className={`absolute -right-2 lg:-right-3 xl:-right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
               ? 'bg-[#111118]/95 border-white/20 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-black/50'
               : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-slate-200'
               }`}
@@ -140,10 +140,10 @@ export default function Projects() {
 
               return (
                 <SwiperSlide key={i}>
-                  <div className="grid lg:grid-cols-[1.45fr_0.95fr] xl:grid-cols-[1.5fr_0.9fr] 2xl:grid-cols-[1.55fr_0.85fr] gap-6 lg:gap-8 2xl:gap-12 items-center p-1">
-                    {/* Project Preview Window - Substantially Larger & Crystal Clear */}
+                  <div className="grid lg:grid-cols-[1.28fr_1fr] xl:grid-cols-[1.32fr_0.95fr] 2xl:grid-cols-[1.36fr_0.9fr] gap-6 lg:gap-8 2xl:gap-12 items-center p-1">
+                    {/* Project Preview Window - Balanced Width & Enhanced Height */}
                     <div
-                      className={`relative w-full rounded-2xl overflow-hidden border p-3.5 sm:p-5 card-glow group transition-all duration-300 hover:border-cyan-500/40 ${cardBg}`}
+                      className={`relative w-full rounded-2xl overflow-hidden border p-3.5 sm:p-4.5 card-glow group transition-all duration-300 hover:border-cyan-500/40 ${cardBg}`}
                       style={{
                         boxShadow: dark
                           ? `0 25px 60px rgba(0,0,0,0.65), 0 0 50px ${activeAccent}20`
@@ -161,7 +161,7 @@ export default function Projects() {
 
                         {/* Centered Realistic Address Bar */}
                         <div
-                          className={`flex-1 max-w-[280px] sm:max-w-[380px] flex items-center justify-center gap-1.5 px-3 py-1 rounded-lg border text-[11px] font-mono select-none ${dark
+                          className={`flex-1 max-w-[280px] sm:max-w-[360px] flex items-center justify-center gap-1.5 px-3 py-1 rounded-lg border text-[11px] font-mono select-none ${dark
                             ? 'bg-black/35 border-white/10 text-slate-300'
                             : 'bg-slate-100/90 border-slate-200 text-slate-600'
                             }`}
@@ -180,12 +180,12 @@ export default function Projects() {
                         </div>
                       </div>
 
-                      {/* Project Image Viewport - Full Natural Display Without Cropping or Blur */}
+                      {/* Project Image Viewport - Increased Height Proportion with 100% Full Display */}
                       <a
                         href={p.live && p.live !== '#' ? p.live : p.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block w-full rounded-xl border relative overflow-hidden transition-all duration-300 shadow-inner bg-slate-950/20"
+                        className="block aspect-[16/9.3] w-full rounded-xl border relative overflow-hidden transition-all duration-300 shadow-inner flex items-center justify-center bg-white dark:bg-[#0B0E1A]"
                         style={{
                           borderColor: dark ? `${activeAccent}33` : `${activeAccent}40`,
                         }}
@@ -193,7 +193,7 @@ export default function Projects() {
                         <img
                           src={p.image}
                           alt={p.title}
-                          className="w-full h-auto block object-contain select-none"
+                          className="w-full h-full object-contain select-none"
                           decoding="async"
                         />
 
