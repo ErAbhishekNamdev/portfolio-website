@@ -10,40 +10,76 @@ import 'swiper/css/pagination';
 
 const projects = [
   {
-    category: 'Web Application',
-    title: 'AI SaaS Platform',
-    desc: 'A full-featured AI content generation platform with real-time collaboration, prompt library, and multi-model API integrations.',
-    features: ['Real-time team workspace', 'Multi-AI provider support', 'Usage analytics & billing', 'Stripe checkout integration', 'Role-based access control'],
-    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'OpenAI', 'Prisma'],
+    category: 'Healthcare & Telemedicine',
+    title: 'MediBook',
+    desc: 'A complete doctor appointment booking and digital prescription management platform with doctor search, specialty filters, verified profiles, and instant consultation scheduling.',
+    features: [
+      'Doctor search & specialty filtering',
+      'Real-time appointment slot booking',
+      'Digital prescription management',
+      'Verified doctor profiles & rating system',
+      'Patient consultation dashboard',
+    ],
+    stack: ['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind CSS'],
     color: '#00D4FF',
     lightColor: '#0284C7',
+    image: '/project/projectimage1.png',
+    live: 'https://docter-prescriptions.netlify.app/',
+    github: 'https://github.com/BookDocter/frontend',
   },
   {
-    category: 'E-Commerce',
-    title: 'ShopVerse',
-    desc: 'A modern full-stack e-commerce platform with real-time inventory tracking, smart search filters, and instant checkout.',
-    features: ['Instant search & filtering', 'Wishlist & interactive cart', 'Stripe & PayPal payments', 'Admin dashboard analytics', 'Responsive mobile design'],
+    category: 'Doctor Appointment Portal',
+    title: 'Prescripto',
+    desc: 'A modern medical consultation portal that connects patients with trusted healthcare specialists, offering seamless doctor discovery, slot booking, and profile management.',
+    features: [
+      'Browse trusted doctors by specialty',
+      'Interactive appointment booking flow',
+      'Responsive mobile & desktop UI',
+      'Doctor profile & availability management',
+      'Hassle-free consultation scheduling',
+    ],
+    stack: ['React', 'JavaScript', 'Tailwind CSS', 'REST API', 'Vite'],
+    color: '#4F46E5',
+    lightColor: '#4338CA',
+    image: '/project/projectImage2.png',
+    live: 'https://docter-prescriptions.netlify.app/',
+    github: 'https://github.com/BookDocter/frontend',
+  },
+  {
+    category: 'Food Delivery Platform',
+    title: 'Tomato',
+    desc: 'A vibrant online food ordering platform featuring interactive cuisine menus, dynamic food cart calculation, real-time checkout, and responsive restaurant dish exploration.',
+    features: [
+      'Interactive multi-cuisine menu with category filters',
+      'Real-time cart calculation & state management',
+      'User authentication & order placement flow',
+      'Responsive restaurant interface optimized for mobile',
+      'Visual dish showcase & culinary menu explorer',
+    ],
     stack: ['React', 'Node.js', 'MongoDB', 'Express', 'Tailwind CSS'],
-    color: '#9B59FF',
-    lightColor: '#7C3AED',
+    color: '#FF6347',
+    lightColor: '#E11D48',
+    image: '/project/projectimage3.png',
+    live: '#',
+    github: 'https://github.com/ErAbhishekNamdev',
   },
   {
-    category: 'Interactive Web',
-    title: '3D Portfolio Studio',
-    desc: 'An immersive interactive 3D web experience with WebGL shaders, smooth page transitions, and interactive physics.',
-    features: ['Three.js WebGL scenes', 'Framer Motion animations', 'Theme-aware lighting', 'Performance optimization', 'Custom particle systems'],
-    stack: ['React', 'Three.js', 'Framer Motion', 'Tailwind CSS', 'Vite'],
-    color: '#FF6EC7',
-    lightColor: '#C026D3',
-  },
-  {
-    category: 'Real-Time App',
-    title: 'ChatSync Engine',
-    desc: 'A high-concurrency real-time messaging application with encrypted group channels, voice notes, and live presence indicators.',
-    features: ['WebSocket communication', 'Group & private channels', 'File & media sharing', 'Live online indicators', 'Message read receipts'],
-    stack: ['React', 'Socket.io', 'Node.js', 'Redis', 'Tailwind CSS'],
-    color: '#00E5A0',
+    category: 'Mental Wellness & Health',
+    title: 'MindLeap',
+    desc: 'A holistic mental wellness web application providing guided mindfulness exercises, stress management pathways, therapy consultation scheduling, and wellness progress tracking.',
+    features: [
+      'Mindful meditation & stress reduction guides',
+      'Therapist consultation & service booking',
+      'Interactive client testimonials & wellness tracking',
+      'Calming aesthetic with accessibility-first design',
+      'Responsive modern layout with interactive animations',
+    ],
+    stack: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+    color: '#10B981',
     lightColor: '#059669',
+    image: '/project/projectimage4.png',
+    live: '#',
+    github: 'https://github.com/ErAbhishekNamdev',
   },
 ];
 
@@ -106,39 +142,60 @@ export default function Projects() {
                 <SwiperSlide key={i}>
                   <div className="grid lg:grid-cols-2 gap-8 2xl:gap-14 items-center p-1">
                     {/* Project Preview Window */}
-                    <div className={`relative rounded-2xl overflow-hidden border p-5 card-glow ${cardBg}`}>
-                      {/* Window Dots */}
-                      <div className="flex gap-2 mb-4">
-                        <span className="w-3 h-3 rounded-full bg-rose-500/70 inline-block" />
-                        <span className="w-3 h-3 rounded-full bg-amber-500/70 inline-block" />
-                        <span className="w-3 h-3 rounded-full bg-emerald-500/70 inline-block" />
+                    <div className={`relative rounded-2xl overflow-hidden border p-4 sm:p-5 card-glow group ${cardBg}`}>
+                      {/* Window Dots & URL Bar */}
+                      <div className="flex items-center justify-between gap-3 mb-3.5">
+                        <div className="flex gap-2 shrink-0">
+                          <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block" />
+                          <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block" />
+                          <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
+                        </div>
+                        {p.live && p.live !== '#' ? (
+                          <a
+                            href={p.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`text-[10px] sm:text-xs font-mono px-3 py-0.5 rounded-full border max-w-[220px] truncate transition-colors ${dark
+                              ? 'bg-white/5 border-white/10 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30'
+                              : 'bg-slate-100 border-slate-200 text-slate-600 hover:text-sky-600 hover:border-sky-300'
+                              }`}
+                          >
+                            {p.live.replace('https://', '')}
+                          </a>
+                        ) : (
+                          <div
+                            className={`text-[10px] sm:text-xs font-mono px-3 py-0.5 rounded-full border ${dark ? 'bg-white/5 border-white/10 text-slate-500' : 'bg-slate-100 border-slate-200 text-slate-500'
+                              }`}
+                          >
+                            {p.title.toLowerCase()}.app
+                          </div>
+                        )}
                       </div>
 
-                      <div
-                        className="aspect-[16/10] rounded-xl flex items-center justify-center p-6 text-center border relative overflow-hidden transition-all duration-300"
+                      {/* Project Image Preview */}
+                      <a
+                        href={p.live && p.live !== '#' ? p.live : p.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block aspect-[16/10] rounded-xl border relative overflow-hidden transition-all duration-300 group-hover:shadow-2xl"
                         style={{
-                          background: dark
-                            ? `radial-gradient(circle at center, ${p.color}22 0%, #111118 80%)`
-                            : `radial-gradient(circle at center, ${p.lightColor}15 0%, #F8FAFC 80%)`,
-                          borderColor: dark ? `${p.color}33` : `${p.lightColor}33`,
+                          borderColor: dark ? `${activeAccent}33` : `${activeAccent}40`,
                         }}
                       >
-                        <div>
-                          <div
-                            className="w-18 h-18 w-[72px] h-[72px] rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg transition-transform duration-300 hover:scale-110"
-                            style={{
-                              background: `${activeAccent}22`,
-                              border: `1.5px solid ${activeAccent}66`,
-                            }}
-                          >
-                            <span className="text-3xl font-extrabold font-syne" style={{ color: activeAccent }}>
-                              {p.title[0]}{p.title[1]}
-                            </span>
-                          </div>
-                          <p className={`font-syne font-bold text-2xl ${heading}`}>{p.title}</p>
-                          <p className={`text-xs mt-1 font-semibold ${subtext}`}>{p.category}</p>
+                        <img
+                          src={p.image}
+                          alt={p.title}
+                          className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                          loading="lazy"
+                        />
+                        {/* Hover Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                          <span className="text-white text-xs font-semibold flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 shadow-lg">
+                            <FaEye className="text-cyan-400" />
+                            {p.live && p.live !== '#' ? 'Open Live Preview' : 'View Repository'}
+                          </span>
                         </div>
-                      </div>
+                      </a>
                     </div>
 
                     {/* Project Details */}
@@ -181,24 +238,44 @@ export default function Projects() {
 
                       {/* External Action Links */}
                       <div className="flex flex-wrap gap-4">
-                        <a
-                          href="#"
-                          className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold text-sm transition-all duration-300 ${dark
-                            ? 'bg-gradient-to-r from-[#00D4FF] to-[#00B8E0] text-slate-950 font-bold hover:shadow-[0_0_25px_rgba(0,212,255,0.4)]'
-                            : 'bg-gradient-to-r from-[#0284C7] to-[#7C3AED] hover:opacity-95 shadow-md shadow-indigo-500/20'
-                            }`}
-                        >
-                          <FaEye /> Live Demo
-                        </a>
-                        <a
-                          href="#"
-                          className={`inline-flex items-center gap-2 px-6 py-3 rounded-full border text-sm font-semibold transition-all duration-300 ${dark
-                            ? 'border-white/20 text-slate-200 hover:border-white hover:bg-white/10'
-                            : 'border-slate-300 text-slate-800 bg-white hover:border-slate-400 hover:bg-slate-50 shadow-sm'
-                            }`}
-                        >
-                          <FaGithub /> Source Code
-                        </a>
+                        {p.live && p.live !== '#' ? (
+                          <a
+                            href={p.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold text-sm transition-all duration-300 ${dark
+                              ? 'bg-gradient-to-r from-[#00D4FF] to-[#00B8E0] text-slate-950 font-bold hover:shadow-[0_0_25px_rgba(0,212,255,0.4)]'
+                              : 'bg-gradient-to-r from-[#0284C7] to-[#7C3AED] hover:opacity-95 shadow-md shadow-indigo-500/20'
+                              }`}
+                          >
+                            <FaEye /> Live Demo
+                          </a>
+                        ) : null}
+                        {p.github && p.github !== '#' ? (
+                          <a
+                            href={p.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`inline-flex items-center gap-2 px-6 py-3 rounded-full border text-sm font-semibold transition-all duration-300 ${dark
+                              ? 'border-white/20 text-slate-200 hover:border-white hover:bg-white/10'
+                              : 'border-slate-300 text-slate-800 bg-white hover:border-slate-400 hover:bg-slate-50 shadow-sm'
+                              }`}
+                          >
+                            <FaGithub /> Source Code
+                          </a>
+                        ) : (
+                          <a
+                            href="https://github.com/ErAbhishekNamdev"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`inline-flex items-center gap-2 px-6 py-3 rounded-full border text-sm font-semibold transition-all duration-300 ${dark
+                              ? 'border-white/20 text-slate-200 hover:border-white hover:bg-white/10'
+                              : 'border-slate-300 text-slate-800 bg-white hover:border-slate-400 hover:bg-slate-50 shadow-sm'
+                              }`}
+                          >
+                            <FaGithub /> Source Code
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
