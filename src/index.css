@@ -105,6 +105,15 @@ html.light .gradient-text {
   -webkit-text-fill-color: transparent;
 }
 
+/* Sharp high-contrast rendering for high-res project screenshots */
+.project-screenshot {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
 html.light .gradient-text-cyan-purple {
   background: linear-gradient(90deg, #0284C7, #6D28D9);
   -webkit-background-clip: text;
