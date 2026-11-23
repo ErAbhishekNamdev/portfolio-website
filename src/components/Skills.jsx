@@ -263,7 +263,7 @@ export default function Skills() {
           className="text-center mb-10 md:mb-14"
         >
           {/* Main Title */}
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-syne tracking-tight leading-none">
+          <h2 className="text-2xl sm:text-2xl md:text-2xl lg:text-5xl font-extrabold font-syne tracking-tight leading-none">
             <span className={dark ? 'text-white' : 'text-slate-900'}>Skills </span>
             <span className="gradient-text-cyan-purple">Playground</span>
           </h2>
