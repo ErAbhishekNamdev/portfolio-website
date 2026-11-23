@@ -93,7 +93,7 @@ export default function Projects() {
 
   return (
     <section id="projects" className={`py-24 px-4 section-spotlight transition-colors duration-300 ${dark ? 'bg-[#0E131F]' : 'bg-[#F4F6FB]'}`}>
-      <div className="max-w-container mx-auto px-4 md:px-6 2xl:px-12">
+      <div className="max-w-[1260px] xl:max-w-[1320px] 2xl:max-w-[1400px] mx-auto px-4 md:px-6 2xl:px-12">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="text-center mb-14">
           <span className={`text-xs tracking-[3px] uppercase font-semibold ${dark ? 'text-[#00D4FF]' : 'text-[#0284C7]'}`}>Portfolio</span>
           <h2 className="text-4xl md:text-5xl 2xl:text-6xl font-bold mt-2 font-syne">
@@ -140,7 +140,7 @@ export default function Projects() {
 
               return (
                 <SwiperSlide key={i}>
-                  <div className="grid lg:grid-cols-[1.28fr_1fr] xl:grid-cols-[1.32fr_0.95fr] 2xl:grid-cols-[1.36fr_0.9fr] gap-6 lg:gap-8 2xl:gap-12 items-center p-1">
+                  <div className="grid lg:grid-cols-[1.36fr_1fr] xl:grid-cols-[1.4fr_0.92fr] 2xl:grid-cols-[1.44fr_0.88fr] gap-6 lg:gap-8 2xl:gap-12 items-center p-1">
                     {/* Project Preview Window - Zero Padding Clean Browser Frame */}
                     <div
                       className={`relative w-full rounded-2xl overflow-hidden border card-glow group transition-all duration-300 hover:border-cyan-500/40 ${cardBg}`}
@@ -152,7 +152,7 @@ export default function Projects() {
                     >
                       {/* Browser Title Bar */}
                       <div
-                        className={`flex items-center justify-between gap-3 px-3.5 sm:px-4 py-2.5 sm:py-3 border-b ${dark ? 'border-white/10 bg-[#0F1322]' : 'border-slate-200 bg-slate-50'
+                        className={`flex items-center justify-between gap-3 px-3.5 sm:px-4 py-3 sm:py-3.5 border-b ${dark ? 'border-white/10 bg-[#0F1322]' : 'border-slate-200 bg-slate-50'
                           }`}
                       >
                         {/* Traffic light dots */}
