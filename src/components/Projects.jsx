@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import { FaEye, FaGithub, FaChevronLeft, FaChevronRight, FaCheckCircle } from 'react-icons/fa';
+import { FaEye, FaGithub, FaChevronLeft, FaChevronRight, FaCheckCircle, FaLock, FaExternalLinkAlt } from 'react-icons/fa';
 import { useTheme } from '../ThemeContext';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -103,13 +103,13 @@ export default function Projects() {
           <p className={`mt-3 max-w-xl 2xl:max-w-2xl mx-auto text-sm 2xl:text-base ${subtext}`}>Explore recent engineering projects highlighting full-stack development, modern UI design, and interactive features.</p>
         </motion.div>
 
-        <div className="relative">
-          {/* Swiper Custom Navigation */}
+        <div className="relative lg:px-14">
+          {/* Swiper Custom Navigation - in outer gutters so it never overlaps the preview card */}
           <button
             onClick={() => swiperRef.current?.slidePrev()}
-            className={`absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex ${dark
-              ? 'bg-[#111118] border-white/15 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-lg shadow-black/40'
-              : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-md'
+            className={`absolute left-0 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
+              ? 'bg-[#111118]/95 border-white/20 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-black/50'
+              : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-slate-200'
               }`}
             aria-label="Previous Project"
           >
@@ -118,9 +118,9 @@ export default function Projects() {
 
           <button
             onClick={() => swiperRef.current?.slideNext()}
-            className={`absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex ${dark
-              ? 'bg-[#111118] border-white/15 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-lg shadow-black/40'
-              : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-md'
+            className={`absolute right-0 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full border flex items-center justify-center transition-all hidden lg:flex shadow-xl hover:scale-110 active:scale-95 ${dark
+              ? 'bg-[#111118]/95 border-white/20 text-slate-200 hover:border-[#00D4FF] hover:text-[#00D4FF] shadow-black/50'
+              : 'bg-white border-slate-300 text-slate-700 hover:border-[#0284C7] hover:text-[#0284C7] shadow-slate-200'
               }`}
             aria-label="Next Project"
           >
@@ -142,42 +142,50 @@ export default function Projects() {
                 <SwiperSlide key={i}>
                   <div className="grid lg:grid-cols-2 gap-8 2xl:gap-14 items-center p-1">
                     {/* Project Preview Window */}
-                    <div className={`relative rounded-2xl overflow-hidden border p-4 sm:p-5 card-glow group ${cardBg}`}>
-                      {/* Window Dots & URL Bar */}
-                      <div className="flex items-center justify-between gap-3 mb-3.5">
-                        <div className="flex gap-2 shrink-0">
-                          <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block" />
-                          <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block" />
-                          <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
+                    <div
+                      className={`relative rounded-2xl overflow-hidden border p-3.5 sm:p-5 card-glow group transition-all duration-300 ${cardBg}`}
+                      style={{
+                        boxShadow: dark
+                          ? `0 20px 50px rgba(0,0,0,0.6), 0 0 40px ${activeAccent}18`
+                          : `0 15px 35px rgba(0,0,0,0.08)`,
+                      }}
+                    >
+                      {/* Browser Title Bar */}
+                      <div className="flex items-center justify-between gap-3 mb-3 px-1">
+                        {/* Traffic light dots */}
+                        <div className="flex items-center gap-2 shrink-0">
+                          <span className="w-3 h-3 rounded-full bg-[#FF5F56] shadow-sm inline-block" />
+                          <span className="w-3 h-3 rounded-full bg-[#FFBD2E] shadow-sm inline-block" />
+                          <span className="w-3 h-3 rounded-full bg-[#27C93F] shadow-sm inline-block" />
                         </div>
-                        {p.live && p.live !== '#' ? (
-                          <a
-                            href={p.live}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`text-[10px] sm:text-xs font-mono px-3 py-0.5 rounded-full border max-w-[220px] truncate transition-colors ${dark
-                              ? 'bg-white/5 border-white/10 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30'
-                              : 'bg-slate-100 border-slate-200 text-slate-600 hover:text-sky-600 hover:border-sky-300'
-                              }`}
-                          >
-                            {p.live.replace('https://', '')}
-                          </a>
-                        ) : (
-                          <div
-                            className={`text-[10px] sm:text-xs font-mono px-3 py-0.5 rounded-full border ${dark ? 'bg-white/5 border-white/10 text-slate-500' : 'bg-slate-100 border-slate-200 text-slate-500'
-                              }`}
-                          >
-                            {p.title.toLowerCase()}.app
-                          </div>
-                        )}
+
+                        {/* Centered Realistic Address Bar */}
+                        <div
+                          className={`flex-1 max-w-[280px] sm:max-w-[340px] flex items-center justify-center gap-1.5 px-3 py-1 rounded-lg border text-[11px] font-mono select-none ${dark
+                            ? 'bg-black/35 border-white/10 text-slate-300'
+                            : 'bg-slate-100/90 border-slate-200 text-slate-600'
+                            }`}
+                        >
+                          <FaLock className="text-[9px] text-emerald-400 shrink-0" />
+                          <span className="truncate">
+                            {p.live && p.live !== '#'
+                              ? p.live.replace('https://', '')
+                              : `${p.title.toLowerCase()}.dev`}
+                          </span>
+                        </div>
+
+                        {/* External link icon indicator */}
+                        <div className="shrink-0 text-slate-400">
+                          <FaExternalLinkAlt className="text-[11px] opacity-60 group-hover:opacity-100 transition-opacity" />
+                        </div>
                       </div>
 
-                      {/* Project Image Preview */}
+                      {/* Project Image Viewport - Exact Aspect Ratio (1.98:1) matching 1920x965 */}
                       <a
                         href={p.live && p.live !== '#' ? p.live : p.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block aspect-[16/10] rounded-xl border relative overflow-hidden transition-all duration-300 group-hover:shadow-2xl"
+                        className="block aspect-[1.98/1] w-full rounded-xl border relative overflow-hidden transition-all duration-300 shadow-inner bg-slate-950/20"
                         style={{
                           borderColor: dark ? `${activeAccent}33` : `${activeAccent}40`,
                         }}
@@ -185,14 +193,15 @@ export default function Projects() {
                         <img
                           src={p.image}
                           alt={p.title}
-                          className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                          className="w-full h-full object-contain sm:object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                           loading="lazy"
                         />
-                        {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                          <span className="text-white text-xs font-semibold flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 shadow-lg">
-                            <FaEye className="text-cyan-400" />
-                            {p.live && p.live !== '#' ? 'Open Live Preview' : 'View Repository'}
+
+                        {/* Subtle Hover Action Overlay */}
+                        <div className="absolute inset-0 bg-slate-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-950/90 text-cyan-300 text-xs font-bold border border-cyan-400/40 shadow-2xl backdrop-blur-md transform scale-95 group-hover:scale-100 transition-transform">
+                            <FaEye className="text-sm" />
+                            {p.live && p.live !== '#' ? 'Open Live Preview' : 'View Source Code'}
                           </span>
                         </div>
                       </a>
