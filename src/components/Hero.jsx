@@ -424,7 +424,7 @@ const SOCIALS = [
 
 function StatusBadge({ dark, badgeText }) {
   return (
-    <div className="fixed top-[72px] md:top-[74px] lg:top-20 2xl:top-[82px] left-1/2 -translate-x-1/2 z-[9999] flex justify-center pointer-events-none max-md:px-4 max-md:w-full md:w-auto">
+    <div className="absolute top-[72px] md:top-[74px] lg:top-20 2xl:top-[82px] left-1/2 -translate-x-1/2 z-20 flex justify-center pointer-events-none max-md:px-4 max-md:w-full md:w-auto">
       <motion.div
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
