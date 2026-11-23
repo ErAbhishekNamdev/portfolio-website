@@ -169,7 +169,7 @@ function SkillTile({ skill, index, dark }) {
         }
       >
         <div
-          className="flex h-[56px] w-[56px] sm:h-[68px] sm:w-[68px] md:h-[72px] md:w-[72px] flex-col items-center justify-center gap-1 rounded-[10px] sm:rounded-[12px] transition-all select-none"
+          className="flex h-[58px] w-[58px] sm:h-[70px] sm:w-[70px] md:h-[76px] md:w-[76px] flex-col items-center justify-center gap-1 sm:gap-1.5 rounded-[11px] sm:rounded-[13px] transition-all select-none"
           style={{
             backgroundColor: skill.color,
             border: `1.5px solid ${borderColor}`,
@@ -178,7 +178,7 @@ function SkillTile({ skill, index, dark }) {
           }}
         >
           <div
-            className="flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full shrink-0"
+            className="flex h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7 items-center justify-center rounded-full shrink-0"
             style={{
               backgroundColor:
                 skill.textColor === '#000'
@@ -187,7 +187,7 @@ function SkillTile({ skill, index, dark }) {
             }}
           >
             <span
-              className="text-[9px] sm:text-[10px] leading-none"
+              className="text-[10px] sm:text-[11.5px] md:text-[12.5px] leading-none"
               style={{
                 color: skill.textColor,
                 fontWeight: 700,
@@ -199,7 +199,7 @@ function SkillTile({ skill, index, dark }) {
           </div>
 
           <span
-            className="text-[7.5px] sm:text-[8.5px] max-w-[94%] truncate font-bold leading-tight text-center tracking-[0.05px]"
+            className="text-[9px] sm:text-[10.5px] md:text-[11.5px] max-w-[94%] truncate font-bold leading-tight text-center tracking-[0.05px]"
             style={{
               color: skill.textColor,
               fontFamily: 'Inter, sans-serif',
@@ -262,69 +262,38 @@ export default function Skills() {
           transition={{ duration: 0.6 }}
           className="text-center mb-10 md:mb-14"
         >
-          {/* Section Divider & Badge */}
-          <div className="flex items-center justify-center gap-3 sm:gap-4 mb-3.5 sm:mb-4">
-            <div
-              className="flex-1 max-w-[60px] sm:max-w-[100px] h-px"
-              style={{
-                background: dark
-                  ? 'linear-gradient(to right, transparent, rgba(0, 212, 255, 0.4))'
-                  : 'linear-gradient(to right, transparent, rgba(2, 132, 199, 0.35))',
-              }}
-            />
-
-            <span
-              className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold tracking-[2.5px] uppercase border transition-all duration-300 ${dark
-                ? 'bg-cyan-500/10 border-cyan-500/25 text-[#00D4FF] shadow-[0_0_16px_rgba(0,212,255,0.15)]'
-                : 'bg-white border-sky-200/90 text-[#0284C7] shadow-sm shadow-sky-100'
-                }`}
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
-              </span>
-              Interactive Playground
-            </span>
-
-            <div
-              className="flex-1 max-w-[60px] sm:max-w-[100px] h-px"
-              style={{
-                background: dark
-                  ? 'linear-gradient(to left, transparent, rgba(168, 85, 247, 0.4))'
-                  : 'linear-gradient(to left, transparent, rgba(168, 85, 247, 0.35))',
-              }}
-            />
-          </div>
-
           {/* Main Title */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-syne tracking-tight leading-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-syne tracking-tight leading-none">
             <span className={dark ? 'text-white' : 'text-slate-900'}>Skills </span>
             <span className="gradient-text-cyan-purple">Playground</span>
           </h2>
 
           {/* Subtitle */}
-          <p className={`mt-3 max-w-xl 2xl:max-w-2xl mx-auto text-sm sm:text-base 2xl:text-lg font-medium leading-relaxed ${dark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`mt-3.5 sm:mt-4 max-w-xl 2xl:max-w-2xl mx-auto text-sm sm:text-base md:text-lg font-medium leading-relaxed ${dark ? 'text-slate-400' : 'text-slate-600'}`}>
             Drag, throw, and interact with technology tiles in real time.
           </p>
 
-          {/* Subtle Feature Pills */}
-          <div className="flex items-center justify-center gap-2 sm:gap-2.5 mt-3.5 flex-wrap">
-            <span
-              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold border transition-colors ${dark
-                ? 'bg-white/[0.04] border-white/10 text-slate-300'
-                : 'bg-white border-slate-200/90 text-slate-600 shadow-sm'
+          {/* Feature Pills Matching Uploaded Reference */}
+          <div className="flex items-center justify-center gap-3 sm:gap-4 mt-5 sm:mt-6 flex-wrap">
+            <div
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-[13px] font-semibold transition-all duration-300 ${dark
+                ? 'bg-[#121624] border border-white/10 text-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.3)]'
+                : 'bg-white border border-slate-200/60 text-slate-700 shadow-md shadow-slate-200/50'
                 }`}
             >
-              <span className="text-cyan-400 text-xs">✦</span> Drag & Toss Physics
-            </span>
-            <span
-              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold border transition-colors ${dark
-                ? 'bg-white/[0.04] border-white/10 text-slate-300'
-                : 'bg-white border-slate-200/90 text-slate-600 shadow-sm'
+              <span className="text-[#00D4FF] text-sm">✦</span>
+              <span>Drag & Toss Physics</span>
+            </div>
+
+            <div
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-[13px] font-semibold transition-all duration-300 ${dark
+                ? 'bg-[#121624] border border-white/10 text-slate-200 shadow-[0_4px_20px_rgba(0,0,0,0.3)]'
+                : 'bg-white border border-slate-200/60 text-slate-700 shadow-md shadow-slate-200/50'
                 }`}
             >
-              <span className="text-purple-400 text-xs">●</span> 50+ Tech Stack
-            </span>
+              <span className="text-[#A855F7] text-xs">●</span>
+              <span>50+ Tech Stack</span>
+            </div>
           </div>
         </motion.div>
 
