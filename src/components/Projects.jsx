@@ -93,7 +93,7 @@ export default function Projects() {
 
   return (
     <section id="projects" className={`py-24 px-4 section-spotlight transition-colors duration-300 ${dark ? 'bg-[#0E131F]' : 'bg-[#F4F6FB]'}`}>
-      <div className="max-w-[1260px] xl:max-w-[1320px] 2xl:max-w-[1400px] mx-auto px-4 md:px-6 2xl:px-12">
+      <div className="max-w-container mx-auto px-4 md:px-6 2xl:px-12">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} className="text-center mb-14">
           <span className={`text-xs tracking-[3px] uppercase font-semibold ${dark ? 'text-[#00D4FF]' : 'text-[#0284C7]'}`}>Portfolio</span>
           <h2 className="text-4xl md:text-5xl 2xl:text-6xl font-bold mt-2 font-syne">
@@ -140,10 +140,10 @@ export default function Projects() {
 
               return (
                 <SwiperSlide key={i}>
-                  <div className="grid lg:grid-cols-[1.36fr_1fr] xl:grid-cols-[1.4fr_0.92fr] 2xl:grid-cols-[1.44fr_0.88fr] gap-6 lg:gap-8 2xl:gap-12 items-center p-1">
-                    {/* Project Preview Window - Zero Padding Clean Browser Frame */}
+                  <div className="grid lg:grid-cols-[1.22fr_1fr] xl:grid-cols-[1.25fr_1fr] 2xl:grid-cols-[1.28fr_1fr] gap-6 lg:gap-8 2xl:gap-12 items-center p-1">
+                    {/* Project Preview Window - Proportional Height & Controlled Width */}
                     <div
-                      className={`relative w-full rounded-2xl overflow-hidden border card-glow group transition-all duration-300 hover:border-cyan-500/40 ${cardBg}`}
+                      className={`relative w-full max-w-[640px] mx-auto lg:max-w-none rounded-2xl overflow-hidden border card-glow group transition-all duration-300 hover:border-cyan-500/40 ${cardBg}`}
                       style={{
                         boxShadow: dark
                           ? `0 25px 60px rgba(0,0,0,0.65), 0 0 50px ${activeAccent}20`
@@ -205,22 +205,36 @@ export default function Projects() {
                           </span>
                         </div>
                       </a>
+
+                      {/* Browser Status Bar - Clean Frame Finish & Enhanced Vertical Height */}
+                      <div
+                        className={`flex items-center justify-between px-3.5 sm:px-4 py-2 sm:py-2.5 border-t text-[11px] font-mono select-none ${dark ? 'border-white/10 bg-[#0F1322] text-slate-400' : 'border-slate-200 bg-slate-50 text-slate-500'
+                          }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className="text-[10px] tracking-wide font-sans">Live System Active</span>
+                        </div>
+                        <span className="text-[10px] uppercase tracking-wider font-semibold opacity-75 font-sans">
+                          {p.category}
+                        </span>
+                      </div>
                     </div>
 
                     {/* Project Details */}
                     <div>
-                      <span className={`inline-block px-3.5 py-1 rounded-full border text-xs font-semibold mb-4 ${dark
+                      <span className={`inline-block px-3.5 py-1 rounded-full border text-xs font-semibold mb-3 ${dark
                         ? 'bg-[#111118] border-white/15 text-[#00D4FF]'
                         : 'bg-white border-slate-300 text-[#0284C7] shadow-sm'
                         }`}>
                         {p.category}
                       </span>
-                      <h3 className={`text-3xl font-bold font-syne mb-3 ${heading}`}>{p.title}</h3>
-                      <p className={`text-sm leading-relaxed mb-6 ${subtext}`}>{p.desc}</p>
+                      <h3 className={`text-2xl sm:text-3xl font-bold font-syne mb-2.5 ${heading}`}>{p.title}</h3>
+                      <p className={`text-sm leading-relaxed mb-4.5 ${subtext}`}>{p.desc}</p>
 
                       {/* Key Features */}
-                      <p className={`text-xs font-bold tracking-[2px] uppercase mb-3 ${subtext}`}>Key Features</p>
-                      <ul className="space-y-2 mb-6">
+                      <p className={`text-xs font-bold tracking-[2px] uppercase mb-2 ${subtext}`}>Key Features</p>
+                      <ul className="space-y-1.5 mb-5">
                         {p.features.map((f) => (
                           <li key={f} className={`flex items-start gap-2.5 text-sm font-medium ${heading}`}>
                             <FaCheckCircle className="mt-1 text-xs shrink-0" style={{ color: activeAccent }} />
@@ -230,8 +244,8 @@ export default function Projects() {
                       </ul>
 
                       {/* Tech Stack Pills */}
-                      <p className={`text-xs font-bold tracking-[2px] uppercase mb-3 ${subtext}`}>Tech Stack</p>
-                      <div className="flex flex-wrap gap-2 mb-8">
+                      <p className={`text-xs font-bold tracking-[2px] uppercase mb-2 ${subtext}`}>Tech Stack</p>
+                      <div className="flex flex-wrap gap-2 mb-6">
                         {p.stack.map((s) => (
                           <span
                             key={s}
